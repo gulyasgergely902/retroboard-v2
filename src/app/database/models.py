@@ -2,7 +2,7 @@
 
 from typing import List
 
-from sqlalchemy import ForeignKey, String, JSON, Integer
+from sqlalchemy import ForeignKey, String, JSON
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database.database_handler import Base
