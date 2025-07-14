@@ -9,8 +9,3 @@ export interface Category {
   id: number
   name: string
 }
-
-export interface Board {
-  id: number
-  name: string
-}
