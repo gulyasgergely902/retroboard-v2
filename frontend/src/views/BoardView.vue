@@ -1,8 +1,12 @@
 <template>
-  <masonry-wall :items="items" :ssr-columns="1" :column-width="300" :gap="16">
+  <div class="flex content-center h-12 dark:bg-slate-900 px-3 w-full" id="mainDiv">
+    <filter-toggle class="flex-1" @update:selectedCategoryId="handleSelection" :categories="categories" :categoryToHighlight="selectedCategory" />
+    <toggle class="flex-none content-end" label="Toggle visibility" alignment="left" v-model="visibilityChecked"/>
+  </div>
+  <masonry-wall :items="filteredNotes" :ssr-columns="1" :column-width="300" :gap="16" class="p-4" :class="{'blur-sm': visibilityChecked}">
     <template #default="{ item, index }">
-      <div class="bg-sky-200 rounded-xl p-4">
-        <span>{{ item }}</span>
+      <div class="bg-sky-500 rounded-xl p-4">
+        <span>{{ item.description }}</span>
       </div>
     </template>
   </masonry-wall>
@@ -10,35 +14,70 @@
 
 <script setup lang="ts">
 import MasonryWall from '@yeger/vue-masonry-wall'
-import { onMounted, ref } from 'vue'
-const items = [
-  'Cras sagittis, tellus sit amet sagittis rhoncus, metus lectus fringilla enim, a consectetur ante lorem a tortor. Maecenas tincidunt nec augue a aliquet.',
-  'Nunc sit amet nunc rhoncus.',
-  'Nam nec arcu est. Nullam pulvinar ligula ac massa consequat, a tincidunt est condimentum. Aliquam egestas vehicula risus, a interdum diam lobortis ultrices. Phasellus eget pretium quam.',
-  'Etiam dolor lacus, sodales semper porta sit amet, gida nec tortor.',
-  'Nulla lobortis, felis eleifend tempor maximus, leo mi sagittis sem, a eleifend leo orci eu ex. Phasellus fringilla quam quis tempor tempor. Sed sit amet enim ut dui interdum semper.',
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In gravida eleifend libero, ac dapibus urna posuere eu. Ut id eros facilisis turpis consequat luctus a sed metus. Cras sagittis, tellus sit amet sagittis rhoncus, metus lectus fringilla enim, a consectetur ante lorem a tortor.',
-  'Lorem ipsum.',
-  'Nulla lobortis, felis eleifend tempor maximus, leo mi sagittis sem, a eleifend leo orci eu ex.',
-  'Cras sagittis, tellus sit amet sagitt  is rhoncus, metus lectus fringilla enim, a consectetur ante lorem a tortor.',
-]
-const loading = ref(false)
-const boards = ref(null)
+import { onMounted, ref, computed } from 'vue'
+import { useRoute } from 'vue-router'
+import FilterToggle from '@/components/FilterToggle.vue'
+import Toggle from '@/components/Toggle.vue'
+import { useStorage } from '@vueuse/core'
+
+import type { Note, Category } from '@/types/InterfaceTypes.vue'
+
+const visibilityChecked = useStorage('visibilityChecked', false)
+
+let notes = ref<Note[]>([])
+let categories = ref<Category[]>([])
 
 onMounted(async () => {
-  console.log('Mounted')
   try {
-    console.log('Fetching boards...')
-    loading.value = true
-    const response = await fetch('/api/boards')
-    if (!response.ok) throw new Error('Network response was not ok')
-    const returnData = await response.json()
-    console.log('Boards fetched:', returnData)
-    boards.value = returnData
-  } catch (err) {
-    console.error('Error fetching boards:', err)
+    const { categoriesData, notesData } = await fetchNotes()
+    notes.value = notesData
+    categories.value = categoriesData
+  } catch (err: any) {
+    console.log("Error during loading data")
   } finally {
-    loading.value = false
+    selectedCategory.value = categories.value[0].id
   }
 })
+
+const route = useRoute()
+const boardId = route.params.id as string
+
+async function fetchNotes(): Promise<{categoriesData: Category[]; notesData: Note[]}> {
+  try {
+    const notes_response = await fetch('/api/notes?board_id=' + boardId)
+    const cateries_response = await fetch('/api/categories?board_id=' + boardId)
+
+    if (!notes_response.ok) {
+      const resp = await notes_response.text()
+      console.error('Error response:', resp)
+      throw new Error('Network response was not ok: ' + notes_response.statusText)
+    }
+
+    if (!cateries_response.ok) {
+      const resp = await cateries_response.text()
+      console.error('Error response:', resp)
+      throw new Error('Network response was not ok: ' + cateries_response.statusText)
+    }
+
+    const categoriesData = (await cateries_response.json()) as Category[]
+    const notesData = (await notes_response.json()) as Note[]
+    return { categoriesData, notesData }
+  } catch (err) {
+    console.error('Error fetching notes:', err)
+    throw new Error("Failed to fetch categories and notes.")
+  }
+}
+
+const selectedCategory = ref<number | null>(null)
+const filteredNotes = computed(() => {
+  if (selectedCategory.value === null)
+    return notes.value.filter((n) => n.category === categories.value[0].id)
+
+  return notes.value.filter((n) => n.category === selectedCategory.value)
+})
+
+function handleSelection(index: number) {
+  console.log('Selected:', index)
+  selectedCategory.value = index
+}
 </script>

@@ -34,7 +34,7 @@ class Note(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     description: Mapped[str] = mapped_column(String(30))
-    category: Mapped[str] = mapped_column(String(30))
+    category: Mapped[int] = mapped_column(ForeignKey("categories.id"))
     tags: Mapped[list] = mapped_column(JSON)
     board_id: Mapped[int] = mapped_column(ForeignKey("boards.id"))
 
