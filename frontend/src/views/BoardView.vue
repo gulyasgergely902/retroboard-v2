@@ -1,7 +1,7 @@
 <template>
-  <div class="flex content-center h-12 dark:bg-slate-900 px-3">
-    <filter-toggle @update:selectedCategoryId="handleSelection" class="flex-1" :categories="categories" />
-    <toggle label="Toggle visibility" alignment="left" v-model="visibilityChecked"/>
+  <div class="flex content-center h-12 dark:bg-slate-900 px-3 w-full" id="mainDiv">
+    <filter-toggle class="flex-1" @update:selectedCategoryId="handleSelection" :categories="categories" :categoryToHighlight="selectedCategory" />
+    <toggle class="flex-none content-end" label="Toggle visibility" alignment="left" v-model="visibilityChecked"/>
   </div>
   <masonry-wall :items="filteredNotes" :ssr-columns="1" :column-width="300" :gap="16" class="p-4" :class="{'blur-sm': visibilityChecked}">
     <template #default="{ item, index }">
@@ -18,24 +18,32 @@ import { onMounted, ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import FilterToggle from '@/components/FilterToggle.vue'
 import Toggle from '@/components/Toggle.vue'
+import { useStorage } from '@vueuse/core'
 
 import type { Note, Category } from '@/types/InterfaceTypes.vue'
 
-const notes = ref<Note[]>([])
-const categories = ref<Category[]>([])
+const visibilityChecked = useStorage('visibilityChecked', false)
 
-const loading = ref(false)
+let notes = ref<Note[]>([])
+let categories = ref<Category[]>([])
+
+onMounted(async () => {
+  try {
+    const { categoriesData, notesData } = await fetchNotes()
+    notes.value = notesData
+    categories.value = categoriesData
+  } catch (err: any) {
+    console.log("Error during loading data")
+  } finally {
+    selectedCategory.value = categories.value[0].id
+  }
+})
 
 const route = useRoute()
 const boardId = route.params.id as string
 
-const selectedCategory = ref<number | null>(null)
-
-const visibilityChecked = ref(false)
-
-onMounted(async () => {
+async function fetchNotes(): Promise<{categoriesData: Category[]; notesData: Note[]}> {
   try {
-    loading.value = true
     const notes_response = await fetch('/api/notes?board_id=' + boardId)
     const cateries_response = await fetch('/api/categories?board_id=' + boardId)
 
@@ -52,16 +60,15 @@ onMounted(async () => {
     }
 
     const categoriesData = (await cateries_response.json()) as Category[]
-    categories.value = categoriesData
-
-    notes.value = (await notes_response.json()) as Note[]
+    const notesData = (await notes_response.json()) as Note[]
+    return { categoriesData, notesData }
   } catch (err) {
     console.error('Error fetching notes:', err)
-  } finally {
-    loading.value = false
+    throw new Error("Failed to fetch categories and notes.")
   }
-})
+}
 
+const selectedCategory = ref<number | null>(null)
 const filteredNotes = computed(() => {
   if (selectedCategory.value === null)
     return notes.value.filter((n) => n.category === categories.value[0].id)
