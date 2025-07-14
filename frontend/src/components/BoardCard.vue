@@ -5,7 +5,8 @@
     {{ title }}
   </div>
 </template>
+
 <script setup lang="ts">
 import { defineProps } from 'vue'
-defineProps(['title', 'boardId'])
+defineProps<{ title: string }>()
 </script>

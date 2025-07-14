@@ -18,34 +18,26 @@
 </template>
 
 <script setup lang="ts">
+import type { Board } from '@/types/app'
+import { ref } from 'vue'
+import { $fetch } from '@/composables/fetch'
 import BoardCard from '@/components/BoardCard.vue'
-import { onMounted, ref } from 'vue'
 
-interface Board {
-  id: number
-  name: string
-}
-
+const loading = ref(true)
 const boards = ref<Board[]>([])
-const loading = ref(false)
 
-onMounted(async () => {
+void fetchBoards()
+
+async function fetchBoards() {
   try {
     loading.value = true
-    const response = await fetch('/api/boards')
 
-    if (!response.ok) {
-      const resp = await response.text()
-      console.error('Error response:', resp)
-      throw new Error('Network response was not ok: ' + response.statusText)
-    }
-
-    const returnData = (await response.json()) as Board[]
-    boards.value = returnData
+    const response = await $fetch<Board[]>('/api/boards')
+    boards.value = await response.json()
   } catch (err) {
     console.error('Error fetching boards:', err)
   } finally {
     loading.value = false
   }
-})
+}
 </script>

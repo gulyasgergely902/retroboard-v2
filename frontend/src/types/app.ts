@@ -1,4 +1,3 @@
-<script lang="ts">
 export interface Note {
   id: number
   description: string
@@ -10,4 +9,8 @@ export interface Category {
   id: number
   name: string
 }
-</script>
+
+export interface Board {
+  id: number
+  name: string
+}
