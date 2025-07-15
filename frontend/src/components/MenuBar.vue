@@ -1,6 +1,3 @@
-<script setup lang="ts">
-import { RouterLink } from 'vue-router'
-</script>
 <template>
   <nav class="bg-white border-gray-200 dark:bg-slate-900">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -12,3 +9,7 @@ import { RouterLink } from 'vue-router'
     </div>
   </nav>
 </template>
+
+<script setup lang="ts">
+import { RouterLink } from 'vue-router'
+</script>
