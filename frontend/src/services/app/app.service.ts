@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import type { Board } from '@/services/board/types'
+import type { Board } from '@/services/app/types'
 import { $fetch } from '@/composables/fetch'
 
 export const useAppService = defineStore('app', {

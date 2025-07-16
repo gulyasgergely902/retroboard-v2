@@ -1,7 +1,7 @@
 <template>
   <div class="inline-flex items-center mr-2 ml-1 w-3/4" id="innerDiv">
     <span class="me-3 text-sm font-medium text-gray-900 dark:text-gray-300">Filters</span>
-    <div class="overflow-x-auto overflow-y-hidden whitespace-nowrap h-12" id="buttonScrollDiv">
+    <div class="overflow-x-auto overflow-y-hidden whitespace-nowrap h-12 fade-right no-scrollbar">
       <button
         v-for="category in categories"
         type="button"
@@ -27,3 +27,13 @@ const selectOption = (index: number) => {
   emit('update:categoryToHighlight', index)
 }
 </script>
+<style lang="css" scoped>
+.fade-right {
+  background-color: white; /* or whatever background you want */
+  width: 100%;
+
+  /* Apply a mask to fade out on the right */
+  -webkit-mask-image: linear-gradient(to right, black 95%, transparent 98%);
+  mask-image: linear-gradient(to right, black 95%, transparent 98%);
+}
+</style>
