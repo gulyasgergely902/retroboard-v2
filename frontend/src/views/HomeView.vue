@@ -11,17 +11,24 @@
       v-for="board in appService.boards"
       :to="{ name: 'board', params: { id: String(board.id) } }"
     >
-      <BoardCard v-if="board.id" :title="board.name" />
-      <BoardCard v-else class="grayscale" title="Board data is missing" />
+      <BoardCard
+        v-if="board.id"
+        :title="board.name"
+      />
+      <BoardCard
+        v-else
+        class="grayscale"
+        title="Board data is missing"
+      />
     </RouterLink>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useAppService } from '@/services/app/app.service'
-import BoardCard from '@/components/BoardCard.vue'
+  import { useAppService } from '@/services/app/app.service'
+  import BoardCard from '@/components/BoardCard.vue'
 
-const appService = useAppService()
+  const appService = useAppService()
 
-void appService.fetchBoards()
+  void appService.fetchBoards()
 </script>
