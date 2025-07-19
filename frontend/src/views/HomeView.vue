@@ -52,7 +52,11 @@
 
 <script setup lang="ts">
   import { useAppService } from '@/services/app/app.service'
+  import { ref } from 'vue'
   import BoardCard from '@/components/BoardCard.vue'
+  import NewBoardModal from '@/components/NewBoardModal.vue'
+
+  const isModalOpen = ref(false)
 
   const appService = useAppService()
 

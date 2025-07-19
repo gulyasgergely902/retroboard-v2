@@ -23,6 +23,10 @@ export const useAppService = defineStore('app', {
     },
 
     async createNewBoard(boardTitle: string) {
+      if (boardTitle.length === 0) {
+        console.error("Empty board name")
+        throw new Error("Empty board name")
+      }
       try {
         const requestOptions = {
           method: "POST",
@@ -30,7 +34,11 @@ export const useAppService = defineStore('app', {
           body: JSON.stringify({ name: boardTitle })
         };
         const response = await $fetch<Result>(`/api/boards`, requestOptions)
-        return await response.json
+        const result = await response.json
+
+        await this.fetchBoards()
+
+        return result
       } catch (err) {
         console.error('Error creating new board:', err)
       }
