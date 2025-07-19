@@ -10,6 +10,7 @@
         </span>
       </RouterLink>
       <button
+        v-if="globalService.view_state == view_states.home_view"
         type="button"
         class="bg-sky-500 hover:bg-sky-300 dark:bg-slate-600 dark:hover:bg-slate-500 dark:text-slate-50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 ml-auto inline-flex items-center gap-x-2 rounded-lg px-4 py-2 text-sm font-semibold shadow-sm"
       >
