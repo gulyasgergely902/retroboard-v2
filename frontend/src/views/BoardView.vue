@@ -33,14 +33,18 @@
 <script setup lang="ts">
   import { useRoute } from 'vue-router'
   import { useLocalStorage } from '@vueuse/core'
+  import { useGlobalService } from '@/services/global/global.service'
   import { useBoardService } from '@/services/board/board.service'
+  import { view_states } from '@/enums/global.enums'
   import MasonryWall from '@yeger/vue-masonry-wall'
   import FilterToggle from '@/components/FilterToggle.vue'
   import Toggle from '@/components/Toggle.vue'
 
   const route = useRoute()
+  const globalService = useGlobalService()
   const boardService = useBoardService()
   const visibilityChecked = useLocalStorage('visibilityChecked', false)
 
+  void globalService.setViewState(view_states.board_view)
   void boardService.fetchBoardData(route.params.id as string)
 </script>

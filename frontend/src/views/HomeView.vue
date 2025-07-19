@@ -25,10 +25,14 @@
 </template>
 
 <script setup lang="ts">
+  import { useGlobalService } from '@/services/global/global.service'
   import { useAppService } from '@/services/app/app.service'
+  import { view_states } from '@/enums/global.enums'
   import BoardCard from '@/components/BoardCard.vue'
 
+  const globalService = useGlobalService()
   const appService = useAppService()
 
+  void globalService.setViewState(view_states.home_view)
   void appService.fetchBoards()
 </script>

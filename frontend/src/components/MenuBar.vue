@@ -13,7 +13,6 @@
         type="button"
         class="bg-sky-500 hover:bg-sky-300 dark:bg-slate-600 dark:hover:bg-slate-500 dark:text-slate-50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 ml-auto inline-flex items-center gap-x-2 rounded-lg px-4 py-2 text-sm font-semibold shadow-sm"
       >
-        <!-- Plus icon: Heroicons mini/solid “plus” (20×20) -->
         <svg
           class="h-5 w-5"
           fill="currentColor"
@@ -26,7 +25,7 @@
             clip-rule="evenodd"
           />
         </svg>
-        Add item
+        Create Board
       </button>
     </div>
   </nav>
@@ -34,4 +33,10 @@
 
 <script setup lang="ts">
   import { RouterLink } from 'vue-router'
+  import { useGlobalService } from '@/services/global/global.service'
+  import { useAppService } from '@/services/app/app.service'
+  import { view_states } from '@/enums/global.enums'
+
+  const globalService = useGlobalService()
+  const appService = useAppService()
 </script>
