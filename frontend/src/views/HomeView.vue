@@ -4,7 +4,7 @@
     <button
       type="button"
       @click="isModalOpen = true"
-      class="bg-sky-500 dark:bg-sky-900 text-sky-950 dark:text-sky-50 hover:bg-sky-600 dark:hover:bg-sky-950 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 ml-auto inline-flex items-center gap-x-2 rounded-lg px-4 py-2 text-sm font-semibold"
+      class="bg-sky-500 dark:bg-sky-900 text-sky-950 dark:text-sky-50 hover:bg-sky-600 dark:hover:bg-sky-950 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 ml-auto inline-flex items-center gap-x-2 rounded-lg px-4 py-2 text-sm font-semibold cursor-pointer"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
