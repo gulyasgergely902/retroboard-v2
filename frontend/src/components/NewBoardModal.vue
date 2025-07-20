@@ -35,7 +35,7 @@
             <DialogPanel
               class="relative transform overflow-hidden rounded-xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
             >
-              <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+              <div class="bg-white dark:bg-slate-900 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 <div class="sm:flex sm:items-start">
                   <div
                     class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-sky-200 sm:mx-0 sm:size-10"
@@ -58,7 +58,7 @@
                   <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
                     <DialogTitle
                       as="h3"
-                      class="text-base font-semibold text-gray-900"
+                      class="text-gray-900 dark:text-white text-base font-semibold"
                     >
                       Create Board
                     </DialogTitle>
@@ -73,7 +73,7 @@
                         type="text"
                         id="board_name"
                         v-model="newBoardName"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-sky-500 dark:focus:border-sky-500"
+                        class="bg-gray-50 dark:bg-slate-800 text-gray-900 dark:text-white border-gray-300 dark:border-slate-700 dark:placeholder-slate-400 text-sm border rounded-lg block w-full p-2.5"
                         placeholder="My Board"
                         required
                       />
@@ -87,17 +87,17 @@
                   </div>
                 </div>
               </div>
-              <div class="bg-white px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+              <div class="bg-white dark:bg-slate-900 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                 <button
                   type="button"
-                  class="bg-sky-500 dark:bg-slate-600 text-sky-950 hover:bg-sky-600 dark:text-sky-50 dark:hover:bg-slate-500 hover:text-slate-950 dark:hover:text-sky-50 transition-colors inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold sm:ml-3 sm:w-auto"
+                  class="bg-sky-500 dark:bg-sky-900 text-sky-950 dark:text-sky-50 hover:bg-sky-600 dark:hover:bg-sky-950 transition-colors inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold sm:ml-3 sm:w-auto"
                   @click="createBoard()"
                 >
                   Create
                 </button>
                 <button
                   type="button"
-                  class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                  class="bg-white dark:bg-slate-900 text-gray-900 dark:text-slate-50 hover:bg-gray-50 dark:hover:bg-slate-800 ring-slate-300 dark:ring-slate-800 transition-colors ring-inset mt-3 inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold shadow-xs ring-1 sm:mt-0 sm:w-auto"
                   @click="isModalOpen = false"
                   ref="cancelButtonRef"
                 >
