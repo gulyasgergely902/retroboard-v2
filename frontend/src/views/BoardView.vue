@@ -1,5 +1,7 @@
 <template>
-  <div class="flex content-center h-12 dark:bg-slate-900 px-3 w-full" id="mainDiv">
+  <div
+    class="flex content-center h-12 px-3 w-full"
+  >
     <FilterToggle
       class="flex-1"
       :categories="boardService.categories"
@@ -21,7 +23,7 @@
     :class="{ 'blur-sm': visibilityChecked }"
   >
     <template #default="{ item }">
-      <div class="bg-sky-500 rounded-xl p-4">
+      <div class="bg-sky-500 dark:bg-sky-900 text-sky-950 dark:text-sky-50 rounded-xl p-4">
         <span>{{ item.description }}</span>
       </div>
     </template>
@@ -29,16 +31,16 @@
 </template>
 
 <script setup lang="ts">
-import { useRoute } from 'vue-router'
-import { useLocalStorage } from '@vueuse/core'
-import { useBoardService } from '@/services/board/board.service'
-import MasonryWall from '@yeger/vue-masonry-wall'
-import FilterToggle from '@/components/FilterToggle.vue'
-import Toggle from '@/components/Toggle.vue'
+  import { useRoute } from 'vue-router'
+  import { useLocalStorage } from '@vueuse/core'
+  import { useBoardService } from '@/services/board/board.service'
+  import MasonryWall from '@yeger/vue-masonry-wall'
+  import FilterToggle from '@/components/FilterToggle.vue'
+  import Toggle from '@/components/Toggle.vue'
 
-const route = useRoute()
-const boardService = useBoardService()
-const visibilityChecked = useLocalStorage('visibilityChecked', false)
+  const route = useRoute()
+  const boardService = useBoardService()
+  const visibilityChecked = useLocalStorage('visibilityChecked', false)
 
-void boardService.fetchBoardData(route.params.id as string)
+  void boardService.fetchBoardData(route.params.id as string)
 </script>
