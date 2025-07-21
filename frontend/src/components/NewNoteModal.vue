@@ -33,12 +33,12 @@
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
             <DialogPanel
-              class="relative transform overflow-hidden rounded-xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
+              class="relative transform overflow-hidden rounded-xl text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
             >
-              <div class="bg-white dark:bg-slate-900 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+              <div class="background-color px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 <div class="sm:flex sm:items-start">
                   <div
-                    class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-sky-200 sm:mx-0 sm:size-10"
+                    class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full background-color-primary-soft sm:mx-0 sm:size-10"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -46,7 +46,7 @@
                       viewBox="0 0 24 24"
                       stroke-width="1.5"
                       stroke="currentColor"
-                      class="size-6 fill-sky-500"
+                      class="size-6 fill-[#579dff]"
                     >
                       <path
                         stroke-linecap="round"
@@ -58,34 +58,34 @@
                   <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
                     <DialogTitle
                       as="h3"
-                      class="text-gray-900 dark:text-white text-xl font-medium font-semibold"
+                      class="text-color text-xl font-medium font-semibold"
                     >
                       Add Note
                     </DialogTitle>
                     <div class="mt-2">
                       <label
                         for="note_content"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                        class="block mb-2 text-sm font-medium text-color"
                       >
                         Note Content
                       </label>
                       <textarea
                         id="note_content"
                         v-model="newNoteContent"
-                        class="bg-gray-50 dark:bg-slate-800 text-gray-900 dark:text-white border-gray-300 dark:border-slate-700 dark:placeholder-slate-400 text-sm border rounded-lg block w-full p-2.5"
+                        class="background-color-bold text-color text-sm rounded-lg block w-full p-2.5"
                         placeholder="Note content goes here..."
                         required
                       />
                       <label
                         for="note_category"
-                        class="block mt-4 mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                        class="block mt-4 mb-2 text-sm font-medium text-color"
                       >
                         Note Category
                       </label>
                       <select
                         id="note_category"
                         v-model="newNoteCategory"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="background-color-bold text-color text-sm rounded-lg block w-full p-2.5"
                       >
                         <option
                           v-for="category in boardService.categories"
@@ -108,17 +108,17 @@
                   </div>
                 </div>
               </div>
-              <div class="bg-white dark:bg-slate-900 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+              <div class="background-color px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                 <button
                   type="button"
-                  class="bg-sky-500 dark:bg-sky-900 text-sky-950 dark:text-sky-50 hover:bg-sky-600 dark:hover:bg-sky-950 transition-colors inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold sm:ml-3 sm:w-auto"
+                  class="background-color-primary text-color-over-primary transition-colors inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold sm:ml-3 sm:w-auto cursor-pointer"
                   @click="createNote()"
                 >
                   Create
                 </button>
                 <button
                   type="button"
-                  class="bg-white dark:bg-slate-900 text-gray-900 dark:text-slate-50 hover:bg-gray-50 dark:hover:bg-slate-800 ring-slate-300 dark:ring-slate-800 transition-colors ring-inset mt-3 inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold shadow-xs ring-1 sm:mt-0 sm:w-auto"
+                  class="background-color text-color transition-colors mt-3 inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold shadow-xs sm:mt-0 sm:w-auto cursor-pointer"
                   @click="isModalOpen = false"
                   ref="cancelButtonRef"
                 >
