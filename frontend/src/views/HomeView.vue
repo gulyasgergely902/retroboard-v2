@@ -12,15 +12,18 @@
       <NewBoardModal v-model:is-modal-open="isModalOpen" />
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 p-2">
+      <!-- eslint-disable -->
       <BoardCard
         v-if="appService.loading"
         v-for="n in 10"
+        :key="n"
         class="blur-sm grayscale brightness-150"
         title="Boards are loading..."
       />
       <RouterLink
         v-else
         v-for="board in appService.boards"
+        :key="board.id"
         :to="{ name: 'board', params: { id: String(board.id) } }"
       >
         <BoardCard
