@@ -23,6 +23,10 @@ export const useAppService = defineStore('app', {
       }
     },
 
+    getBoardNameById(id: number): string | undefined {
+      return this.boards.find(board => board.id === id)?.name
+    }
+
     async createNewBoard(boardTitle: string) {
       if (boardTitle.length === 0) {
         console.error("Empty board name")
