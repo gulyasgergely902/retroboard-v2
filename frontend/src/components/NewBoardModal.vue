@@ -115,9 +115,9 @@
 <script setup lang="ts">
   import { ref } from 'vue'
   import { useAppService } from '@/services/app/app.service'
+  const newBoardName = ref('')
   const newBoardNameError = ref(false)
   const isModalOpen = defineModel<boolean>('isModalOpen')
-  const newBoardName = defineModel<string>('newBoardName')
   import {
     Dialog,
     DialogPanel,
