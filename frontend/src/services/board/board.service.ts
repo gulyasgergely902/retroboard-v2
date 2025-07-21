@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import type { Note, Category } from '@/services/board/types'
+import type { Result } from '@/services/global/types'
 import { $fetch } from '@/composables/fetch'
 
 export const useBoardService = defineStore('board', {
@@ -41,6 +42,28 @@ export const useBoardService = defineStore('board', {
         this.categories = await response.json()
       } catch (err) {
         console.error('Error fetching categories:', err)
+      }
+    },
+
+    async createNewNote(boardId: string, noteContent: string, noteCategory: number) {
+      if (noteContent.length === 0 || noteCategory === 0) {
+        console.error('Empty note content or category')
+        throw new Error('Empty note content or category')
+      }
+      try {
+        const requestOptions = {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ description: noteContent, category: noteCategory, tags: [], board_id: boardId }),
+        }
+        const response = await $fetch<Result>(`/api/notes`, requestOptions)
+        const result = await response.json
+
+        await this.fetchBoardData(boardId)
+
+        return result
+      } catch (err) {
+        console.error('Error creating new note:', err)
       }
     },
   },

@@ -71,7 +71,7 @@
                       </label>
                       <textarea
                         id="note_content"
-                        v-model="newBoardName"
+                        v-model="newNoteContent"
                         class="bg-gray-50 dark:bg-slate-800 text-gray-900 dark:text-white border-gray-300 dark:border-slate-700 dark:placeholder-slate-400 text-sm border rounded-lg block w-full p-2.5"
                         placeholder="Note content goes here..."
                         required
@@ -82,16 +82,28 @@
                       >
                         Note Category
                       </label>
-                      <select id="note_category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        <option v-for="category in boardService.categories" :key="category.id" :value="category.id">{{ category.name }}</option>
+                      <select
+                        id="note_category"
+                        v-model="newNoteCategory"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      >
+                        <option
+                          v-for="category in boardService.categories"
+                          :key="category.id"
+                          :value="category.id"
+                        >
+                          {{ category.name }}
+                        </option>
                       </select>
                       <p
-                        v-if="newBoardNameError"
+                        v-if="newNoteNameError"
                         class="text-red-500 text-sm"
                       >
-                        Note content cannot be empty!
+                        Note content or category cannot be empty!
                       </p>
-                      <p class="text-sm text-gray-900 dark:text-white">Notes cannot be modified after creation!</p>
+                      <p class="text-sm text-gray-900 dark:text-white">
+                        Notes cannot be modified after creation!
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -100,7 +112,7 @@
                 <button
                   type="button"
                   class="bg-sky-500 dark:bg-sky-900 text-sky-950 dark:text-sky-50 hover:bg-sky-600 dark:hover:bg-sky-950 transition-colors inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold sm:ml-3 sm:w-auto"
-                  @click="createBoard()"
+                  @click="createNote()"
                 >
                   Create
                 </button>
@@ -124,9 +136,11 @@
 <script setup lang="ts">
   import { ref } from 'vue'
   import { useBoardService } from '@/services/board/board.service'
-  const newBoardNameError = ref(false)
+  const newNoteContent = ref('')
+  const newNoteCategory = ref(0)
+  const newNoteNameError = ref(false)
   const isModalOpen = defineModel<boolean>('isModalOpen')
-  const newBoardName = defineModel<string>('newBoardName')
+  const props = defineProps(['currentBoardId'])
   import {
     Dialog,
     DialogPanel,
@@ -137,20 +151,20 @@
 
   const boardService = useBoardService()
 
-  //TODO: Get currently selected category option
-  const validateNewBoardName = () => {
-    if (!newBoardName.value?.trim()) {
-      newBoardNameError.value = true
+  const validateNewNoteContent = () => {
+    if (!newNoteContent.value?.trim() || newNoteCategory.value == 0) {
+      newNoteNameError.value = true
       return false
-    }
-    newBoardNameError.value = false
+    } 
+    newNoteNameError.value = false
     return true
   }
 
-  function createBoard() {
-    if (validateNewBoardName() && typeof newBoardName.value === 'string') {
-      //appService.createNewBoard(newBoardName.value)
-      newBoardName.value = ''
+  function createNote() {
+    if (validateNewNoteContent() && typeof newNoteContent.value === 'string') {
+      boardService.createNewNote(props.currentBoardId, newNoteContent.value, newNoteCategory.value)
+      newNoteContent.value = ''
+      newNoteCategory.value = 0
       isModalOpen.value = false
     }
   }

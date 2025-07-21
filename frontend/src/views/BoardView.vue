@@ -33,7 +33,7 @@
 
       New Note
     </button>
-    <NewNoteModal v-model:is-modal-open="isModalOpen" />
+    <NewNoteModal v-model:is-modal-open="isModalOpen" :current-board-id="route.params.id"/>
   </div>
   <MasonryWall
     :items="boardService.filteredNotes"
