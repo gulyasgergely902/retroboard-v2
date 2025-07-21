@@ -1,9 +1,5 @@
 @import 'tailwindcss';
 
-body{
-  background-color: var(--bg-white);
-}
-
 #app {
   width: 100%;
   height: 100%;
@@ -12,10 +8,62 @@ body{
   margin: 0 auto;
 }
 
-@media (prefers-color-scheme: dark) {
 body {
-  background-color: var(--color-slate-900);
+  background-color: #FFFFFF;
 }
+
+.background-color {
+  background-color: #FFFFFF;
+}
+
+.background-color-bold {
+  background-color: #F7F8F9;
+}
+
+.background-color-primary {
+  background-color: #0C66E4;
+}
+
+.background-color-primary:hover {
+  background-color: #0055CC;
+}
+
+.text-color {
+  color: #22272b;
+}
+
+.text-color-over-primary {
+  color: #f1f2f4;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #161A1D;
+  }
+
+  .background-color {
+    background-color: #161A1D;
+  }
+
+  .background-color-bold {
+    background-color: #1D2125;
+  }
+
+  .background-color-primary {
+    background-color: #579DFF
+  }
+
+  .background-color-primary:hover {
+    background-color: #85B8FF;
+  }
+
+  .text-color {
+    color: #f1f2f4;
+  }
+
+  .text-color-over-primary {
+    color: #22272b;
+  }
 }
 
 @layer utilities {
