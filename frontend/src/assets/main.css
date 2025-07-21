@@ -9,23 +9,31 @@
 }
 
 body {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 
 .background-color {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 
 .background-color-bold {
-  background-color: #F7F8F9;
+  background-color: #f7f8f9;
 }
 
 .background-color-primary {
-  background-color: #0C66E4;
+  background-color: #0c66e4;
 }
 
 .background-color-primary:hover {
-  background-color: #0055CC;
+  background-color: #0055cc;
+}
+
+.background-color-primary-soft {
+  background-color: #cce0ff;
+}
+
+.background-color-primary-soft:hover {
+  background-color: #85b8ff;
 }
 
 .text-color {
@@ -36,25 +44,37 @@ body {
   color: #f1f2f4;
 }
 
+.toggle-color {
+  background-color: #cce0ff;
+}
+
+.toggle-color:after {
+  background-color: #ffffff;
+}
+
 @media (prefers-color-scheme: dark) {
   body {
-    background-color: #161A1D;
+    background-color: #161a1d;
   }
 
   .background-color {
-    background-color: #161A1D;
+    background-color: #161a1d;
   }
 
   .background-color-bold {
-    background-color: #1D2125;
+    background-color: #101214;
   }
 
   .background-color-primary {
-    background-color: #579DFF
+    background-color: #579dff;
   }
 
   .background-color-primary:hover {
-    background-color: #85B8FF;
+    background-color: #85b8ff;
+  }
+
+  .background-color-primary-soft {
+    background-color: #1c2b41;
   }
 
   .text-color {
@@ -63,6 +83,14 @@ body {
 
   .text-color-over-primary {
     color: #22272b;
+  }
+
+  .toggle-color {
+    background-color: #1c2b41;
+  }
+
+  .toggle-color:after {
+    background-color: #161a1d;
   }
 }
 

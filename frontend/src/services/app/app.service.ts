@@ -23,21 +23,23 @@ export const useAppService = defineStore('app', {
       }
     },
 
-    getBoardNameById(id: number): string | undefined {
-      return this.boards.find(board => board.id === id)?.name
-    }
+    getBoardNameById(id: string): string | undefined {
+      const numericId = Number(id)
+      if (isNaN(numericId)) return undefined
+      return this.boards.find((board) => board.id === numericId)?.name
+    },
 
     async createNewBoard(boardTitle: string) {
       if (boardTitle.length === 0) {
-        console.error("Empty board name")
-        throw new Error("Empty board name")
+        console.error('Empty board name')
+        throw new Error('Empty board name')
       }
       try {
         const requestOptions = {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name: boardTitle })
-        };
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: boardTitle }),
+        }
         const response = await $fetch<Result>(`/api/boards`, requestOptions)
         const result = await response.json
 
