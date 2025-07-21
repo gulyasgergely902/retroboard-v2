@@ -54,7 +54,12 @@ export const useBoardService = defineStore('board', {
         const requestOptions = {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ description: noteContent, category: noteCategory, tags: [], board_id: boardId }),
+          body: JSON.stringify({
+            description: noteContent,
+            category: noteCategory,
+            tags: [],
+            board_id: boardId,
+          }),
         }
         const response = await $fetch<Result>(`/api/notes`, requestOptions)
         const result = await response.json
@@ -64,6 +69,23 @@ export const useBoardService = defineStore('board', {
         return result
       } catch (err) {
         console.error('Error creating new note:', err)
+      }
+    },
+
+    async removeNote(boardId: string, noteId: number) {
+      if (noteId === 0) {
+        console.error('Note id cannot be 0')
+        throw new Error('Note id cannot be 0')
+      }
+      try {
+        const requestOptions = {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+        }
+        await $fetch<Result>(`/api/notes?note_id=${noteId}`, requestOptions)
+        await this.fetchBoardData(boardId)
+      } catch (err) {
+        console.error('Error deleting note ', noteId, ', err:', err)
       }
     },
   },

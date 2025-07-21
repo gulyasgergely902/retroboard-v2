@@ -58,7 +58,7 @@
                   <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
                     <DialogTitle
                       as="h3"
-                      class="text-gray-900 dark:text-white text-base font-semibold"
+                      class="text-gray-900 dark:text-white text-xl font-medium font-semibold"
                     >
                       Add Note
                     </DialogTitle>
