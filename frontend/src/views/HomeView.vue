@@ -1,10 +1,10 @@
 <template>
-  <div class="flex content-center h-8 px-3 w-full">
-    <span class="text-gray-950 dark:text-slate-50 ms-1 text-xl font-medium">Active Boards</span>
+  <div class="max-w-screen-xl flex items-center justify-between mx-auto px-4">
+    <span class="text-gray-950 dark:text-slate-50 text-xl font-medium">Active Boards</span>
     <button
       type="button"
       @click="isModalOpen = true"
-      class="bg-sky-500 dark:bg-sky-900 text-sky-950 dark:text-sky-50 hover:bg-sky-600 dark:hover:bg-sky-950 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 ml-auto inline-flex items-center gap-x-2 rounded-lg px-4 py-2 text-sm font-semibold cursor-pointer"
+      class="bg-sky-500 dark:bg-sky-900 text-sky-950 dark:text-sky-50 hover:bg-sky-600 dark:hover:bg-sky-950 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 ml-auto inline-flex items-center min-w-fit gap-x-2 rounded-xl px-4 py-2 text-sm font-semibold cursor-pointer"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -23,18 +23,21 @@
 
       Create Board
     </button>
-    <NewBoardModal v-model:is-modal-open="isModalOpen"/>
+    <NewBoardModal v-model:is-modal-open="isModalOpen" />
   </div>
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+    <!-- eslint-disable -->
     <BoardCard
       v-if="appService.loading"
       v-for="n in 10"
+      :key="n"
       class="blur-sm grayscale brightness-150"
       title="Boards are loading..."
     />
     <RouterLink
       v-else
       v-for="board in appService.boards"
+      :key="board.id"
       :to="{ name: 'board', params: { id: String(board.id) } }"
     >
       <BoardCard

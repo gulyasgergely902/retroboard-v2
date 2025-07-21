@@ -51,7 +51,7 @@
                       <path
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        d="M13.5 16.875h3.375m0 0h3.375m-3.375 0V13.5m0 3.375v3.375M6 10.5h2.25a2.25 2.25 0 0 0 2.25-2.25V6a2.25 2.25 0 0 0-2.25-2.25H6A2.25 2.25 0 0 0 3.75 6v2.25A2.25 2.25 0 0 0 6 10.5Zm0 9.75h2.25A2.25 2.25 0 0 0 10.5 18v-2.25a2.25 2.25 0 0 0-2.25-2.25H6a2.25 2.25 0 0 0-2.25 2.25V18A2.25 2.25 0 0 0 6 20.25Zm9.75-9.75H18a2.25 2.25 0 0 0 2.25-2.25V6A2.25 2.25 0 0 0 18 3.75h-2.25A2.25 2.25 0 0 0 13.5 6v2.25a2.25 2.25 0 0 0 2.25 2.25Z"
+                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
                       />
                     </svg>
                   </div>
@@ -60,28 +60,49 @@
                       as="h3"
                       class="text-gray-900 dark:text-white text-xl font-medium font-semibold"
                     >
-                      Create Board
+                      Add Note
                     </DialogTitle>
                     <div class="mt-2">
                       <label
-                        for="board_name"
+                        for="note_content"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                       >
-                        Board Name
+                        Note Content
                       </label>
-                      <input
-                        type="text"
-                        id="board_name"
-                        v-model="newBoardName"
+                      <textarea
+                        id="note_content"
+                        v-model="newNoteContent"
                         class="bg-gray-50 dark:bg-slate-800 text-gray-900 dark:text-white border-gray-300 dark:border-slate-700 dark:placeholder-slate-400 text-sm border rounded-lg block w-full p-2.5"
-                        placeholder="My Board"
+                        placeholder="Note content goes here..."
                         required
                       />
+                      <label
+                        for="note_category"
+                        class="block mt-4 mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      >
+                        Note Category
+                      </label>
+                      <select
+                        id="note_category"
+                        v-model="newNoteCategory"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      >
+                        <option
+                          v-for="category in boardService.categories"
+                          :key="category.id"
+                          :value="category.id"
+                        >
+                          {{ category.name }}
+                        </option>
+                      </select>
                       <p
-                        v-if="newBoardNameError"
+                        v-if="newNoteNameError"
                         class="text-red-500 text-sm"
                       >
-                        Board name cannot be empty!
+                        Note content or category cannot be empty!
+                      </p>
+                      <p class="text-sm text-gray-900 dark:text-white">
+                        Notes cannot be modified after creation!
                       </p>
                     </div>
                   </div>
@@ -91,7 +112,7 @@
                 <button
                   type="button"
                   class="bg-sky-500 dark:bg-sky-900 text-sky-950 dark:text-sky-50 hover:bg-sky-600 dark:hover:bg-sky-950 transition-colors inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold sm:ml-3 sm:w-auto"
-                  @click="createBoard()"
+                  @click="createNote()"
                 >
                   Create
                 </button>
@@ -114,10 +135,12 @@
 
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { useAppService } from '@/services/app/app.service'
-  const newBoardName = ref('')
-  const newBoardNameError = ref(false)
+  import { useBoardService } from '@/services/board/board.service'
+  const newNoteContent = ref('')
+  const newNoteCategory = ref(0)
+  const newNoteNameError = ref(false)
   const isModalOpen = defineModel<boolean>('isModalOpen')
+  const props = defineProps(['currentBoardId'])
   import {
     Dialog,
     DialogPanel,
@@ -126,21 +149,22 @@
     TransitionRoot,
   } from '@headlessui/vue'
 
-  const appService = useAppService()
+  const boardService = useBoardService()
 
-  const validateNewBoardName = () => {
-    if (!newBoardName.value?.trim()) {
-      newBoardNameError.value = true
+  const validateNewNoteContent = () => {
+    if (!newNoteContent.value?.trim() || newNoteCategory.value == 0) {
+      newNoteNameError.value = true
       return false
-    }
-    newBoardNameError.value = false
+    } 
+    newNoteNameError.value = false
     return true
   }
 
-  function createBoard() {
-    if (validateNewBoardName() && typeof newBoardName.value === 'string') {
-      appService.createNewBoard(newBoardName.value)
-      newBoardName.value = ''
+  function createNote() {
+    if (validateNewNoteContent() && typeof newNoteContent.value === 'string') {
+      boardService.createNewNote(props.currentBoardId, newNoteContent.value, newNoteCategory.value)
+      newNoteContent.value = ''
+      newNoteCategory.value = 0
       isModalOpen.value = false
     }
   }
