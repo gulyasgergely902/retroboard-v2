@@ -9,7 +9,7 @@
 }
 
 body {
-  background-color: #ffffff;
+  background-color: #f7f8f9;
 }
 
 .background-color {
@@ -52,9 +52,17 @@ body {
   background-color: #ffffff;
 }
 
+.border-color {
+  border-color: #edeef1;
+}
+
+.border-color:hover {
+  border-color: #0c66e4;
+}
+
 @media (prefers-color-scheme: dark) {
   body {
-    background-color: #161a1d;
+    background-color: #101214;
   }
 
   .background-color {
@@ -91,6 +99,14 @@ body {
 
   .toggle-color:after {
     background-color: #161a1d;
+  }
+
+  .border-color {
+    border-color: #1d2125;
+  }
+
+  .border-color:hover {
+    border-color: #85b8ff;
   }
 }
 
