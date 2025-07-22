@@ -65,7 +65,7 @@
         >
           <div class="flex justify-end">
             <button
-              class="inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5"
+              class="inline-block text-color rounded-lg text-sm p-1.5"
               type="button"
               @click="boardService.removeNote(boardId, item.id)"
             >
@@ -75,7 +75,7 @@
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                class="size-4 fill-gray-300"
+                class="size-4"
               >
                 <path
                   stroke-linecap="round"
