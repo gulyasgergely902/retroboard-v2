@@ -46,6 +46,10 @@
         v-model:is-modal-open="isNewNoteModalOpen"
         :current-board-id="boardId"
       />
+      <BoardSettingsModal
+        v-model:is-modal-open="isBoardSettingsModalOpen"
+        :current-board-id="boardId"
+      />
     </div>
     <MasonryWall
       :items="boardService.filteredNotes"
@@ -100,6 +104,7 @@
   import FilterToggle from '@/components/FilterToggle.vue'
   import Toggle from '@/components/Toggle.vue'
   import NewNoteModal from '@/components/NewNoteModal.vue'
+  import BoardSettingsModal from '@/components/BoardSettingsModal.vue'
 
   const route = useRoute()
   const boardId = ref('')

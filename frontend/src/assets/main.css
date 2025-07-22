@@ -60,6 +60,14 @@ body {
   border-color: #0c66e4;
 }
 
+.background-color-danger {
+  background-color: #c9372c;
+}
+
+.background-color-danger:hover {
+  background-color: #ae2e24;
+}
+
 @media (prefers-color-scheme: dark) {
   body {
     background-color: #101214;
@@ -107,6 +115,14 @@ body {
 
   .border-color:hover {
     border-color: #85b8ff;
+  }
+
+  .background-color-danger {
+    background-color: #f87168;
+  }
+
+  .background-color-danger:hover {
+    background-color: #fd9891;
   }
 }
 
