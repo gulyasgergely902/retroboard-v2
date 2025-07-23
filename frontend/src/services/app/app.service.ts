@@ -63,7 +63,7 @@ export const useAppService = defineStore('app', {
           headers: { 'Content-Type': 'application/json' },
         }
         await $fetch<Result>(`/api/boards?board_id=${boardId}`, requestOptions)
-        router.push("/")
+        router.push('/')
       } catch (err) {
         console.error('Error deleting board ', boardId, ', err:', err)
       }

@@ -28,6 +28,18 @@ body {
   background-color: #0055cc;
 }
 
+.text-hover-color-primary:hover {
+  color: #0055cc;
+}
+
+.text-color-danger {
+  color: #c9372c;
+}
+
+.text-color-danger:hover {
+  color: #ae2e24;
+}
+
 .background-color-primary-soft {
   background-color: #cce0ff;
 }
@@ -68,6 +80,10 @@ body {
   background-color: #ae2e24;
 }
 
+.border-top {
+  border-top: 1px solid #ffffff;
+}
+
 @media (prefers-color-scheme: dark) {
   body {
     background-color: #101214;
@@ -87,6 +103,18 @@ body {
 
   .background-color-primary:hover {
     background-color: #85b8ff;
+  }
+
+  .text-hover-color-primary:hover {
+    color: #85b8ff;
+  }
+
+  .text-color-danger {
+    color: #f87168;
+  }
+
+  .text-color-danger:hover {
+    color: #fd9891;
   }
 
   .background-color-primary-soft {
@@ -123,6 +151,10 @@ body {
 
   .background-color-danger:hover {
     background-color: #fd9891;
+  }
+
+  .border-top {
+    border-top: 1px solid #161a1d;
   }
 }
 

@@ -19,7 +19,7 @@
       />
       <button
         type="button"
-        class="background-color-primary text-color-over-primary transition-colors ml-auto inline-flex items-center gap-x-2 rounded-sm px-3 py-2 text-sm mr-2 font-semibold cursor-pointer"
+        class="background-color-bold text-color text-hover-color-primary transition-colors ml-auto inline-flex items-center gap-x-2 rounded-sm px-3 py-2 text-sm mr-2 font-semibold cursor-pointer"
         @click="isBoardSettingsModalOpen = true"
       >
         <svg
@@ -65,7 +65,7 @@
         >
           <div class="flex justify-end">
             <button
-              class="inline-block text-color rounded-lg text-sm p-1.5"
+              class="inline-block text-color-danger rounded-lg text-sm p-1.5 cursor-pointer"
               type="button"
               @click="boardService.removeNote(boardId, item.id)"
             >

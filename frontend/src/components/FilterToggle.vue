@@ -14,7 +14,7 @@
             ? 'background-color-primary text-color-over-primary'
             : 'background-color-primary-soft text-color',
         ]"
-        class="px-4 py-2 text-sm font-medium rounded-md focus:z-10 mx-1 transition-colors cursor-pointer"
+        class="px-4 py-2 text-sm font-medium rounded-sm focus:z-10 mx-1 transition-colors cursor-pointer"
       >
         {{ category.name }}
       </button>

@@ -73,7 +73,7 @@
                         type="text"
                         id="board_name"
                         v-model="newBoardName"
-                        class="background-color-bold text-color text-sm rounded-lg block w-full p-2.5"
+                        class="background-color-bold text-color text-sm rounded-sm block w-full p-2.5"
                         placeholder="My Board"
                         required
                       />
@@ -90,7 +90,7 @@
               <div class="background-color px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                 <button
                   type="button"
-                  class="background-color-primary text-color-over-primary transition-colors inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold sm:ml-3 sm:w-auto cursor-pointer"
+                  class="background-color-primary text-color-over-primary transition-colors inline-flex w-full justify-center rounded-sm px-3 py-2 text-sm font-semibold sm:ml-3 sm:w-auto cursor-pointer"
                   @click="createBoard()"
                 >
                   Create
