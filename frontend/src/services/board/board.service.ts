@@ -114,6 +114,6 @@ export const useBoardService = defineStore('board', {
       } catch (err) {
         console.error('Error deleting category ', categoryId, ', err:', err)
       }
-    }
+    },
   },
 })
