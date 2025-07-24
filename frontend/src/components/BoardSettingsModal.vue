@@ -139,11 +139,17 @@
                         <button
                           class="background-color-primary text-color-over-primary transition-colors inline-flex w-full items-center rounded-sm px-3 py-2 text-sm font-semibold sm:ml-3 sm:w-auto cursor-pointer"
                           type="button"
-                          @click="boardService.addCategory(props.currentBoardId, newCategoryName)"
+                          @click="addCategory()"
                         >
                           Add
                         </button>
                       </div>
+                      <p
+                        v-if="newCategoryNameError"
+                        class="text-red-500 text-sm"
+                      >
+                        Category name cannot be empty!
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -200,6 +206,7 @@
   const newBoardName = ref<string | undefined>('')
   const newBoardNameError = ref(false)
   const newCategoryName = ref('')
+  const newCategoryNameError = ref(false)
   const isModalOpen = defineModel<boolean>('isModalOpen')
   const isYesNoModalOpen = ref(false)
   const props = defineProps(['currentBoardId'])
@@ -212,6 +219,22 @@
   function handleRemoveBoard(answer: boolean) {
     if (answer) {
       appService.removeBoard(props.currentBoardId)
+    }
+  }
+
+  const validateNewCategoryName = () => {
+    if (!newCategoryName.value?.trim()) {
+      newCategoryNameError.value = true
+      return false
+    }
+    newCategoryNameError.value = false
+    return true
+  }
+
+  function addCategory() {
+    if (validateNewCategoryName() && typeof newCategoryName.value === 'string') {
+      boardService.addCategory(props.currentBoardId, newCategoryName.value)
+      newCategoryName.value = ''
     }
   }
 </script>

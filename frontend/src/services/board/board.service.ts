@@ -14,16 +14,11 @@ export const useBoardService = defineStore('board', {
   },
   actions: {
     async fetchBoardData(boardId: string) {
+      this.selectedCategory = null
       try {
         await Promise.all([this.fetchNotes(boardId), this.fetchCategories(boardId)])
       } catch (err) {
         console.error('Error fetching board data:', err)
-      } finally {
-        if (this.categories.length === 0) {
-          this.selectedCategory = null
-        }
-
-        this.selectedCategory = this.categories[0].id
       }
     },
 
@@ -42,6 +37,10 @@ export const useBoardService = defineStore('board', {
         this.categories = await response.json()
       } catch (err) {
         console.error('Error fetching categories:', err)
+      } finally {
+        if (this.categories.length !== 0 && this.selectedCategory == null) {
+          this.selectedCategory = this.categories[0].id
+        }
       }
     },
 
@@ -64,7 +63,7 @@ export const useBoardService = defineStore('board', {
         const response = await $fetch<Result>(`/api/notes`, requestOptions)
         const result = await response.json
 
-        await this.fetchBoardData(boardId)
+        await this.fetchNotes(boardId)
 
         return result
       } catch (err) {
@@ -83,7 +82,7 @@ export const useBoardService = defineStore('board', {
           headers: { 'Content-Type': 'application/json' },
         }
         await $fetch<Result>(`/api/notes?note_id=${noteId}`, requestOptions)
-        await this.fetchBoardData(boardId)
+        await this.fetchNotes(boardId)
       } catch (err) {
         console.error('Error deleting note ', noteId, ', err:', err)
       }
@@ -113,6 +112,9 @@ export const useBoardService = defineStore('board', {
         await this.fetchCategories(boardId)
       } catch (err) {
         console.error('Error deleting category ', categoryId, ', err:', err)
+      }
+      if (this.categories.length === 0) {
+        this.selectedCategory = null
       }
     },
   },
