@@ -77,7 +77,7 @@
                 <button
                   type="button"
                   class="background-color-danger text-color-over-primary transition-colors inline-flex w-full justify-center rounded-sm px-3 py-2 text-sm font-semibold sm:ml-3 sm:w-auto cursor-pointer"
-                  @click="appService.removeBoard(props.currentBoardId)"
+                  @click="$emit('answer', true)"
                 >
                   Yes
                 </button>
@@ -99,7 +99,6 @@
 </template>
 
 <script setup lang="ts">
-  import { useAppService } from '@/services/app/app.service'
   import {
     Dialog,
     DialogPanel,
@@ -108,7 +107,6 @@
     TransitionRoot,
   } from '@headlessui/vue'
 
-  const props = defineProps(['currentBoardId'])
+  defineEmits(['answer'])
   const isModalOpen = defineModel<boolean>('isModalOpen')
-  const appService = useAppService()
 </script>

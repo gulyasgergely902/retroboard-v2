@@ -103,7 +103,9 @@
                               <button
                                 class="inline-block text-color-danger rounded-sm text-sm p-1.5 cursor-pointer"
                                 type="button"
-                                @click="boardService.removeCategory(props.currentBoardId, category.id)"
+                                @click="
+                                  boardService.removeCategory(props.currentBoardId, category.id)
+                                "
                               >
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
@@ -170,7 +172,7 @@
                 </button>
                 <YesNoModal
                   v-model:is-modal-open="isYesNoModalOpen"
-                  :current-board-id="props.currentBoardId"
+                  @answer="handleRemoveBoard"
                 />
               </div>
             </DialogPanel>
@@ -205,4 +207,10 @@
   const boardService = useBoardService()
 
   newBoardName.value = appService.getBoardNameById(props.currentBoardId)
+
+  function handleRemoveBoard(answer: boolean) {
+    if (answer) {
+      appService.removeBoard(props.currentBoardId)
+    }
+  }
 </script>
