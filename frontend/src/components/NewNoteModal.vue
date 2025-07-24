@@ -155,7 +155,7 @@
     if (!newNoteContent.value?.trim() || newNoteCategory.value == 0) {
       newNoteNameError.value = true
       return false
-    } 
+    }
     newNoteNameError.value = false
     return true
   }

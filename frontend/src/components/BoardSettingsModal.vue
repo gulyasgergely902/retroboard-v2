@@ -152,6 +152,7 @@
                 <button
                   type="button"
                   class="background-color-primary text-color-over-primary transition-colors inline-flex w-full justify-center rounded-sm px-3 py-2 text-sm font-semibold sm:ml-3 sm:w-auto cursor-pointer"
+                  @click="isModalOpen = false"
                 >
                   Save
                 </button>
