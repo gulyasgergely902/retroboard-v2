@@ -33,7 +33,7 @@
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
             <DialogPanel
-              class="relative transform overflow-hidden rounded-xl text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
+              class="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
             >
               <div class="background-color px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 <div class="sm:flex sm:items-start">
@@ -78,7 +78,7 @@
                         type="text"
                         id="board_name"
                         v-model="newBoardName"
-                        class="background-color-bold text-color text-sm rounded-lg block w-full p-2.5"
+                        class="background-color-bold text-color text-sm rounded-sm block w-full p-2.5"
                         placeholder="My Board"
                         required
                       />
@@ -90,7 +90,7 @@
                       </p>
                       <span class="block mt-4 mb-2 text-sm font-medium text-color">Categories</span>
                       <div
-                        class="background-color-bold rounded-md p-2 max-h-[256px] overflow-x-hidden overflow-y-auto"
+                        class="background-color-bold rounded-sm p-2 max-h-[256px] overflow-x-hidden overflow-y-auto"
                       >
                         <ul>
                           <li
@@ -101,7 +101,7 @@
                             <div class="w-full flex items-center justify-between">
                               <span class="text-color text-sm">{{ category.name }}</span>
                               <button
-                                class="inline-block text-color-danger rounded-lg text-sm p-1.5 cursor-pointer"
+                                class="inline-block text-color-danger rounded-sm text-sm p-1.5 cursor-pointer"
                                 type="button"
                                 @click="boardService.removeCategory(props.currentBoardId, category.id)"
                               >
@@ -130,12 +130,12 @@
                           type="text"
                           id="category_name"
                           v-model="newCategoryName"
-                          class="background-color-bold text-color text-sm rounded-lg block w-full p-2.5"
+                          class="background-color-bold text-color text-sm rounded-sm block w-full p-2.5"
                           placeholder="Category name"
                           required
                         />
                         <button
-                          class="background-color-primary text-color-over-primary transition-colors inline-flex w-full items-center rounded-md px-3 py-2 text-sm font-semibold sm:ml-3 sm:w-auto cursor-pointer"
+                          class="background-color-primary text-color-over-primary transition-colors inline-flex w-full items-center rounded-sm px-3 py-2 text-sm font-semibold sm:ml-3 sm:w-auto cursor-pointer"
                           type="button"
                           @click="boardService.addCategory(props.currentBoardId, newCategoryName)"
                         >
@@ -149,13 +149,13 @@
               <div class="background-color px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                 <button
                   type="button"
-                  class="background-color-primary text-color-over-primary transition-colors inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold sm:ml-3 sm:w-auto cursor-pointer"
+                  class="background-color-primary text-color-over-primary transition-colors inline-flex w-full justify-center rounded-sm px-3 py-2 text-sm font-semibold sm:ml-3 sm:w-auto cursor-pointer"
                 >
                   Save
                 </button>
                 <button
                   type="button"
-                  class="background-color text-color transition-colors mt-3 inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold shadow-xs sm:mt-0 sm:ml-3 sm:w-auto cursor-pointer"
+                  class="background-color text-color transition-colors mt-3 inline-flex w-full justify-center rounded-sm px-3 py-2 text-sm font-semibold shadow-xs sm:mt-0 sm:ml-3 sm:w-auto cursor-pointer"
                   @click="isModalOpen = false"
                   ref="cancelButtonRef"
                 >
@@ -163,7 +163,7 @@
                 </button>
                 <button
                   type="button"
-                  class="background-color-danger text-color-over-primary transition-colors mt-3 inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold shadow-xs sm:mt-0 sm:w-auto cursor-pointer"
+                  class="background-color-danger text-color-over-primary transition-colors mt-3 inline-flex w-full justify-center rounded-sm px-3 py-2 text-sm font-semibold shadow-xs sm:mt-0 sm:w-auto cursor-pointer"
                   @click="isYesNoModalOpen = true"
                 >
                   Delete

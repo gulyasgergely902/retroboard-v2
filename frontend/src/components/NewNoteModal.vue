@@ -33,7 +33,7 @@
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
             <DialogPanel
-              class="relative transform overflow-hidden rounded-xl text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
+              class="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
             >
               <div class="background-color px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 <div class="sm:flex sm:items-start">
@@ -85,7 +85,7 @@
                       <select
                         id="note_category"
                         v-model="newNoteCategory"
-                        class="background-color-bold text-color text-sm rounded-lg block w-full p-2.5"
+                        class="background-color-bold text-color text-sm rounded-sm block w-full p-2.5"
                       >
                         <option
                           v-for="category in boardService.categories"
@@ -118,7 +118,7 @@
                 </button>
                 <button
                   type="button"
-                  class="background-color text-color transition-colors mt-3 inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold shadow-xs sm:mt-0 sm:w-auto cursor-pointer"
+                  class="background-color text-color transition-colors mt-3 inline-flex w-full justify-center rounded-sm px-3 py-2 text-sm font-semibold shadow-xs sm:mt-0 sm:w-auto cursor-pointer"
                   @click="isModalOpen = false"
                   ref="cancelButtonRef"
                 >
