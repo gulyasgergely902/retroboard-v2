@@ -139,7 +139,7 @@
                         <button
                           class="background-color-primary text-color-over-primary transition-colors inline-flex w-full items-center rounded-sm px-3 py-2 text-sm font-semibold sm:ml-3 sm:w-auto cursor-pointer"
                           type="button"
-                          @click="boardService.addCategory(props.currentBoardId, newCategoryName)"
+                          @click="addCategory()"
                         >
                           Add
                         </button>
@@ -213,5 +213,10 @@
     if (answer) {
       appService.removeBoard(props.currentBoardId)
     }
+  }
+
+  function addCategory() {
+    boardService.addCategory(props.currentBoardId, newCategoryName.value)
+    newCategoryName.value = ''
   }
 </script>
