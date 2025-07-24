@@ -144,6 +144,12 @@
                           Add
                         </button>
                       </div>
+                      <p
+                        v-if="newCategoryNameError"
+                        class="text-red-500 text-sm"
+                      >
+                        Category name cannot be empty!
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -200,6 +206,7 @@
   const newBoardName = ref<string | undefined>('')
   const newBoardNameError = ref(false)
   const newCategoryName = ref('')
+  const newCategoryNameError = ref(false)
   const isModalOpen = defineModel<boolean>('isModalOpen')
   const isYesNoModalOpen = ref(false)
   const props = defineProps(['currentBoardId'])
@@ -215,8 +222,19 @@
     }
   }
 
+  const validateNewCategoryName = () => {
+    if (!newCategoryName.value?.trim()) {
+      newCategoryNameError.value = true
+      return false
+    }
+    newCategoryNameError.value = false
+    return true
+  }
+
   function addCategory() {
-    boardService.addCategory(props.currentBoardId, newCategoryName.value)
-    newCategoryName.value = ''
+    if (validateNewCategoryName() && typeof newCategoryName.value === 'string') {
+      boardService.addCategory(props.currentBoardId, newCategoryName.value)
+      newCategoryName.value = ''
+    }
   }
 </script>
