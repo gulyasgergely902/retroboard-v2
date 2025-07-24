@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import type { Board } from '@/services/app/types'
 import type { Result } from '@/services/global/types'
 import { $fetch } from '@/composables/fetch'
+import router from '@/router/'
 
 export const useAppService = defineStore('app', {
   state: (): { loading: boolean; boards: Board[] } => ({
@@ -48,6 +49,23 @@ export const useAppService = defineStore('app', {
         return result
       } catch (err) {
         console.error('Error creating new board:', err)
+      }
+    },
+
+    async removeBoard(boardId: number) {
+      if (boardId === 0) {
+        console.error('Note id cannot be 0')
+        throw new Error('Note id cannot be 0')
+      }
+      try {
+        const requestOptions = {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+        }
+        await $fetch<Result>(`/api/boards?board_id=${boardId}`, requestOptions)
+        router.push('/')
+      } catch (err) {
+        console.error('Error deleting board ', boardId, ', err:', err)
       }
     },
   },

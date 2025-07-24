@@ -1,6 +1,6 @@
 <template>
   <div
-    class="background-color text-color transition-colors p-4 rounded-md h-32"
+    class="background-color text-color transition-colors p-4 rounded-md border-1 border-color h-32"
   >
     {{ title }}
   </div>

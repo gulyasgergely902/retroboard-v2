@@ -1,5 +1,5 @@
 <template>
-  <div class="inline-flex items-center mr-2 w-3/4">
+  <div class="inline-flex items-center mr-2 w-1/2">
     <span class="text-color me-3 text-sm font-medium">Filters</span>
     <div
       class="overflow-x-auto overflow-y-hidden whitespace-nowrap fade-right no-scrollbar flex items-center mx-auto px-4"
@@ -14,7 +14,7 @@
             ? 'background-color-primary text-color-over-primary'
             : 'background-color-primary-soft text-color',
         ]"
-        class="px-4 py-2 text-sm font-medium rounded-md focus:z-10 mx-1 transition-colors cursor-pointer"
+        class="px-4 py-2 text-sm font-medium rounded-sm focus:z-10 mx-1 transition-colors cursor-pointer"
       >
         {{ category.name }}
       </button>

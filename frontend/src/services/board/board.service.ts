@@ -88,5 +88,32 @@ export const useBoardService = defineStore('board', {
         console.error('Error deleting note ', noteId, ', err:', err)
       }
     },
+
+    async addCategory(boardId: string, categoryName: string) {
+      try {
+        const requestOptions = {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: categoryName, board_id: boardId }),
+        }
+        await $fetch<Result>(`/api/categories`, requestOptions)
+        await this.fetchCategories(boardId)
+      } catch (err) {
+        console.error('Error adding category ', categoryName, ', err:', err)
+      }
+    },
+
+    async removeCategory(boardId: string, categoryId: number) {
+      try {
+        const requestOptions = {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+        }
+        await $fetch<Result>(`/api/categories?category_id=${categoryId}`, requestOptions)
+        await this.fetchCategories(boardId)
+      } catch (err) {
+        console.error('Error deleting category ', categoryId, ', err:', err)
+      }
+    }
   },
 })

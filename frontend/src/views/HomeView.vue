@@ -1,6 +1,6 @@
 <template>
   <div class="background-color-bold pt-4 rounded-lg w-full">
-    <div class="flex content-center h-8 px-4 w-full">
+    <div class="flex content-center h-8 px-2 w-full">
       <span class="text-color ms-1 text-xl font-medium">Active Boards</span>
       <button
         type="button"
