@@ -27,10 +27,10 @@ This is cool, but how should I use it? Here is a simple breakdown:
 
 ## How to run it
 
-The tool lives in a docker container to simple things even futher. It needs to be hosted on your server and expose it to the network, the application will take care of the rest. Make sure you either expose port `8000` or re-route it as you like.
+The tool lives in a docker container to simple things even futher. It needs to be hosted on your server and expose it to the network, the application will take care of the rest. Make sure you either expose port `8000` or re-route it as you like. Ensure that you assign a persistent directory for storing the database so that its data remains intact across updates.
 
 Here is an example:
-```docker run --rm -ti -p 8000:8000 retroboard:latest```
+```docker run --rm -ti -v path/to/database:/app/src/database/ -p 8000:8000 retroboard:[tag]```
 
 ## Build from source
 
