@@ -1,9 +1,11 @@
 """Entrypont for RetroBoard server"""
 
 import os
+
 from flask import Flask
 from flask_restx import Api
-from app.routes.board_routes import boards_ns, notes_ns, categories_ns
+
+from app.routes.board_routes import boards_ns, categories_ns, notes_ns
 from config import DevelopmentConfig, ProductionConfig
 
 

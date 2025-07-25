@@ -5,6 +5,7 @@ Here are a few simple rules to follow when contributing to RetroBoard:
 ## Code
 
 * Set up `prettier` and use the existing prettier config against your frontend code.
+* Organize imports using `isort` on python code.
 * Keep your code clean, modular, and readable.
 * Variable names should clearly reflect their purpose and usage.
 

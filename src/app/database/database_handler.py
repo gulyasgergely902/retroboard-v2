@@ -1,7 +1,7 @@
 """Database handler"""
 
 from sqlalchemy import create_engine, event
-from sqlalchemy.orm import sessionmaker, declarative_base, Session
+from sqlalchemy.orm import Session, declarative_base, sessionmaker
 
 Base = declarative_base()
 
