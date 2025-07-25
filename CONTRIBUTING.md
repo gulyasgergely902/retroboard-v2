@@ -9,6 +9,13 @@ Here are a few simple rules to follow when contributing to RetroBoard:
 * Keep your code clean, modular, and readable.
 * Variable names should clearly reflect their purpose and usage.
 
+## Directory layout
+
+* `assets/`: Contains all assets for readme files (images mainly)
+* `docker/`: Docker file for running RetroBoard
+* `frontend/`: Frontend (Vue) code
+* `src/`: Backend (Python) code
+
 ## Documentation
 
 * All comments should be complete sentences, start with a capital letter, and end with a period.
