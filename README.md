@@ -45,4 +45,6 @@ In rare cases when you want to build it from the source, it is not any harder.
 
 ## Contribution
 
-If you find any bugs or just have an idea for the last missing feature, create a ticket here on GitHub and I'll take care of the rest!
+You can contribute to RetroBoard in two ways:
+* Open an issue for a feature request or bug report. Based on current priorities, I’ll add it to the roadmap and address it in a future release.
+* Fork the repository and implement the change yourself. Once done, open a pull request. I’ll review your submission and either provide feedback for refinement or merge it. Be sure to check the guidelines in the `CONTRIBUTING.md` file before submitting a pull request.
