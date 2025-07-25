@@ -8,16 +8,16 @@ A lightweight, full-stack application for running productive sprint retrospectiv
 
 Built with collaborative teams in mind for an efficient retrospective ceremony:
 
-- 🧠 **Write your thoughts in private**: Everyone can write down their feedback about the last sprint — but you won’t see what others wrote until everyone is ready to discuss. This keeps the input unbiased and personal.
-- 👀 **Reveal mode when it's time to discuss**: Once everyone’s done writing, we switch to a reveal page that shows all the ideas for group discussion.
-- 🚀 **Fast, clean, no clutter**: Just the essentials — no logins, no bloat, no distractions. Open the link, write your thoughts, done.
-- 🔐 **Fully self-hosted**: You can run it on your own servers or environment, so you stay in control of your data — perfect if your company has privacy or security policies.
+* 🧠 **Write your thoughts in private**: Everyone can write down their feedback about the last sprint — but you won’t see what others wrote until everyone is ready to discuss. This keeps the input unbiased and personal.
+* 👀 **Reveal mode when it's time to discuss**: Once everyone’s done writing, we switch to a reveal page that shows all the ideas for group discussion.
+* 🚀 **Fast, clean, no clutter**: Just the essentials — no logins, no bloat, no distractions. Open the link, write your thoughts, done.
+* 🔐 **Fully self-hosted**: You can run it on your own servers or environment, so you stay in control of your data — perfect if your company has privacy or security policies.
 
 ## The tech behind
 
-- **Backend**: Built with Python 3 using Flask & SQLAlchemy.
-- **Frontend**: Vue 3 to make the tool fast and simple.
-- **Database**: Using SQLite to store the data locally — where it belongs.
+* **Backend**: Built with Python 3 using Flask & SQLAlchemy.
+* **Frontend**: Vue 3 to make the tool fast and simple.
+* **Database**: Using SQLite to store the data locally — where it belongs.
 
 ## Using to tool
 
@@ -46,5 +46,6 @@ In rare cases when you want to build it from the source, it is not any harder.
 ## Contribution
 
 You can contribute to RetroBoard in two ways:
+
 * Open an issue for a feature request or bug report. Based on current priorities, I’ll add it to the roadmap and address it in a future release.
 * Fork the repository and implement the change yourself. Once done, open a pull request. I’ll review your submission and either provide feedback for refinement or merge it. Be sure to check the guidelines in the `CONTRIBUTING.md` file before submitting a pull request.
