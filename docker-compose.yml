@@ -4,11 +4,11 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - "8000:8000"
+      - "5000:5000"
     environment:
       - FLASK_ENV=production
     volumes:
-      - ~/git/retroboard-v2:/app/database
+      - ~/git/retroboard-v2:/database
     networks:
       - retroboard-network
     restart: unless-stopped

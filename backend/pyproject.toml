@@ -47,9 +47,9 @@ Homepage = "https://github.com/gulyasgergely902/retroboard-v2"
 Repository = "https://github.com/gulyasgergely902/retroboard-v2.git"
 Issues = "https://github.com/gulyasgergely902/retroboard-v2/issues"
 
-[tool.setuptools.packages.find]
-where = ["."]
-include = ["app*"]
+[tool.setuptools]
+packages = ["database", "routes", "services"]
+include-package-data = true
 
 [tool.ruff]
 target-version = "py38"
@@ -86,6 +86,7 @@ skip-magic-trailing-comma = false
 line-ending = "auto"
 
 [tool.ruff.isort]
+<<<<<<< HEAD
 known-first-party = ["app"]
 
 [tool.pytest.ini_options]
@@ -101,3 +102,6 @@ addopts = [
     "--cov-report=html",
     "--cov-report=xml",
 ]
+=======
+known-first-party = ["app"]
+>>>>>>> 0877fa9 (feat: Initialize backend and frontend for RetroBoard V2)
