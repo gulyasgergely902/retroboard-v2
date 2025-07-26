@@ -38,9 +38,6 @@ dev = [
     "ruff>=0.1.0",
 ]
 
-[project.scripts]
-retroboard = "app:create_app"
-
 [project.urls]
 Homepage = "https://github.com/gulyasgergely902/retroboard-v2"
 Repository = "https://github.com/gulyasgergely902/retroboard-v2.git"
