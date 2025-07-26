@@ -1,6 +1,6 @@
-![Banner](.github/retroboard-banner.png)
+# RetroBoard V2
 
-# RetroBoard
+![Banner](.github/retroboard-banner.png)
 
 A lightweight, full-stack application for running productive sprint retrospective ceremonies. Built with Python 3, Flask, SQLAlchemy, and a Vue 3 frontend, this app enables team members to anonymously write and later share feedback and ideas about the last sprint.
 

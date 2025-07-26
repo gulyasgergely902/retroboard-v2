@@ -8,7 +8,7 @@ services:
     environment:
       - FLASK_ENV=production
     volumes:
-      - ~/git/retroboard-v2:/database
+      - ./db-data:/database
     networks:
       - retroboard-network
     restart: unless-stopped
