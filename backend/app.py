@@ -12,6 +12,7 @@ from routes.board_routes import (
     notes_ns,
     register_static_routes,
 )
+from services.services import db
 
 
 def create_app():
@@ -43,6 +44,9 @@ def create_app():
     api.add_namespace(boards_ns)
     api.add_namespace(categories_ns)
     api.add_namespace(notes_ns)
+
+    # Initialize database tables
+    db.create_tables()
 
     # Serve single-page app or static assets
     register_static_routes(flask_app)

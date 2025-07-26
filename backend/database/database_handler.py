@@ -8,7 +8,7 @@ Base = declarative_base()
 
 class DatabaseHandler:
     """Main class for database handling"""
-    def __init__(self, db_url='sqlite:////database/retroboard.sqlite'):
+    def __init__(self, db_url='sqlite:///retroboard.sqlite'):
         self.engine = create_engine(
             db_url,
             echo=False)
