@@ -51,11 +51,12 @@ In rare cases when you want to build it from the source, it is not any harder.
 
 1. Create a virtual environment: `python3 -m venv venv`.
 2. Activate the virtual environment:
-   - On Linux/macOS: `source venv/bin/activate`
-   - On Windows: `venv\Scripts\activate`
+   * On Linux/macOS: `source venv/bin/activate`
+   * On Windows: `venv\Scripts\activate`
 3. Install the required modules in the environment which are needed to run the app:
    `python3 -m pip install .`
-4. Run the app from the root using `python3 flask run`.
+4. Set the `FLASK_APP` environment variable to the entry point of the application (e.g., `export FLASK_APP=app.py` on Linux/macOS or `set FLASK_APP=app.py` on Windows).
+5. Run the app from the root using `flask run`.
 
 ## Contribution
 

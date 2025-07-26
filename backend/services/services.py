@@ -9,7 +9,9 @@ from database.database_handler import DatabaseHandler
 from database.models import Board, Category, Note
 
 # Initialize database handler but defer table creation
+# Initialize database handler and ensure tables are created
 db = DatabaseHandler()
+db.create_tables()
 
 
 def get_boards() -> tuple[list[dict[str, str]], int]:
