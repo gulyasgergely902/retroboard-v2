@@ -45,6 +45,7 @@ In most cases, a short descriptive tag is sufficient for a commit message. Howev
   * `docker`: Changes in docker file.
   * `docs`: Changes in markdown files (README, CONTRIBUTING, etc.).
   * `frontend`: Any frontend related change. No need more granularity.
+  * `misc`: This category is for any changes that do not affect backend or frontend code — for example, configuration files, or scripts.
   * `style`: Style-only changes (e.g. formatting, indentation, whitespace) should be used sparingly and ideally included within relevant commits. Avoid making standalone styling commits unless absolutely necessary.
   * `tests`: Any test related changes either for backend or frontend. All modified tests should be grouped together and comitted separately from other changes with this tag.
 

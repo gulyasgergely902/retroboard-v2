@@ -6,7 +6,7 @@ WORKDIR /app
 
 COPY frontend/ ./frontend
 COPY src/ ./src
-COPY build_frontend.sh ./
+COPY scripts/build_frontend.sh ./
 
 RUN chmod +x build_frontend.sh && \
     ./build_frontend.sh
