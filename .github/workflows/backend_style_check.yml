@@ -1,0 +1,37 @@
+name: Backend Style Check
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths: [ 'backend/**' ]
+  pull_request:
+    branches: [ main, develop ]
+    paths: [ 'backend/**' ]
+
+jobs:
+  style-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install .[dev]
+        working-directory: backend
+
+      - name: Run Ruff linting
+        run: ruff check .
+        working-directory: backend
+
+      - name: Run Ruff formatting check
+        run: ruff format --check .
+        working-directory: backend

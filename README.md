@@ -1,4 +1,9 @@
-# RetroBoard V2
+# RetroBoard
+
+[![MIT License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![GitHub issues](https://img.shields.io/github/issues/gulyasgergely902/retroboard-v2)](https://github.com/gulyasgergely902/retroboard-v2/issues)
+[![GitHub stars](https://img.shields.io/github/stars/gulyasgergely902/retroboard-v2)](https://github.com/gulyasgergely902/retroboard-v2/stargazers)
+[![Docker Image](https://img.shields.io/badge/Docker-Available-blue)](https://ghcr.io/gulyasgergely902/retroboard)
 
 ![Banner](.github/retroboard-banner.png)
 
@@ -29,19 +34,28 @@ This is cool, but how should I use it? Here is a simple breakdown:
 
 ## How to run it
 
-The tool lives in a docker container to simple things even futher. It needs to be hosted on your server and expose it to the network, the application will take care of the rest. Make sure you either expose port `5000` or re-route it as you like. Ensure that you assign a persistent directory for storing the database so that its data remains intact across updates.
-
-Here is an example:
-```docker run --rm -ti -v path/to/database:/app/src/database/ -p 5000:5000 retroboard:[tag]```
+The tool lives in a docker compose to simple things even futher. It needs to be hosted on your server and expose it to the network, the application will take care of the rest. Make sure you either expose port `5000` or re-route it as you like. Ensure that you assign a persistent directory for the database so data remains persistent across updates.
 
 ## Build from source
 
 In rare cases when you want to build it from the source, it is not any harder.
 
-1. Build the frontend using `build_frontend.sh`.
-2. Create a virtual environment: `python3 -m venv rb_venv` then `source rb_venv/bin/activate`.
-3. Install the required modules in the environment which are needed to run the app: `python3 -m pip install -r requirements.txt`.
-4. Run the app from the root using `python3 src/run.py`.
+### Frontend
+
+1. Navigate to the `frontend` directory: `cd frontend`.
+2. `pnpm install --force`
+3. `pnpm format`
+4. `pnpm build`
+
+### Backend
+
+1. Create a virtual environment: `python3 -m venv venv`.
+2. Activate the virtual environment:
+   - On Linux/macOS: `source venv/bin/activate`
+   - On Windows: `venv\Scripts\activate`
+3. Install the required modules in the environment which are needed to run the app:
+   `python3 -m pip install .`
+4. Run the app from the root using `python3 flask run`.
 
 ## Contribution
 

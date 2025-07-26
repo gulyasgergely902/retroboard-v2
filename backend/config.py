@@ -7,11 +7,13 @@ class Config:
 
 class DevelopmentConfig(Config):
     """Development configuration with debugging enabled."""
+
     DEBUG = True
-    ENV = 'development'
+    ENV = "development"
 
 
 class ProductionConfig(Config):
     """Production configuration with debugging disabled."""
+
     DEBUG = False
-    ENV = 'production'
+    ENV = "production"

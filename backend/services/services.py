@@ -1,6 +1,5 @@
 """All service operations"""
 
-import os
 from typing import Optional
 
 from sqlalchemy import select

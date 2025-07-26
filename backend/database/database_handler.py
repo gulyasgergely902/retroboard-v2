@@ -8,10 +8,9 @@ Base = declarative_base()
 
 class DatabaseHandler:
     """Main class for database handling"""
-    def __init__(self, db_url='sqlite:///retroboard.sqlite'):
-        self.engine = create_engine(
-            db_url,
-            echo=False)
+
+    def __init__(self, db_url="sqlite:///retroboard.sqlite"):
+        self.engine = create_engine(db_url, echo=False)
         self.session_local = sessionmaker(bind=self.engine)
 
         @event.listens_for(self.engine, "connect")

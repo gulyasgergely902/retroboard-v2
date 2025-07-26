@@ -1,0 +1,45 @@
+name: Frontend Style Check
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths: [ 'frontend/**' ]
+  pull_request:
+    branches: [ main, develop ]
+    paths: [ 'frontend/**' ]
+
+jobs:
+  style-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+          cache-dependency-path: 'frontend/pnpm-lock.yaml'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        working-directory: frontend
+
+      - name: Run ESLint
+        run: pnpm run lint
+        working-directory: frontend
+
+      - name: Check Prettier formatting
+        run: pnpm exec prettier --check src/
+        working-directory: frontend
+
+      - name: Type check
+        run: pnpm run type-check
+        working-directory: frontend
