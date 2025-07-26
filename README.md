@@ -1,6 +1,12 @@
-![Banner](assets/retroboard-banner.png)
-
 # RetroBoard
+
+<!-- markdownlint-disable MD033 -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/banner-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="assets/banner-light.svg">
+  <img alt="Logo" src="assets/banner-light.svg">
+</picture>
+<!-- markdownlint-enable MD033 -->
 
 A lightweight, full-stack application for running productive sprint retrospective ceremonies. Built with Python 3, Flask, SQLAlchemy, and a Vue 3 frontend, this app enables team members to anonymously write and later share feedback and ideas about the last sprint.
 
