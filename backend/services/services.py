@@ -5,8 +5,8 @@ from typing import Optional
 from sqlalchemy import select
 from sqlalchemy.exc import DatabaseError
 
-from app.database.database_handler import DatabaseHandler
-from app.database.models import Board, Category, Note
+from database.database_handler import DatabaseHandler
+from database.models import Board, Category, Note
 
 db = DatabaseHandler()
 db.create_tables()

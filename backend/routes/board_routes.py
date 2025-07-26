@@ -3,7 +3,7 @@
 from flask import request, send_from_directory
 from flask_restx import Namespace, Resource, fields, reqparse
 
-from app.services.services import (add_board, add_category, add_note,
+from services.services import (add_board, add_category, add_note,
                                    get_boards, get_categories, get_notes,
                                    modify_note_category, modify_note_tags,
                                    remove_board, remove_category, remove_note)
