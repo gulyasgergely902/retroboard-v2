@@ -1,4 +1,4 @@
-![Banner](assets/retroboard-banner.png)
+![Banner](assets/logo.svg)
 
 # RetroBoard
 
