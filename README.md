@@ -38,7 +38,7 @@ Here is an example:
 
 In rare cases when you want to build it from the source, it is not any harder.
 
-1. Build the frontend using `build_frontend.sh`.
+1. Build the frontend using `scripts/build_frontend.sh`.
 2. Create a virtual environment: `python3 -m venv rb_venv` then `source rb_venv/bin/activate`.
 3. Install the required modules in the environment which are needed to run the app: `python3 -m pip install -r requirements.txt`.
 4. Run the app from the root using `python3 src/run.py`.
