@@ -5,7 +5,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/gulyasgergely902/retroboard-v2)](https://github.com/gulyasgergely902/retroboard-v2/stargazers)
 [![Docker Image](https://img.shields.io/badge/Docker-Available-blue)](https://ghcr.io/gulyasgergely902/retroboard)
 
-![Banner](.github/retroboard-banner.png)
+![Logo](.github/logo.svg)
 
 A lightweight, full-stack application for running productive sprint retrospective ceremonies. Built with Python 3, Flask, SQLAlchemy, and a Vue 3 frontend, this app enables team members to anonymously write and later share feedback and ideas about the last sprint.
 
