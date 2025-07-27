@@ -49,7 +49,7 @@ class Note(Base):
 
 
 class Category(Base):
-    """Database model of  Category"""
+    """Database model of Category"""
 
     __tablename__ = "categories"
     __table_args__ = {"sqlite_autoincrement": True}

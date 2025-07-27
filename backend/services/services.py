@@ -122,7 +122,7 @@ def modify_note_category(
 def modify_note_tags(
     note_id: int, new_tags: list
 ) -> tuple[Optional[dict[str, str]], Optional[dict[str, str]], int]:
-    """Modify a note category by id"""
+    """Modify note tags by id"""
     with db.get_session() as session:
         try:
             statement = select(Note).where(Note.id == note_id)
