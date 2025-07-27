@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main
+      - master
     paths: [ 'backend/**' ]
   pull_request:
     types: 
@@ -12,7 +12,7 @@ on:
       - reopened
       - synchronize
     branches: 
-      - main
+      - master
     paths: [ 'backend/**' ]
 
 jobs:
