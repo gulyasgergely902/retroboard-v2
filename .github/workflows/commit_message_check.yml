@@ -1,8 +1,5 @@
 name: 'Commit Message Check'
 on:
-  push:
-    branches:
-      - master
   pull_request:
     types:
       - opened
@@ -19,7 +16,7 @@ jobs:
       - name: Check Commit Type
         uses: gsactions/commit-message-checker@v2
         with:
-          pattern: '^\w{1,20}: [A-Z]{1}.+$'
+          pattern: '^(?:\w{1,20}: [A-Z]{1}.+$|Merge pull request.*)$'
           flags: 'gm'
           error: 'The first line of the commit message must contain a tag. Check CONTRIBUTING.md for reference.'
           checkAllCommitMessages: 'true'
