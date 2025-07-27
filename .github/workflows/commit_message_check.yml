@@ -2,14 +2,14 @@ name: 'Commit Message Check'
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
     types:
       - opened
       - reopened
       - synchronize
     branches:
-      - main
+      - master
 
 jobs:
   check-commit-message:
@@ -19,13 +19,20 @@ jobs:
       - name: Check Commit Type
         uses: gsactions/commit-message-checker@v2
         with:
-          pattern: '\w{0,20}: [A-Z]{1}.+$'
+          pattern: '^\w{1,20}: [A-Z]{1}.+$'
           flags: 'gm'
           error: 'The first line of the commit message must contain a tag. Check CONTRIBUTING.md for reference.'
           checkAllCommitMessages: 'true'
           accessToken: ${{ secrets.GITHUB_TOKEN }}
+          excludeDescription: 'true'
+          excludeTitle: 'true'
       - name: Check for fixups
         uses: gsactions/commit-message-checker@v2
         with:
-          pattern: 'fixup! .+$'
+          pattern: '^(?!fixup!).+$'
+          flags: 'gm'
           error: 'All fixup commits must be squashed on a pull request.'
+          checkAllCommitMessages: 'true'
+          accessToken: ${{ secrets.GITHUB_TOKEN }}
+          excludeDescription: 'true'
+          excludeTitle: 'true'
