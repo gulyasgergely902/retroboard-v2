@@ -28,7 +28,8 @@ All git commit messages should follow the general rules:
 
 * Separate your commits into logically grouped changes. For example, frontend and backend modifications should be in separate commits. This principle can be applied at even finer levels — keep each commit focused and coherent to make code review and debugging easier.
 * Use the imperative mood in the subject line. E.g. "Implement x/y changes." instead of "Implemented x/y changes."
-* All commit messages should follow the accepted structure:
+* All fixup commits must be squashed before opening a pull request.
+* All commit messages should follow the accepted structure where the commit message starts with a tag which represents the scope of the change then the change's short description starting with a capital letter followed by an optional longer description separated by an empty line:
 
 ```text
 tag: Short description of changes
