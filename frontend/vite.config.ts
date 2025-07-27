@@ -13,7 +13,7 @@ export default defineConfig({
     tailwindcss(),
   ],
   build: {
-    outDir: '../src/static',
+    outDir: '../backend/static',
     emptyOutDir: true,
   },
   server: {
