@@ -23,7 +23,8 @@ def create_app():
 
     # Determine environment and load appropriate configuration
     env = os.environ.get("FLASK_ENV", "production").lower()
-    flask_app = Flask(__name__, static_folder="static", static_url_path="")
+    static_folder_path = os.path.join(os.path.dirname(__file__), "static")
+    flask_app = Flask(__name__, static_folder=static_folder_path, static_url_path="")
     flask_app.config.from_object(CONFIG.get(env, ProductionConfig))
 
     # Initialize RESTX API
