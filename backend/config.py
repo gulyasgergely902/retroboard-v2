@@ -1,4 +1,4 @@
-""" Configurations for Development and Production environments """
+"""Configurations for Development and Production environments"""
 
 
 class Config:
