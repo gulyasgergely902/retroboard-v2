@@ -46,8 +46,12 @@ In rare cases when you want to build it from the source, it is not any harder.
 
 1. Build the frontend using `scripts/build_frontend.sh`.
 2. Create a virtual environment: `python3 -m venv rb_venv` then `source rb_venv/bin/activate`.
-3. Install the required modules in the environment which are needed to run the app: `python3 -m pip install -r requirements.txt`.
-4. Run the app from the root using `python3 src/run.py`.
+3. Install the required modules in the environment which are needed to run the app: `python3 -m pip install .`.
+    * If you want to run the app in development mode, install the dev dependencies as well: `python3 -m pip install -e .[dev]`.
+4. Run the app from the backend using `flask run`.
+
+> [!NOTE]
+> pip install `-e` is used to install the package in editable mode, which is useful during development. It allows you to make changes to the code without needing to reinstall the package.
 
 ## Contribution
 

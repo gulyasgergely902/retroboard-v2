@@ -5,13 +5,14 @@ from typing import List
 from sqlalchemy import JSON, ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from app.database.database_handler import Base
+from database.database_handler import Base
 
 
 class Board(Base):
     """Database model of a Board object"""
-    __tablename__ = 'boards'
-    __table_args__ = {'sqlite_autoincrement': True}
+
+    __tablename__ = "boards"
+    __table_args__ = {"sqlite_autoincrement": True}
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(30))
@@ -23,14 +24,14 @@ class Board(Base):
     )
 
     def __repr__(self) -> str:
-        return f"Board(id={self.id!r}, name={self.name!r}," \
-            f"notes={self.notes!r})"
+        return f"Board(id={self.id!r}, name={self.name!r},notes={self.notes!r})"
 
 
 class Note(Base):
     """Database model of a Note"""
-    __tablename__ = 'notes'
-    __table_args__ = {'sqlite_autoincrement': True}
+
+    __tablename__ = "notes"
+    __table_args__ = {"sqlite_autoincrement": True}
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     description: Mapped[str] = mapped_column(String(30))
@@ -41,14 +42,17 @@ class Note(Base):
     board: Mapped["Board"] = relationship(back_populates="notes")
 
     def __repr__(self) -> str:
-        return f"Note(id={self.id!r}, description={self.description!r}," \
+        return (
+            f"Note(id={self.id!r}, description={self.description!r},"
             f"category={self.category!r}, tags={self.tags!r})"
+        )
 
 
 class Category(Base):
-    """Database model of  Category"""
+    """Database model of Category"""
+
     __tablename__ = "categories"
-    __table_args__ = {'sqlite_autoincrement': True}
+    __table_args__ = {"sqlite_autoincrement": True}
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(30))
