@@ -165,12 +165,31 @@ def add_category(
 def remove_category(
     category_id: int,
 ) -> tuple[Optional[dict[str, str]], Optional[dict[str, str]], int]:
-    """Remove a category"""
+    """
+    Remove a category by its ID.
+
+    Returns (status, error, HTTP status code).
+    """
     with db.get_session() as session:
         try:
             category = session.get(Category, category_id)
+            if category is None:
+                return None, {"message": "Category not found."}, 404
+
+            if session.query(Note).filter_by(category=category_id).first():
+                return (
+                    None,
+                    {
+                        "message": (
+                            "Cannot delete: notes still associated with this category."
+                        )
+                    },
+                    400,
+                )
+
             session.delete(category)
             session.commit()
+            return {"status": "Success"}, None, 200
         except DatabaseError as e:
-            return None, {"status": f"DB Error: {e}"}, 500
-    return {"status": "Success"}, None, 200
+            session.rollback()
+            return None, {"message": f"DB error: {e}"}, 500
