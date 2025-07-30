@@ -4,15 +4,31 @@ Here are a few simple rules to follow when contributing to RetroBoard:
 
 ## Directory layout
 
-* `assets/`: Contains all assets for readme files (images mainly)
-* `docker/`: Docker file for running RetroBoard
-* `frontend/`: Frontend (Vue) code
-* `src/`: Backend (Python) code
+* `assets/`: Contains all assets for readme files (images mainly).
+* `backend/`: Backend (Python) code.
+* `docker/`: Docker file for running RetroBoard.
+* `frontend/`: Frontend (Vue) code.
+* `scripts/`: All the scripts which also runs on CI.
+
+## Development
+
+To enable linting during development for the backend, make sure to install the optional development dependencies as well:
+
+```python3 -m pip install -e .[dev]```
+
+If you want to run RetroBoard in a live environment, follow these steps:
+
+* Run the backend with flask from the backend directory: `flask run`
+* Run frontend with pnpm: `pnpm run dev`
+
+After this, the application will be available on `localhost:5173`.
+
+> [!NOTE]
+> pip install `-e` is used to install the package in editable mode, which is useful during development. It allows you to make changes to the code without needing to reinstall the package.
 
 ## Code
 
-* Set up `prettier` and use the existing prettier config against your frontend code.
-* Organize imports using `isort` on python code.
+* Always use the provided scripts `lint_backend.sh` and `lint_frontend.sh` to check your code for issues.
 * Keep your code clean, modular, and readable.
 * Variable names should clearly reflect their purpose and usage.
 
