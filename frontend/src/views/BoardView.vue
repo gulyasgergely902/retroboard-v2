@@ -67,7 +67,7 @@
             <button
               class="inline-block text-color-danger rounded-lg text-sm p-1.5 cursor-pointer"
               type="button"
-              @click="boardService.removeNote(boardId, item.id)"
+              @click="openConfirmModal(item.id)"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -91,6 +91,10 @@
         </div>
       </template>
     </MasonryWall>
+    <YesNoModal
+      v-model:is-modal-open="isYesNoModalOpen"
+      @answer="handleRemoveNote"
+    />
   </div>
 </template>
 
@@ -105,6 +109,7 @@
   import Toggle from '@/components/Toggle.vue'
   import NewNoteModal from '@/components/NewNoteModal.vue'
   import BoardSettingsModal from '@/components/BoardSettingsModal.vue'
+  import YesNoModal from '@/components/YesNoModal.vue'
 
   const route = useRoute()
   const boardId = ref('')
@@ -119,6 +124,19 @@
 
   const isNewNoteModalOpen = ref(false)
   const isBoardSettingsModalOpen = ref(false)
+  const isYesNoModalOpen = ref(false)
 
   void boardService.fetchBoardData(boardId.value as string)
+
+  const selectedNoteId = ref(0)
+  function openConfirmModal(noteId: number) {
+    selectedNoteId.value = noteId
+    isYesNoModalOpen.value = true
+  }
+
+  function handleRemoveNote(answer: boolean) {
+    if (answer) {
+      boardService.removeNote(boardId.value, selectedNoteId.value)
+    }
+  }
 </script>

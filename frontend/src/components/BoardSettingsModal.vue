@@ -198,7 +198,7 @@
   import { ref } from 'vue'
   import { useAppService } from '@/services/app/app.service'
   import { useBoardService } from '@/services/board/board.service'
-  import YesNoModal from './YesNoModal.vue'
+  import YesNoModal from '@/components/YesNoModal.vue'
   import {
     Dialog,
     DialogPanel,
