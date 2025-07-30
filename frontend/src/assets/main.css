@@ -84,6 +84,12 @@ body {
   border-top: 1px solid #ffffff;
 }
 
+.input-error {
+  border-style: solid;
+  border-width: 3px;
+  border-color: #c9372c;
+}
+
 @media (prefers-color-scheme: dark) {
   body {
     background-color: #101214;
@@ -155,6 +161,12 @@ body {
 
   .border-top {
     border-top: 1px solid #161a1d;
+  }
+
+  .input-error {
+    border-style: solid;
+    border-width: 3px;
+    border-color: #c9372c;
   }
 }
 

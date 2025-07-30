@@ -5,7 +5,7 @@
   >
     <Dialog
       class="relative z-10"
-      @close="isModalOpen = false"
+      @close="closeModal()"
     >
       <TransitionChild
         as="template"
@@ -74,15 +74,10 @@
                         id="board_name"
                         v-model="newBoardName"
                         class="background-color-bold text-color text-sm rounded-sm block w-full p-2.5"
+                        :class="{ 'input-error': newBoardNameError }"
                         placeholder="My Board"
                         required
                       />
-                      <p
-                        v-if="newBoardNameError"
-                        class="text-red-500 text-sm"
-                      >
-                        Board name cannot be empty!
-                      </p>
                     </div>
                   </div>
                 </div>
@@ -98,7 +93,7 @@
                 <button
                   type="button"
                   class="background-color text-color transition-colors mt-3 inline-flex w-full justify-center rounded-sm px-3 py-2 text-sm font-semibold shadow-xs sm:mt-0 sm:w-auto cursor-pointer"
-                  @click="isModalOpen = false"
+                  @click="closeModal()"
                   ref="cancelButtonRef"
                 >
                   Cancel
@@ -140,8 +135,13 @@
   function createBoard() {
     if (validateNewBoardName() && typeof newBoardName.value === 'string') {
       appService.createNewBoard(newBoardName.value)
-      newBoardName.value = ''
-      isModalOpen.value = false
+      closeModal()
     }
+  }
+
+  function closeModal() {
+    newBoardNameError.value = false
+    newBoardName.value = ''
+    isModalOpen.value = false
   }
 </script>
