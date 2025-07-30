@@ -5,7 +5,7 @@
   >
     <Dialog
       class="relative z-10"
-      @close="isModalOpen = false"
+      @close="closeModal()"
     >
       <TransitionChild
         as="template"
@@ -73,6 +73,7 @@
                         id="note_content"
                         v-model="newNoteContent"
                         class="background-color-bold text-color text-sm rounded-sm block w-full p-2.5"
+                        :class="{ 'input-error': newNoteNameError }"
                         placeholder="Note content goes here..."
                         required
                       />
@@ -86,6 +87,7 @@
                         id="note_category"
                         v-model="newNoteCategory"
                         class="background-color-bold text-color text-sm rounded-sm block w-full p-2.5"
+                        :class="{ 'input-error': newNoteNameError }"
                       >
                         <option
                           v-for="category in boardService.categories"
@@ -95,12 +97,6 @@
                           {{ category.name }}
                         </option>
                       </select>
-                      <p
-                        v-if="newNoteNameError"
-                        class="text-red-500 text-sm"
-                      >
-                        Note content or category cannot be empty!
-                      </p>
                       <p class="text-sm text-gray-900 dark:text-white">
                         Notes cannot be modified after creation!
                       </p>
@@ -119,7 +115,7 @@
                 <button
                   type="button"
                   class="background-color text-color transition-colors mt-3 inline-flex w-full justify-center rounded-sm px-3 py-2 text-sm font-semibold shadow-xs sm:mt-0 sm:w-auto cursor-pointer"
-                  @click="isModalOpen = false"
+                  @click="closeModal()"
                   ref="cancelButtonRef"
                 >
                   Cancel
@@ -167,5 +163,12 @@
       newNoteCategory.value = 0
       isModalOpen.value = false
     }
+  }
+
+  function closeModal() {
+    newNoteContent.value = ''
+    newNoteCategory.value = 0
+    newNoteNameError.value = false
+    isModalOpen.value = false
   }
 </script>

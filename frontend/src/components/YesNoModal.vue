@@ -68,7 +68,7 @@
                       Are you sure?
                     </DialogTitle>
                     <div class="mt-2">
-                      <span class="text-color">Deleting a board is irreversible!</span>
+                      <span class="text-color">This action is irreversible!</span>
                     </div>
                   </div>
                 </div>
@@ -77,7 +77,7 @@
                 <button
                   type="button"
                   class="background-color-danger text-color-over-primary transition-colors inline-flex w-full justify-center rounded-sm px-3 py-2 text-sm font-semibold sm:ml-3 sm:w-auto cursor-pointer"
-                  @click="$emit('answer', true)"
+                  @click="closeModal()"
                 >
                   Yes
                 </button>
@@ -107,6 +107,11 @@
     TransitionRoot,
   } from '@headlessui/vue'
 
-  defineEmits(['answer'])
+  const emit = defineEmits(['answer'])
   const isModalOpen = defineModel<boolean>('isModalOpen')
+
+  function closeModal() {
+    isModalOpen.value = false
+    emit('answer', true)
+  }
 </script>

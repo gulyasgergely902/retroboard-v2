@@ -112,6 +112,7 @@ export const useBoardService = defineStore('board', {
         await this.fetchCategories(boardId)
       } catch (err) {
         console.error('Error deleting category ', categoryId, ', err:', err)
+        throw err
       }
       if (this.categories.length === 0) {
         this.selectedCategory = null
