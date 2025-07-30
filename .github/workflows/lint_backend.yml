@@ -36,9 +36,5 @@ jobs:
         working-directory: backend
 
       - name: Run Ruff linting
-        run: ruff check .
-        working-directory: backend
-
-      - name: Run Ruff formatting check
-        run: ruff format --check .
-        working-directory: backend
+        run: |
+          ./scripts/lint_backend.sh
