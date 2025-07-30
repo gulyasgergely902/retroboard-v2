@@ -5,7 +5,7 @@
   >
     <Dialog
       class="relative z-10"
-      @close="isModalOpen = false"
+      @close="closeModal()"
     >
       <TransitionChild
         as="template"
@@ -103,9 +103,7 @@
                               <button
                                 class="inline-block text-color-danger rounded-sm text-sm p-1.5 cursor-pointer"
                                 type="button"
-                                @click="
-                                  boardService.removeCategory(props.currentBoardId, category.id)
-                                "
+                                @click="removeCategory(category.id)"
                               >
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
@@ -127,6 +125,12 @@
                           </li>
                         </ul>
                       </div>
+                      <p
+                        v-if="categoryDeleteError"
+                        class="text-red-500 text-sm"
+                      >
+                        Cannot delete a category which has notes in it!
+                      </p>
                       <div class="mt-2 flex">
                         <input
                           type="text"
@@ -158,14 +162,14 @@
                 <button
                   type="button"
                   class="background-color-primary text-color-over-primary transition-colors inline-flex w-full justify-center rounded-sm px-3 py-2 text-sm font-semibold sm:ml-3 sm:w-auto cursor-pointer"
-                  @click="isModalOpen = false"
+                  @click="closeModal()"
                 >
                   Save
                 </button>
                 <button
                   type="button"
                   class="background-color text-color transition-colors mt-3 inline-flex w-full justify-center rounded-sm px-3 py-2 text-sm font-semibold shadow-xs sm:mt-0 sm:ml-3 sm:w-auto cursor-pointer"
-                  @click="isModalOpen = false"
+                  @click="closeModal()"
                   ref="cancelButtonRef"
                 >
                   Cancel
@@ -207,6 +211,7 @@
   const newBoardNameError = ref(false)
   const newCategoryName = ref('')
   const newCategoryNameError = ref(false)
+  const categoryDeleteError = ref(false)
   const isModalOpen = defineModel<boolean>('isModalOpen')
   const isYesNoModalOpen = ref(false)
   const props = defineProps(['currentBoardId'])
@@ -236,5 +241,22 @@
       boardService.addCategory(props.currentBoardId, newCategoryName.value)
       newCategoryName.value = ''
     }
+  }
+
+  async function removeCategory(categoryId: number) {
+    try {
+      await boardService.removeCategory(props.currentBoardId, categoryId)
+    } catch (err) {
+      categoryDeleteError.value = true
+      console.log(err)
+    }
+  }
+
+  function closeModal() {
+    newCategoryName.value = ''
+    newBoardNameError.value = false
+    newCategoryNameError.value = false
+    categoryDeleteError.value = false
+    isModalOpen.value = false
   }
 </script>
