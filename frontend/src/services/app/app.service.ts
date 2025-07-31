@@ -42,7 +42,7 @@ export const useAppService = defineStore('app', {
           body: JSON.stringify({ name: boardTitle }),
         }
         const response = await $fetch<Result>(`/api/boards`, requestOptions)
-        const result = await response.json
+        const result = await response.json()
 
         await this.fetchBoards()
 

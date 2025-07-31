@@ -86,6 +86,33 @@
                       >
                         {{ newBoardNameError }}
                       </label>
+                      <div class="flex mt-4">
+                        <div class="flex items-center h-5">
+                          <input
+                            id="helper-checkbox"
+                            aria-describedby="helper-checkbox-text"
+                            type="checkbox"
+                            value=""
+                            v-model="createDefaultCategories"
+                            class="w-4 h-4 text-color background-color border-gray-300 rounded-sm dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
+                          />
+                        </div>
+                        <div class="ms-2 text-sm">
+                          <label
+                            for="helper-checkbox"
+                            class="font-medium text-color"
+                          >
+                            Create default categories
+                          </label>
+                          <p
+                            id="helper-checkbox-text"
+                            class="text-xs font-normal text-color-muted"
+                          >
+                            Creates default categories for retrospective ceremonies (went well,
+                            needs improvement, action items)
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -118,8 +145,10 @@
 <script setup lang="ts">
   import { ref } from 'vue'
   import { useAppService } from '@/services/app/app.service'
+  import { useBoardService } from '@/services/board/board.service'
   const newBoardName = ref('')
   const newBoardNameError = ref('')
+  const createDefaultCategories = ref(false)
 
   const isModalOpen = defineModel<boolean>('isModalOpen')
   import {
@@ -131,6 +160,7 @@
   } from '@headlessui/vue'
 
   const appService = useAppService()
+  const boardService = useBoardService()
 
   function validateNewBoardName() {
     if (!newBoardName.value.trim()) {
@@ -141,9 +171,16 @@
     return true
   }
 
-  function createBoard() {
+  async function createBoard() {
     if (validateNewBoardName() && typeof newBoardName.value === 'string') {
-      appService.createNewBoard(newBoardName.value)
+      const board_data = await appService.createNewBoard(newBoardName.value)
+      // @ts-expect-error 'board_id' not undefined
+      const board_id = board_data.board_id
+      if (createDefaultCategories.value) {
+        boardService.addCategory(board_id, 'Went well')
+        boardService.addCategory(board_id, 'Needs improvement')
+        boardService.addCategory(board_id, 'Action items')
+      }
       closeModal()
     }
   }
