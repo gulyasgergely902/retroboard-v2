@@ -80,7 +80,7 @@
                         v-model="newBoardName"
                         class="background-color-bold text-color text-sm rounded-sm block w-full p-2.5"
                         placeholder="My Board"
-                        required
+                        disabled
                       />
                       <p
                         v-if="newBoardNameError"
@@ -94,11 +94,13 @@
                       >
                         <ul>
                           <li
-                            v-for="category in boardService.categories"
+                            v-for="(category, index) in boardService.categories"
                             :key="category.id"
-                            class="pb-2"
                           >
-                            <div class="w-full flex items-center justify-between">
+                            <div
+                              id="category_list"
+                              class="w-full flex items-center justify-between"
+                            >
                               <span class="text-color text-sm">{{ category.name }}</span>
                               <button
                                 class="inline-block text-color-danger rounded-sm text-sm p-1.5 cursor-pointer"
@@ -121,22 +123,31 @@
                                 </svg>
                               </button>
                             </div>
-                            <hr class="border-top" />
+                            <hr
+                              v-if="index < boardService.categories.length - 1"
+                              class="h-px my-1 border-0 separator"
+                            />
                           </li>
                         </ul>
                       </div>
-                      <p
-                        v-if="categoryDeleteError"
-                        class="text-red-500 text-sm"
+                      <label
+                        v-if="showCategoryDeleteError"
+                        for="category_list"
+                        class="block mt-2 text-sm font-medium text-color-danger"
                       >
                         Cannot delete a category which has notes in it!
-                      </p>
-                      <div class="mt-2 flex">
+                      </label>
+                      <div
+                        id="new_category_input"
+                        class="mt-2 flex"
+                      >
                         <input
                           type="text"
                           id="category_name"
                           v-model="newCategoryName"
+                          @blur="validateNewCategoryName()"
                           class="background-color-bold text-color text-sm rounded-sm block w-full p-2.5"
+                          :class="{ 'input-error': newCategoryNameError }"
                           placeholder="Category name"
                           required
                         />
@@ -148,12 +159,13 @@
                           Add
                         </button>
                       </div>
-                      <p
+                      <label
                         v-if="newCategoryNameError"
-                        class="text-red-500 text-sm"
+                        for="new_category_input"
+                        class="block mt-2 text-sm font-medium text-color-danger"
                       >
-                        Category name cannot be empty!
-                      </p>
+                        {{ newCategoryNameError }}
+                      </label>
                     </div>
                   </div>
                 </div>
@@ -208,10 +220,10 @@
   } from '@headlessui/vue'
 
   const newBoardName = ref<string | undefined>('')
-  const newBoardNameError = ref(false)
   const newCategoryName = ref('')
-  const newCategoryNameError = ref(false)
-  const categoryDeleteError = ref(false)
+  const newBoardNameError = ref('')
+  const newCategoryNameError = ref('')
+  const showCategoryDeleteError = ref(false)
   const isModalOpen = defineModel<boolean>('isModalOpen')
   const isYesNoModalOpen = ref(false)
   const props = defineProps(['currentBoardId'])
@@ -227,12 +239,12 @@
     }
   }
 
-  const validateNewCategoryName = () => {
-    if (!newCategoryName.value?.trim()) {
-      newCategoryNameError.value = true
+  function validateNewCategoryName() {
+    if (!newCategoryName.value.trim()) {
+      newCategoryNameError.value = 'This field cannot be empty!'
       return false
     }
-    newCategoryNameError.value = false
+    newCategoryNameError.value = ''
     return true
   }
 
@@ -247,16 +259,19 @@
     try {
       await boardService.removeCategory(props.currentBoardId, categoryId)
     } catch (err) {
-      categoryDeleteError.value = true
+      showCategoryDeleteError.value = true
+      setTimeout(() => {
+        showCategoryDeleteError.value = false
+      }, 2000)
       console.log(err)
     }
   }
 
   function closeModal() {
     newCategoryName.value = ''
-    newBoardNameError.value = false
-    newCategoryNameError.value = false
-    categoryDeleteError.value = false
+    newBoardNameError.value = ''
+    newCategoryNameError.value = ''
+    showCategoryDeleteError.value = false
     isModalOpen.value = false
   }
 </script>

@@ -80,13 +80,13 @@ body {
   background-color: #ae2e24;
 }
 
-.border-top {
-  border-top: 1px solid #ffffff;
+.separator {
+  background-color: #ffffff;
 }
 
 .input-error {
   border-style: solid;
-  border-width: 3px;
+  border-width: 2px;
   border-color: #c9372c;
 }
 
@@ -159,13 +159,13 @@ body {
     background-color: #fd9891;
   }
 
-  .border-top {
-    border-top: 1px solid #161a1d;
+  .separator {
+    background-color: #161a1d;
   }
 
   .input-error {
     border-style: solid;
-    border-width: 3px;
+    border-width: 2px;
     border-color: #c9372c;
   }
 }

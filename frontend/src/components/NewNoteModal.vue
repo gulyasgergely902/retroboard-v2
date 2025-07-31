@@ -72,11 +72,19 @@
                       <textarea
                         id="note_content"
                         v-model="newNoteContent"
+                        @blur="validateNewNoteContent()"
                         class="background-color-bold text-color text-sm rounded-sm block w-full p-2.5"
-                        :class="{ 'input-error': newNoteNameError }"
+                        :class="{ 'input-error': newNoteContentError }"
                         placeholder="Note content goes here..."
                         required
                       />
+                      <label
+                        v-if="newNoteContentError"
+                        for="note_content"
+                        class="block mt-2 text-sm font-medium text-color-danger"
+                      >
+                        {{ newNoteContentError }}
+                      </label>
                       <label
                         for="note_category"
                         class="block mt-4 mb-2 text-sm font-medium text-color"
@@ -86,8 +94,9 @@
                       <select
                         id="note_category"
                         v-model="newNoteCategory"
+                        @blur="validateNewNoteCategory()"
                         class="background-color-bold text-color text-sm rounded-sm block w-full p-2.5"
-                        :class="{ 'input-error': newNoteNameError }"
+                        :class="{ 'input-error': newNoteCategoryError }"
                       >
                         <option
                           v-for="category in boardService.categories"
@@ -97,6 +106,13 @@
                           {{ category.name }}
                         </option>
                       </select>
+                      <label
+                        v-if="newNoteCategoryError"
+                        for="note_category"
+                        class="block mt-2 text-sm font-medium text-color-danger"
+                      >
+                        {{ newNoteContentError }}
+                      </label>
                       <p class="text-sm text-gray-900 dark:text-white">
                         Notes cannot be modified after creation!
                       </p>
@@ -134,7 +150,9 @@
   import { useBoardService } from '@/services/board/board.service'
   const newNoteContent = ref('')
   const newNoteCategory = ref(0)
-  const newNoteNameError = ref(false)
+  const newNoteContentError = ref('')
+  const newNoteCategoryError = ref('')
+
   const isModalOpen = defineModel<boolean>('isModalOpen')
   const props = defineProps(['currentBoardId'])
   import {
@@ -147,17 +165,32 @@
 
   const boardService = useBoardService()
 
-  const validateNewNoteContent = () => {
-    if (!newNoteContent.value?.trim() || newNoteCategory.value == 0) {
-      newNoteNameError.value = true
+  function validateNewNoteContent() {
+    if (!newNoteContent.value.trim()) {
+      newNoteContentError.value = 'This field cannot be empty!'
       return false
     }
-    newNoteNameError.value = false
+    newNoteContentError.value = ''
     return true
   }
 
+  function validateNewNoteCategory() {
+    if (newNoteCategory.value === 0) {
+      newNoteCategoryError.value = 'You must select a category!'
+      return false
+    } else {
+      newNoteCategoryError.value = ''
+      return true
+    }
+  }
+
   function createNote() {
-    if (validateNewNoteContent() && typeof newNoteContent.value === 'string') {
+    if (
+      validateNewNoteContent() &&
+      typeof newNoteContent.value === 'string' &&
+      validateNewNoteCategory() &&
+      typeof newNoteCategory.value === 'number'
+    ) {
       boardService.createNewNote(props.currentBoardId, newNoteContent.value, newNoteCategory.value)
       newNoteContent.value = ''
       newNoteCategory.value = 0
@@ -166,9 +199,10 @@
   }
 
   function closeModal() {
+    isModalOpen.value = false
     newNoteContent.value = ''
     newNoteCategory.value = 0
-    newNoteNameError.value = false
-    isModalOpen.value = false
+    newNoteContentError.value = ''
+    newNoteCategoryError.value = ''
   }
 </script>

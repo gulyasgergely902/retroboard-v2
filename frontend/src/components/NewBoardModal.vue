@@ -73,11 +73,19 @@
                         type="text"
                         id="board_name"
                         v-model="newBoardName"
+                        @blur="validateNewBoardName()"
                         class="background-color-bold text-color text-sm rounded-sm block w-full p-2.5"
                         :class="{ 'input-error': newBoardNameError }"
                         placeholder="My Board"
                         required
                       />
+                      <label
+                        v-if="newBoardNameError"
+                        for="board_name"
+                        class="block mt-2 text-sm font-medium text-color-danger"
+                      >
+                        {{ newBoardNameError }}
+                      </label>
                     </div>
                   </div>
                 </div>
@@ -111,7 +119,8 @@
   import { ref } from 'vue'
   import { useAppService } from '@/services/app/app.service'
   const newBoardName = ref('')
-  const newBoardNameError = ref(false)
+  const newBoardNameError = ref('')
+
   const isModalOpen = defineModel<boolean>('isModalOpen')
   import {
     Dialog,
@@ -123,12 +132,12 @@
 
   const appService = useAppService()
 
-  const validateNewBoardName = () => {
-    if (!newBoardName.value?.trim()) {
-      newBoardNameError.value = true
+  function validateNewBoardName() {
+    if (!newBoardName.value.trim()) {
+      newBoardNameError.value = 'This field cannot be empty!'
       return false
     }
-    newBoardNameError.value = false
+    newBoardNameError.value = ''
     return true
   }
 
@@ -140,8 +149,8 @@
   }
 
   function closeModal() {
-    newBoardNameError.value = false
-    newBoardName.value = ''
     isModalOpen.value = false
+    newBoardNameError.value = ''
+    newBoardName.value = ''
   }
 </script>
