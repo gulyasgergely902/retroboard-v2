@@ -1,6 +1,7 @@
 """All service operations"""
 
 from typing import Optional
+from typing import Union
 
 from sqlalchemy import select
 from sqlalchemy.exc import DatabaseError
@@ -24,15 +25,19 @@ def get_boards() -> tuple[list[dict[str, str]], int]:
 
 def add_board(
     board_name: str,
-) -> tuple[Optional[dict[str, str]], Optional[dict[str, str]], int]:
+) -> tuple[Optional[dict[str, Union[str, int]]], Optional[dict[str, str]], int]:
     """Add a new board"""
+    board_id = 0
     with db.get_session() as session:
         try:
-            session.add(Board(name=board_name))
+            board = Board(name=board_name)
+            session.add(board)
             session.commit()
+            board_id = board.id
+            print(f"boardid: {board_id}")
         except DatabaseError as e:
             return None, {"status": f"DB Error: {e}"}, 500
-    return {"status": "Success"}, None, 200
+    return {"status": "Success", "board_id": board_id}, None, 200
 
 
 def remove_board(
