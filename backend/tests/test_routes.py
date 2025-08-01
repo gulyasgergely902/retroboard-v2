@@ -68,3 +68,63 @@ class TestRoutes(unittest.TestCase):
         response = self.client.delete("/api/boards/?board_id=1")
         self.assertEqual(response.get_json(), mock_json)
         self.assertEqual(response.status_code, 500)
+
+    @patch("routes.api_routes.get_notes")
+    def test_get_notes_success(self, mock_get_notes):
+        """Test GET request to notes endpoint"""
+        mock_json = [
+            {"id": 1, "description": "test", "category": 1, "tags": []}
+        ]
+        mock_get_notes.return_value = mock_json, 200
+
+        response = self.client.get("/api/notes/?board_id=1")
+        self.assertEqual(response.get_json(), mock_json)
+        self.assertEqual(response.status_code, 200)
+
+    @patch("routes.api_routes.add_note")
+    def test_post_notes_success(self, mock_add_note):
+        """Test POST request to notes endpoint"""
+        mock_json = {"status": "Success"}
+        mock_add_note.return_value = mock_json, None, 200
+
+        response = self.client.post(
+            "/api/notes/",
+            json={"description": "test", "category": 1,
+                  "tags": [], "board_id": 1}
+        )
+        self.assertEqual(response.get_json(), mock_json)
+        self.assertEqual(response.status_code, 200)
+
+    @patch("routes.api_routes.add_note")
+    def test_post_notes_failure(self, mock_add_note):
+        """Test POST request to notes endpoint"""
+        mock_json = {"status": "DB Error"}
+        mock_add_note.return_value = None, mock_json, 500
+
+        response = self.client.post(
+            "/api/notes/",
+            json={"description": "test", "category": 1,
+                  "tags": [], "board_id": 1}
+        )
+        self.assertEqual(response.get_json(), mock_json)
+        self.assertEqual(response.status_code, 500)
+
+    @patch("routes.api_routes.remove_note")
+    def test_delete_notes_success(self, mock_remove_note):
+        """Test DELETE request to notes endpoint"""
+        mock_json = {"status": "Success"}
+        mock_remove_note.return_value = mock_json, None, 200
+
+        response = self.client.delete("/api/notes/?note_id=1")
+        self.assertEqual(response.get_json(), mock_json)
+        self.assertEqual(response.status_code, 200)
+
+    @patch("routes.api_routes.remove_note")
+    def test_delete_notes_failure(self, mock_remove_note):
+        """Test DELETE request to notes endpoint"""
+        mock_json = {"status": "DB Error"}
+        mock_remove_note.return_value = None, mock_json, 500
+
+        response = self.client.delete("/api/notes/?note_id=1")
+        self.assertEqual(response.get_json(), mock_json)
+        self.assertEqual(response.status_code, 500)
