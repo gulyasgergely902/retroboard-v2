@@ -6,7 +6,7 @@ from flask import Flask
 from flask_restx import Api
 
 from config import DevelopmentConfig, ProductionConfig
-from routes.board_routes import (
+from routes.api_routes import (
     boards_ns,
     categories_ns,
     notes_ns,
