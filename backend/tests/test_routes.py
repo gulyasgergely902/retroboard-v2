@@ -180,3 +180,59 @@ class TestRoutes(unittest.TestCase):
         )
         self.assertEqual(response.get_json(), mock_json)
         self.assertEqual(response.status_code, 500)
+
+    @patch("routes.api_routes.get_categories")
+    def test_get_categories_success(self, mock_get_categories):
+        """Test GET request to categories endpoint"""
+        mock_json = [{"id": 1, "name": "test"}]
+        mock_get_categories.return_value = mock_json, 200
+
+        response = self.client.get("/api/categories/?board_id=1")
+        self.assertEqual(response.get_json(), mock_json)
+        self.assertEqual(response.status_code, 200)
+
+    @patch("routes.api_routes.add_category")
+    def test_post_categories_success(self, mock_add_category):
+        """Test POST request to categories endpoint"""
+        mock_json = {"status": "Success"}
+        mock_add_category.return_value = mock_json, None, 200
+
+        response = self.client.post(
+            "/api/categories/",
+            json={"name": "Test category", "board_id": 1}
+        )
+        self.assertEqual(response.get_json(), mock_json)
+        self.assertEqual(response.status_code, 200)
+
+    @patch("routes.api_routes.add_category")
+    def test_post_categories_failure(self, mock_add_category):
+        """Test POST request to categories endpoint"""
+        mock_json = {"status": "DB Error"}
+        mock_add_category.return_value = None, mock_json, 500
+
+        response = self.client.post(
+            "/api/categories/",
+            json={"name": "Test category", "board_id": 1}
+        )
+        self.assertEqual(response.get_json(), mock_json)
+        self.assertEqual(response.status_code, 500)
+
+    @patch("routes.api_routes.remove_category")
+    def test_delete_categories_success(self, mock_remove_category):
+        """Test DELETE request to categories endpoint"""
+        mock_json = {"status": "Success"}
+        mock_remove_category.return_value = mock_json, None, 200
+
+        response = self.client.delete("/api/categories/?category_id=1")
+        self.assertEqual(response.get_json(), mock_json)
+        self.assertEqual(response.status_code, 200)
+
+    @patch("routes.api_routes.remove_category")
+    def test_delete_categories_failure(self, mock_remove_category):
+        """Test DELETE request to categories endpoint"""
+        mock_json = {"status": "Success"}
+        mock_remove_category.return_value = None, mock_json, 500
+
+        response = self.client.delete("/api/categories/?category_id=1")
+        self.assertEqual(response.get_json(), mock_json)
+        self.assertEqual(response.status_code, 500)
