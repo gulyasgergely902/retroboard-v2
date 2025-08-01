@@ -128,3 +128,55 @@ class TestRoutes(unittest.TestCase):
         response = self.client.delete("/api/notes/?note_id=1")
         self.assertEqual(response.get_json(), mock_json)
         self.assertEqual(response.status_code, 500)
+
+    @patch("routes.api_routes.modify_note_category")
+    def test_put_notes_category_success(self, mock_modify_note_category):
+        """Test PUT request to modify notes category endpoint"""
+        mock_json = {"status": "Success"}
+        mock_modify_note_category.return_value = mock_json, None, 200
+
+        response = self.client.put(
+            "/api/notes/1/category",
+            json={"category": "othercategory"}
+        )
+        self.assertEqual(response.get_json(), mock_json)
+        self.assertEqual(response.status_code, 200)
+
+    @patch("routes.api_routes.modify_note_category")
+    def test_put_notes_category_failure(self, mock_modify_note_category):
+        """Test PUT request to modify note category endpoint"""
+        mock_json = {"status": "DB Error"}
+        mock_modify_note_category.return_value = None, mock_json, 500
+
+        response = self.client.put(
+            "/api/notes/1/category",
+            json={"category": "othercategory"}
+        )
+        self.assertEqual(response.get_json(), mock_json)
+        self.assertEqual(response.status_code, 500)
+
+    @patch("routes.api_routes.modify_note_tags")
+    def test_put_notes_tags_success(self, mock_modify_note_tags):
+        """Test PUT request to modify note tags endpoint"""
+        mock_json = {"status": "Success"}
+        mock_modify_note_tags.return_value = mock_json, None, 200
+
+        response = self.client.put(
+            "/api/notes/1/tags",
+            json={"tags": ["test_tag"]}
+        )
+        self.assertEqual(response.get_json(), mock_json)
+        self.assertEqual(response.status_code, 200)
+
+    @patch("routes.api_routes.modify_note_tags")
+    def test_put_notes_tags_failure(self, mock_modify_note_tags):
+        """Test PUT request to modify note tags endpoint"""
+        mock_json = {"status": "DB Error"}
+        mock_modify_note_tags.return_value = None, mock_json, 500
+
+        response = self.client.put(
+            "/api/notes/1/tags",
+            json={"tags": ["test_tag"]}
+        )
+        self.assertEqual(response.get_json(), mock_json)
+        self.assertEqual(response.status_code, 500)
