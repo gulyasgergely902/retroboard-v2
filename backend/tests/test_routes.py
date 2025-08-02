@@ -2,6 +2,7 @@
 
 import unittest
 from unittest.mock import patch
+
 from app import create_app
 
 
@@ -29,10 +30,7 @@ class TestRoutes(unittest.TestCase):
         mock_json = {"status": "Success", "board_id": 1}
         mock_add_board.return_value = mock_json, None, 200
 
-        response = self.client.post(
-            "/api/boards/",
-            json={"name": "test"}
-        )
+        response = self.client.post("/api/boards/", json={"name": "test"})
         self.assertEqual(response.get_json(), mock_json)
         self.assertEqual(response.status_code, 200)
 
@@ -42,10 +40,7 @@ class TestRoutes(unittest.TestCase):
         mock_json = {"status": "DB Error"}
         mock_add_board.return_value = None, mock_json, 500
 
-        response = self.client.post(
-            "/api/boards/",
-            json={"name": "test"}
-        )
+        response = self.client.post("/api/boards/", json={"name": "test"})
         self.assertEqual(response.get_json(), mock_json)
         self.assertEqual(response.status_code, 500)
 
@@ -72,9 +67,7 @@ class TestRoutes(unittest.TestCase):
     @patch("routes.api_routes.get_notes")
     def test_get_notes_success(self, mock_get_notes):
         """Test GET request to notes endpoint"""
-        mock_json = [
-            {"id": 1, "description": "test", "category": 1, "tags": []}
-        ]
+        mock_json = [{"id": 1, "description": "test", "category": 1, "tags": []}]
         mock_get_notes.return_value = mock_json, 200
 
         response = self.client.get("/api/notes/?board_id=1")
@@ -89,8 +82,7 @@ class TestRoutes(unittest.TestCase):
 
         response = self.client.post(
             "/api/notes/",
-            json={"description": "test", "category": 1,
-                  "tags": [], "board_id": 1}
+            json={"description": "test", "category": 1, "tags": [], "board_id": 1},
         )
         self.assertEqual(response.get_json(), mock_json)
         self.assertEqual(response.status_code, 200)
@@ -103,8 +95,7 @@ class TestRoutes(unittest.TestCase):
 
         response = self.client.post(
             "/api/notes/",
-            json={"description": "test", "category": 1,
-                  "tags": [], "board_id": 1}
+            json={"description": "test", "category": 1, "tags": [], "board_id": 1},
         )
         self.assertEqual(response.get_json(), mock_json)
         self.assertEqual(response.status_code, 500)
@@ -136,8 +127,7 @@ class TestRoutes(unittest.TestCase):
         mock_modify_note_category.return_value = mock_json, None, 200
 
         response = self.client.put(
-            "/api/notes/1/category",
-            json={"category": "othercategory"}
+            "/api/notes/1/category", json={"category": "othercategory"}
         )
         self.assertEqual(response.get_json(), mock_json)
         self.assertEqual(response.status_code, 200)
@@ -149,8 +139,7 @@ class TestRoutes(unittest.TestCase):
         mock_modify_note_category.return_value = None, mock_json, 500
 
         response = self.client.put(
-            "/api/notes/1/category",
-            json={"category": "othercategory"}
+            "/api/notes/1/category", json={"category": "othercategory"}
         )
         self.assertEqual(response.get_json(), mock_json)
         self.assertEqual(response.status_code, 500)
@@ -161,10 +150,7 @@ class TestRoutes(unittest.TestCase):
         mock_json = {"status": "Success"}
         mock_modify_note_tags.return_value = mock_json, None, 200
 
-        response = self.client.put(
-            "/api/notes/1/tags",
-            json={"tags": ["test_tag"]}
-        )
+        response = self.client.put("/api/notes/1/tags", json={"tags": ["test_tag"]})
         self.assertEqual(response.get_json(), mock_json)
         self.assertEqual(response.status_code, 200)
 
@@ -174,10 +160,7 @@ class TestRoutes(unittest.TestCase):
         mock_json = {"status": "DB Error"}
         mock_modify_note_tags.return_value = None, mock_json, 500
 
-        response = self.client.put(
-            "/api/notes/1/tags",
-            json={"tags": ["test_tag"]}
-        )
+        response = self.client.put("/api/notes/1/tags", json={"tags": ["test_tag"]})
         self.assertEqual(response.get_json(), mock_json)
         self.assertEqual(response.status_code, 500)
 
@@ -198,8 +181,7 @@ class TestRoutes(unittest.TestCase):
         mock_add_category.return_value = mock_json, None, 200
 
         response = self.client.post(
-            "/api/categories/",
-            json={"name": "Test category", "board_id": 1}
+            "/api/categories/", json={"name": "Test category", "board_id": 1}
         )
         self.assertEqual(response.get_json(), mock_json)
         self.assertEqual(response.status_code, 200)
@@ -211,8 +193,7 @@ class TestRoutes(unittest.TestCase):
         mock_add_category.return_value = None, mock_json, 500
 
         response = self.client.post(
-            "/api/categories/",
-            json={"name": "Test category", "board_id": 1}
+            "/api/categories/", json={"name": "Test category", "board_id": 1}
         )
         self.assertEqual(response.get_json(), mock_json)
         self.assertEqual(response.status_code, 500)

@@ -1,21 +1,23 @@
 """Test routes"""
 
 import unittest
-from unittest.mock import patch, MagicMock, ANY
+from unittest.mock import ANY, MagicMock, patch
+
+from sqlalchemy.exc import DatabaseError
+
 from services.services import (
-    get_boards,
     add_board,
-    remove_board,
-    get_notes,
+    add_category,
     add_note,
-    remove_note,
+    get_boards,
+    get_categories,
+    get_notes,
     modify_note_category,
     modify_note_tags,
-    get_categories,
-    add_category,
-    remove_category
+    remove_board,
+    remove_category,
+    remove_note,
 )
-from sqlalchemy.exc import DatabaseError
 
 
 class TestServices(unittest.TestCase):
@@ -33,7 +35,9 @@ class TestServices(unittest.TestCase):
         mock_query = mock_session.query.return_value
         mock_query.all.return_value = [mock_board]
 
-        mock_database_handler.get_session.return_value.__enter__.return_value = mock_session
+        mock_database_handler.get_session.return_value.__enter__.return_value = (
+            mock_session
+        )
 
         result, status_code = get_boards()
         expected_json = [{"id": 10, "name": "Test Board"}]
@@ -50,7 +54,9 @@ class TestServices(unittest.TestCase):
         mock_board.id = 10
         mock_board_class.return_value = mock_board
 
-        mock_database_handler.get_session.return_value.__enter__.return_value = mock_session
+        mock_database_handler.get_session.return_value.__enter__.return_value = (
+            mock_session
+        )
 
         result, error, status_code = add_board(ANY)
 
@@ -69,7 +75,9 @@ class TestServices(unittest.TestCase):
         mock_board = MagicMock()
         mock_board_class.return_value = mock_board
 
-        mock_database_handler.get_session.return_value.__enter__.return_value = mock_session
+        mock_database_handler.get_session.return_value.__enter__.return_value = (
+            mock_session
+        )
 
         mock_session.commit.side_effect = DatabaseError(
             "statement", {}, Exception("Error")
@@ -93,7 +101,9 @@ class TestServices(unittest.TestCase):
         mock_board = MagicMock()
         mock_session.get.return_value = mock_board
 
-        mock_database_handler.get_session.return_value.__enter__.return_value = mock_session
+        mock_database_handler.get_session.return_value.__enter__.return_value = (
+            mock_session
+        )
 
         result, error, status_code = remove_board(ANY)
 
@@ -107,11 +117,15 @@ class TestServices(unittest.TestCase):
 
     @patch("services.services.Board")
     @patch("services.services.db")
-    def test_remove_board_failure_not_found(self, mock_database_handler, mock_board_class):
+    def test_remove_board_failure_not_found(
+        self, mock_database_handler, mock_board_class
+    ):
         """Ttest remove board where board not found"""
         mock_session = MagicMock()
 
-        mock_database_handler.get_session.return_value.__enter__.return_value = mock_session
+        mock_database_handler.get_session.return_value.__enter__.return_value = (
+            mock_session
+        )
 
         mock_session.get.return_value = None
 
@@ -125,13 +139,17 @@ class TestServices(unittest.TestCase):
 
     @patch("services.services.Board")
     @patch("services.services.db")
-    def test_remove_board_failure_database_error(self, mock_database_handler, mock_board_class):
+    def test_remove_board_failure_database_error(
+        self, mock_database_handler, mock_board_class
+    ):
         """Test remove board success"""
         mock_session = MagicMock()
         mock_board = MagicMock()
         mock_session.get.return_value = mock_board
 
-        mock_database_handler.get_session.return_value.__enter__.return_value = mock_session
+        mock_database_handler.get_session.return_value.__enter__.return_value = (
+            mock_session
+        )
 
         mock_session.get.side_effect = DatabaseError(
             "statement", {}, Exception("Error")
@@ -162,11 +180,14 @@ class TestServices(unittest.TestCase):
 
         mock_query.where.return_value = [mock_note]
 
-        mock_database_handler.get_session.return_value.__enter__.return_value = mock_session
+        mock_database_handler.get_session.return_value.__enter__.return_value = (
+            mock_session
+        )
 
         result, status_code = get_notes(10)
         expected_json = [
-            {"id": 10, "description": "Test Note", "category": 10, "tags": []}]
+            {"id": 10, "description": "Test Note", "category": 10, "tags": []}
+        ]
 
         self.assertEqual(result, expected_json)
         self.assertEqual(status_code, 200)
@@ -183,7 +204,9 @@ class TestServices(unittest.TestCase):
         mock_note.board_id = 30
         mock_note_class.return_value = mock_note
 
-        mock_database_handler.get_session.return_value.__enter__.return_value = mock_session
+        mock_database_handler.get_session.return_value.__enter__.return_value = (
+            mock_session
+        )
 
         result, error, status_code = add_note(ANY, ANY, ANY, ANY)
 
@@ -206,7 +229,9 @@ class TestServices(unittest.TestCase):
         mock_note.board_id = 30
         mock_note_class.return_value = mock_note
 
-        mock_database_handler.get_session.return_value.__enter__.return_value = mock_session
+        mock_database_handler.get_session.return_value.__enter__.return_value = (
+            mock_session
+        )
 
         mock_session.commit.side_effect = DatabaseError(
             "statement", {}, Exception("Error")
@@ -230,7 +255,9 @@ class TestServices(unittest.TestCase):
         mock_note = MagicMock()
         mock_session.get.return_value = mock_note
 
-        mock_database_handler.get_session.return_value.__enter__.return_value = mock_session
+        mock_database_handler.get_session.return_value.__enter__.return_value = (
+            mock_session
+        )
 
         result, error, status_code = remove_note(ANY)
 
@@ -244,11 +271,15 @@ class TestServices(unittest.TestCase):
 
     @patch("services.services.Note")
     @patch("services.services.db")
-    def test_remove_note_failure_not_found(self, mock_database_handler, mock_note_class):
+    def test_remove_note_failure_not_found(
+        self, mock_database_handler, mock_note_class
+    ):
         """Ttest remove note where note not found"""
         mock_session = MagicMock()
 
-        mock_database_handler.get_session.return_value.__enter__.return_value = mock_session
+        mock_database_handler.get_session.return_value.__enter__.return_value = (
+            mock_session
+        )
 
         mock_session.get.return_value = None
 
@@ -262,13 +293,17 @@ class TestServices(unittest.TestCase):
 
     @patch("services.services.Note")
     @patch("services.services.db")
-    def test_remove_note_failure_database_error(self, mock_database_handler, mock_note_class):
+    def test_remove_note_failure_database_error(
+        self, mock_database_handler, mock_note_class
+    ):
         """Test remove note success"""
         mock_session = MagicMock()
         mock_note = MagicMock()
         mock_session.get.return_value = mock_note
 
-        mock_database_handler.get_session.return_value.__enter__.return_value = mock_session
+        mock_database_handler.get_session.return_value.__enter__.return_value = (
+            mock_session
+        )
 
         mock_session.get.side_effect = DatabaseError(
             "statement", {}, Exception("Error")
@@ -289,7 +324,9 @@ class TestServices(unittest.TestCase):
         """Test modify note category"""
         mock_session = MagicMock()
         mock_note = MagicMock()
-        mock_database_handler.get_session.return_value.__enter__.return_value = mock_session
+        mock_database_handler.get_session.return_value.__enter__.return_value = (
+            mock_session
+        )
 
         mock_scalars = MagicMock()
         mock_scalars.one.return_value = mock_note
@@ -307,7 +344,9 @@ class TestServices(unittest.TestCase):
     def test_modify_note_category_database_error(self, mock_database_handler):
         """Test modify note category failure"""
         mock_session = MagicMock()
-        mock_database_handler.get_session.return_value.__enter__.return_value = mock_session
+        mock_database_handler.get_session.return_value.__enter__.return_value = (
+            mock_session
+        )
 
         mock_session.scalars.side_effect = DatabaseError(
             "statement", {}, Exception("Error")
@@ -325,7 +364,9 @@ class TestServices(unittest.TestCase):
         """Test modify note tag"""
         mock_session = MagicMock()
         mock_note = MagicMock()
-        mock_database_handler.get_session.return_value.__enter__.return_value = mock_session
+        mock_database_handler.get_session.return_value.__enter__.return_value = (
+            mock_session
+        )
 
         mock_scalars = MagicMock()
         mock_scalars.one.return_value = mock_note
@@ -343,7 +384,9 @@ class TestServices(unittest.TestCase):
     def test_modify_note_tags_database_error(self, mock_database_handler):
         """Test modify note tags failure"""
         mock_session = MagicMock()
-        mock_database_handler.get_session.return_value.__enter__.return_value = mock_session
+        mock_database_handler.get_session.return_value.__enter__.return_value = (
+            mock_session
+        )
 
         mock_session.scalars.side_effect = DatabaseError(
             "statement", {}, Exception("Error")
@@ -370,7 +413,9 @@ class TestServices(unittest.TestCase):
 
         mock_query.where.return_value = [mock_category]
 
-        mock_database_handler.get_session.return_value.__enter__.return_value = mock_session
+        mock_database_handler.get_session.return_value.__enter__.return_value = (
+            mock_session
+        )
 
         result, status_code = get_categories(20)
         expected_json = [{"id": 10, "name": "Test Category"}]
@@ -389,7 +434,9 @@ class TestServices(unittest.TestCase):
         mock_category.board_id = 20
         mock_category_class.return_value = mock_category
 
-        mock_database_handler.get_session.return_value.__enter__.return_value = mock_session
+        mock_database_handler.get_session.return_value.__enter__.return_value = (
+            mock_session
+        )
 
         result, error, status_code = add_category(ANY, ANY)
 
@@ -411,7 +458,9 @@ class TestServices(unittest.TestCase):
         mock_category.board_id = 20
         mock_category_class.return_value = mock_category
 
-        mock_database_handler.get_session.return_value.__enter__.return_value = mock_session
+        mock_database_handler.get_session.return_value.__enter__.return_value = (
+            mock_session
+        )
 
         mock_session.commit.side_effect = DatabaseError(
             "statement", {}, Exception("Error")
@@ -435,7 +484,9 @@ class TestServices(unittest.TestCase):
         mock_category = MagicMock()
         mock_session.get.return_value = mock_category
 
-        mock_database_handler.get_session.return_value.__enter__.return_value = mock_session
+        mock_database_handler.get_session.return_value.__enter__.return_value = (
+            mock_session
+        )
         mock_session.query.return_value.filter_by.return_value.first.return_value = None
 
         result, error, status_code = remove_category(ANY)
@@ -450,11 +501,15 @@ class TestServices(unittest.TestCase):
 
     @patch("services.services.Category")
     @patch("services.services.db")
-    def test_remove_category_failure_not_found(self, mock_database_handler, mock_category_class):
+    def test_remove_category_failure_not_found(
+        self, mock_database_handler, mock_category_class
+    ):
         """Ttest remove category where category not found"""
         mock_session = MagicMock()
 
-        mock_database_handler.get_session.return_value.__enter__.return_value = mock_session
+        mock_database_handler.get_session.return_value.__enter__.return_value = (
+            mock_session
+        )
 
         mock_session.get.return_value = None
 
@@ -468,14 +523,20 @@ class TestServices(unittest.TestCase):
 
     @patch("services.services.Category")
     @patch("services.services.db")
-    def test_remove_category_failure_notes_associated(self, mock_database_handler, mock_category_class):
+    def test_remove_category_failure_notes_associated(
+        self, mock_database_handler, mock_category_class
+    ):
         mock_session = MagicMock()
         mock_category = MagicMock()
         mock_note = MagicMock()
 
-        mock_database_handler.get_session.return_value.__enter__.return_value = mock_session
+        mock_database_handler.get_session.return_value.__enter__.return_value = (
+            mock_session
+        )
         mock_session.get.return_value = mock_category
-        mock_session.query.return_value.filter_by.return_value.first.return_value = mock_note
+        mock_session.query.return_value.filter_by.return_value.first.return_value = (
+            mock_note
+        )
 
         result, error, status_code = remove_category(ANY)
 
@@ -490,13 +551,17 @@ class TestServices(unittest.TestCase):
 
     @patch("services.services.Category")
     @patch("services.services.db")
-    def test_remove_category_failure_database_error(self, mock_database_handler, mock_category_class):
+    def test_remove_category_failure_database_error(
+        self, mock_database_handler, mock_category_class
+    ):
         """Test remove note success"""
         mock_session = MagicMock()
         mock_category = MagicMock()
         mock_session.get.return_value = mock_category
 
-        mock_database_handler.get_session.return_value.__enter__.return_value = mock_session
+        mock_database_handler.get_session.return_value.__enter__.return_value = (
+            mock_session
+        )
 
         mock_session.get.side_effect = DatabaseError(
             "statement", {}, Exception("Error")
