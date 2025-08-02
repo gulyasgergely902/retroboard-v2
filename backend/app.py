@@ -6,7 +6,7 @@ from flask import Flask
 from flask_restx import Api
 
 from config import DevelopmentConfig, ProductionConfig
-from routes.board_routes import (
+from routes.api_routes import (
     boards_ns,
     categories_ns,
     notes_ns,
@@ -19,14 +19,24 @@ CONFIG = {
 }
 
 
-def create_app():
+def create_app(testing=False):
     """Create and configure the RetroBoard Flask app."""
 
     # Determine environment and load appropriate configuration
     env = os.environ.get("FLASK_ENV", "production").lower()
     static_folder_path = os.path.join(os.path.dirname(__file__), "static")
     flask_app = Flask(__name__, static_folder=static_folder_path, static_url_path="")
-    flask_app.config.from_object(CONFIG.get(env, ProductionConfig))
+
+    if testing:
+        flask_app.config.update(
+            {
+                "TESTING": True,
+                "SQLALCHEMY_DATABASE_URI": "sqlite:///:memory:",
+                "SQLALCHEMY_TRACK_MODIFICATIONS": False,
+            }
+        )
+    else:
+        flask_app.config.from_object(CONFIG.get(env, ProductionConfig))
 
     # Initialize RESTX API
     api = Api(
