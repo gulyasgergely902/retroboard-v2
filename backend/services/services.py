@@ -34,8 +34,8 @@ def add_board(
             session.add(board)
             session.commit()
             board_id = board.id
-            print(f"boardid: {board_id}")
         except DatabaseError as e:
+            session.rollback()
             return None, {"status": f"DB Error: {e}"}, 500
     return {"status": "Success", "board_id": board_id}, None, 200
 
@@ -47,9 +47,12 @@ def remove_board(
     with db.get_session() as session:
         try:
             board = session.get(Board, board_id)
+            if board is None:
+                return None, {"status": "Board not found"}, 404
             session.delete(board)
             session.commit()
         except DatabaseError as e:
+            session.rollback()
             return None, {"status": f"DB Error: {e}"}, 500
     return {"status": "Success"}, None, 200
 
@@ -57,10 +60,7 @@ def remove_board(
 def get_notes(board_id: int) -> tuple[list[dict[str, str]], int]:
     """Return all notes for a board or all"""
     with db.get_session() as session:
-        if board_id is None:
-            notes = session.query(Note).all()
-        else:
-            notes = session.query(Note).where(Note.board_id.is_(board_id))
+        notes = session.query(Note).where(Note.board_id.is_(board_id))
 
     notes_json = [
         {
@@ -91,6 +91,7 @@ def add_note(
             )
             session.commit()
         except DatabaseError as e:
+            session.rollback()
             return None, {"status": f"DB Error: {e}"}, 500
     return {"status": "Success"}, None, 200
 
@@ -102,9 +103,12 @@ def remove_note(
     with db.get_session() as session:
         try:
             note = session.get(Note, note_id)
+            if note is None:
+                return None, {"status": "Note not found"}, 404
             session.delete(note)
             session.commit()
         except DatabaseError as e:
+            session.rollback()
             return None, {"status": f"DB Error: {e}"}, 500
     return {"status": "Success"}, None, 200
 
@@ -120,6 +124,7 @@ def modify_note_category(
             note.category = new_category
             session.commit()
         except DatabaseError as e:
+            session.rollback()
             return None, {"status": f"DB Error: {e}"}, 500
     return {"status": "Success"}, None, 200
 
@@ -135,6 +140,7 @@ def modify_note_tags(
             note.tags = new_tags
             session.commit()
         except DatabaseError as e:
+            session.rollback()
             return None, {"status": f"DB Error: {e}"}, 500
     return {"status": "Success"}, None, 200
 
@@ -142,10 +148,7 @@ def modify_note_tags(
 def get_categories(board_id: int) -> tuple[list[dict[str, str]], int]:
     """Return all categories for a board or all"""
     with db.get_session() as session:
-        if board_id is None:
-            categories = session.query(Category).all()
-        else:
-            categories = session.query(Category).where(Category.board_id.is_(board_id))
+        categories = session.query(Category).where(Category.board_id.is_(board_id))
 
     categories_json = [
         {"id": category.id, "name": category.name} for category in categories
@@ -163,6 +166,7 @@ def add_category(
             session.add(Category(name=category_name, board_id=category_board_id))
             session.commit()
         except DatabaseError as e:
+            session.rollback()
             return None, {"status": f"DB Error: {e}"}, 500
     return {"status": "Success"}, None, 200
 
@@ -179,14 +183,14 @@ def remove_category(
         try:
             category = session.get(Category, category_id)
             if category is None:
-                return None, {"message": "Category not found."}, 404
+                return None, {"status": "Category not found"}, 404
 
             if session.query(Note).filter_by(category=category_id).first():
                 return (
                     None,
                     {
-                        "message": (
-                            "Cannot delete: notes still associated with this category."
+                        "status": (
+                            "Cannot delete: notes still associated with this category"
                         )
                     },
                     400,
@@ -197,4 +201,4 @@ def remove_category(
             return {"status": "Success"}, None, 200
         except DatabaseError as e:
             session.rollback()
-            return None, {"message": f"DB error: {e}"}, 500
+            return None, {"status": f"DB Error: {e}"}, 500
