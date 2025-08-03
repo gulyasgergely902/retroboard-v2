@@ -16,14 +16,15 @@ on:
     paths: [ 'backend/**' ]
 
 jobs:
-  tests:
+  unit-tests:
+    name: "Unit tests & Coverage"
     runs-on: ubuntu-latest
     
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Python
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
@@ -35,6 +36,6 @@ jobs:
           pip install .[dev]
         working-directory: backend
 
-      - name: Run tests
+      - name: Run unit tests & coverage
         run: |
           ./scripts/test_backend.sh

@@ -17,6 +17,7 @@ on:
 
 jobs:
   style-check:
+    name: "Lint backend"
     runs-on: ubuntu-latest
     
     steps:
