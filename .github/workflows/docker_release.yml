@@ -11,6 +11,7 @@ permissions:
 
 jobs:
   build-and-push:
+    name: Build & Push docker image
     runs-on: ubuntu-latest
     if: ${{ github.actor == 'gulyasgergely902' }}
     steps:
