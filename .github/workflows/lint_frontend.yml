@@ -5,7 +5,6 @@ on:
   push:
     branches:
       - master
-    paths: [ 'frontend/**' ]
   pull_request:
     types: 
       - opened
@@ -13,7 +12,6 @@ on:
       - synchronize
     branches:
       - master
-    paths: [ 'frontend/**' ]
 
 permissions:
   contents: read

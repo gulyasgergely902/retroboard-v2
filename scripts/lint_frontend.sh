@@ -1,5 +1,12 @@
 #!/bin/sh
 
 cd frontend || exit 1
+
 pnpm install --force
-pnpm format:check
+
+if [ "$1" = "--fix" ]; then
+    echo "Running linter with --fix!"
+    pnpm format
+else
+    pnpm format:check
+fi
