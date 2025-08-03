@@ -167,6 +167,9 @@
       newBoardNameError.value = 'This field cannot be empty!'
       return false
     }
+    if (typeof newBoardName.value !== 'string') {
+      return false
+    }
     newBoardNameError.value = ''
     return true
   }

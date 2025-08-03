@@ -244,6 +244,9 @@
       newCategoryNameError.value = 'This field cannot be empty!'
       return false
     }
+    if (typeof newCategoryName.value !== 'string') {
+      return false
+    }
     newCategoryNameError.value = ''
     return true
   }

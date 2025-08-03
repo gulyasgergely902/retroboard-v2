@@ -170,6 +170,9 @@
       newNoteContentError.value = 'This field cannot be empty!'
       return false
     }
+    if (typeof newNoteContent.value !== 'string') {
+      return false
+    }
     newNoteContentError.value = ''
     return true
   }
@@ -178,19 +181,16 @@
     if (newNoteCategory.value === 0) {
       newNoteCategoryError.value = 'You must select a category!'
       return false
-    } else {
-      newNoteCategoryError.value = ''
-      return true
     }
+    if (typeof newNoteContent.value !== 'number') {
+      return false
+    }
+    newNoteCategoryError.value = ''
+    return true
   }
 
   function createNote() {
-    if (
-      validateNewNoteContent() &&
-      typeof newNoteContent.value === 'string' &&
-      validateNewNoteCategory() &&
-      typeof newNoteCategory.value === 'number'
-    ) {
+    if (validateNewNoteContent() && validateNewNoteCategory()) {
       boardService.createNewNote(props.currentBoardId, newNoteContent.value, newNoteCategory.value)
       newNoteContent.value = ''
       newNoteCategory.value = 0
