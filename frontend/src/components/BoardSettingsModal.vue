@@ -173,14 +173,14 @@
               <div class="background-color px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                 <button
                   type="button"
-                  class="background-color-primary text-color-over-primary transition-colors inline-flex w-full justify-center rounded-sm px-3 py-2 text-sm font-semibold sm:ml-3 sm:w-auto cursor-pointer"
+                  class="background-color-primary text-color-over-primary transition-colors inline-flex w-full justify-center rounded-sm px-3 py-2 text-sm font-semibold mt-2 sm:mt-0 sm:ml-3 sm:w-auto cursor-pointer"
                   @click="closeModal()"
                 >
                   Save
                 </button>
                 <button
                   type="button"
-                  class="background-color text-color transition-colors mt-3 inline-flex w-full justify-center rounded-sm px-3 py-2 text-sm font-semibold shadow-xs sm:mt-0 sm:ml-3 sm:w-auto cursor-pointer"
+                  class="background-color text-color transition-colors border border-color inline-flex w-full justify-center rounded-sm px-3 py-2 text-sm font-semibold mt-2 sm:mt-0 sm:ml-3 sm:w-auto mb-4 sm:mb-0 cursor-pointer"
                   @click="closeModal()"
                   ref="cancelButtonRef"
                 >
@@ -188,7 +188,13 @@
                 </button>
                 <button
                   type="button"
-                  class="background-color-danger text-color-over-primary transition-colors mt-3 inline-flex w-full justify-center rounded-sm px-3 py-2 text-sm font-semibold shadow-xs sm:mt-0 sm:w-auto cursor-pointer"
+                  class="background-color text-color transition-colors border border-color inline-flex w-full justify-center rounded-sm px-3 py-2 text-sm font-semibold mt-2 sm:mt-0 sm:ml-3 sm:w-auto cursor-pointer"
+                >
+                  Export
+                </button>
+                <button
+                  type="button"
+                  class="background-color-danger text-color-over-primary transition-colors inline-flex w-full justify-center rounded-sm px-3 py-2 text-sm font-semibold mt-2 sm:mt-0 sm:ml-3 sm:w-auto cursor-pointer"
                   @click="isYesNoModalOpen = true"
                 >
                   Delete
