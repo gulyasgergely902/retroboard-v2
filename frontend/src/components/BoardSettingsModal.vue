@@ -38,7 +38,7 @@
               <div class="background-color px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 <div class="sm:flex sm:items-start">
                   <div
-                    class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full background-color-primary-soft sm:mx-0 sm:size-10"
+                    class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full icon-background sm:mx-0 sm:size-10"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -139,7 +139,7 @@
                       </label>
                       <div
                         id="new_category_input"
-                        class="mt-2 flex"
+                        class="mt-2 sm:flex sm:flex-row"
                       >
                         <input
                           type="text"
@@ -152,7 +152,7 @@
                           required
                         />
                         <button
-                          class="background-color-primary text-color-over-primary transition-colors inline-flex w-full items-center rounded-sm px-3 py-2 text-sm font-semibold sm:ml-3 sm:w-auto cursor-pointer"
+                          class="background-color-primary text-color-over-primary transition-colors inline-flex w-full justify-center items-center rounded-sm px-3 py-2 text-sm font-semibold mt-2 sm:mt-0 sm:ml-3 sm:w-auto cursor-pointer"
                           type="button"
                           @click="addCategory()"
                         >
@@ -173,14 +173,14 @@
               <div class="background-color px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                 <button
                   type="button"
-                  class="background-color-primary text-color-over-primary transition-colors inline-flex w-full justify-center rounded-sm px-3 py-2 text-sm font-semibold mt-2 sm:mt-0 sm:ml-3 sm:w-auto cursor-pointer"
+                  class="background-color-primary text-color-over-primary transition-colors inline-flex w-full justify-center items-center rounded-sm px-3 py-2 text-sm font-semibold mt-2 sm:mt-0 sm:ml-3 sm:w-auto cursor-pointer"
                   @click="closeModal()"
                 >
                   Save
                 </button>
                 <button
                   type="button"
-                  class="background-color text-color transition-colors border border-color inline-flex w-full justify-center rounded-sm px-3 py-2 text-sm font-semibold mt-2 sm:mt-0 sm:ml-3 sm:w-auto mb-4 sm:mb-0 cursor-pointer"
+                  class="background-color text-color transition-colors border border-color inline-flex w-full justify-center items-center rounded-sm px-3 py-2 text-sm font-semibold mt-2 sm:mt-0 sm:ml-6 sm:w-auto mb-4 sm:mb-0 cursor-pointer"
                   @click="closeModal()"
                   ref="cancelButtonRef"
                 >
@@ -188,13 +188,13 @@
                 </button>
                 <button
                   type="button"
-                  class="background-color text-color transition-colors border border-color inline-flex w-full justify-center rounded-sm px-3 py-2 text-sm font-semibold mt-2 sm:mt-0 sm:ml-3 sm:w-auto cursor-pointer"
+                  class="background-color text-color transition-colors border border-color inline-flex w-full justify-center items-center rounded-sm px-3 py-2 text-sm font-semibold mt-2 sm:mt-0 sm:ml-3 sm:w-auto cursor-pointer"
                 >
                   Export
                 </button>
                 <button
                   type="button"
-                  class="background-color-danger text-color-over-primary transition-colors inline-flex w-full justify-center rounded-sm px-3 py-2 text-sm font-semibold mt-2 sm:mt-0 sm:ml-3 sm:w-auto cursor-pointer"
+                  class="background-color-danger text-color-over-primary transition-colors inline-flex w-full justify-center items-center rounded-sm px-3 py-2 text-sm font-semibold mt-2 sm:mt-0 sm:ml-3 sm:w-auto cursor-pointer"
                   @click="isYesNoModalOpen = true"
                 >
                   Delete

@@ -48,6 +48,10 @@ body {
   background-color: #85b8ff;
 }
 
+.icon-background {
+  background-color: #cce0ff;
+}
+
 .text-color {
   color: #22272b;
 }
@@ -60,16 +64,8 @@ body {
   color: #f1f2f4;
 }
 
-.toggle-color {
-  background-color: #cce0ff;
-}
-
-.toggle-color:after {
-  background-color: #ffffff;
-}
-
 .border-color {
-  border-color: #edeef1;
+  border-color: #dcdfe4;
 }
 
 .border-color:hover {
@@ -131,6 +127,14 @@ body {
     background-color: #1c2b41;
   }
 
+  .background-color-primary-soft:hover {
+    background-color: #09326c;
+  }
+
+  .icon-background {
+    background-color: #1c2b41;
+  }
+
   .text-color {
     color: #f1f2f4;
   }
@@ -143,16 +147,8 @@ body {
     color: #22272b;
   }
 
-  .toggle-color {
-    background-color: #1c2b41;
-  }
-
-  .toggle-color:after {
-    background-color: #161a1d;
-  }
-
   .border-color {
-    border-color: #1d2125;
+    border-color: #22272b;
   }
 
   .border-color:hover {
