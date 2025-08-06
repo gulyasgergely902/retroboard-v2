@@ -1,6 +1,9 @@
 """Routes for RetroBoard Server"""
 
-from flask import request, send_from_directory
+import json
+from datetime import datetime
+
+from flask import request, send_from_directory, Response
 from flask_restx import Namespace, Resource, fields, reqparse
 
 from services.services import (
@@ -8,8 +11,10 @@ from services.services import (
     add_category,
     add_note,
     get_boards,
+    get_board_name_from_id,
     get_categories,
     get_notes,
+    get_notes_for_export,
     modify_note_category,
     modify_note_tags,
     remove_board,
@@ -46,6 +51,28 @@ class Boards(Resource):
         return result or error, status
 
 
+@boards_ns.route("/export")
+class BoardsExport(Resource):
+    """Export a board"""
+
+    def get(self):
+        """Get and serve for export all notes from a board"""
+        parser = reqparse.RequestParser()
+        parser.add_argument("board_id", type=int)
+        args = parser.parse_args()
+        result = get_notes_for_export(args["board_id"])
+        export_data = json.dumps(result, indent=2)
+        response = Response(export_data.encode("utf-8"),
+                            mimetype='application/json',
+                            status=200)
+        timestamp = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
+        board_name = get_board_name_from_id(args["board_id"])
+        filename = f"export_{timestamp}_{board_name}.json"
+
+        response.headers["Content-Disposition"] = f"attachment; filename={filename}"
+        return response
+
+
 notes_ns = Namespace("notes", description="Note related operations")
 
 note_model = notes_ns.model(
@@ -65,7 +92,8 @@ category_model = notes_ns.model(
 
 tags_model = notes_ns.model(
     "TagsUpdate",
-    {"tags": fields.List(fields.String, required=True, description="New tags")},
+    {"tags": fields.List(fields.String, required=True,
+                         description="New tags")},
 )
 
 
@@ -74,7 +102,7 @@ class Notes(Resource):
     """All notes related endpoints"""
 
     def get(self):
-        """Get all notes or for a given board"""
+        """Get notes for a given board"""
         parser = reqparse.RequestParser()
         parser.add_argument("board_id", type=int)
         args = parser.parse_args()
@@ -130,7 +158,8 @@ class NoteTagsResource(Resource):
         return result or error, status
 
 
-categories_ns = Namespace("categories", description="Category related operation")
+categories_ns = Namespace(
+    "categories", description="Category related operation")
 
 category_model = categories_ns.model(
     "Category",
