@@ -111,7 +111,7 @@
                         for="note_category"
                         class="block mt-2 text-sm font-medium text-color-danger"
                       >
-                        {{ newNoteContentError }}
+                        {{ newNoteCategoryError }}
                       </label>
                       <p class="text-sm text-gray-900 dark:text-white">
                         Notes cannot be modified after creation!
@@ -171,6 +171,7 @@
       return false
     }
     if (typeof newNoteContent.value !== 'string') {
+      newNoteContentError.value = 'Note can only contain text!'
       return false
     }
     newNoteContentError.value = ''
@@ -182,15 +183,20 @@
       newNoteCategoryError.value = 'You must select a category!'
       return false
     }
-    if (typeof newNoteContent.value !== 'number') {
-      return false
-    }
     newNoteCategoryError.value = ''
     return true
   }
 
+  function validateInput() {
+    let inputValid = true
+    inputValid = validateNewNoteContent()
+    inputValid = validateNewNoteCategory()
+
+    return inputValid
+  }
+
   function createNote() {
-    if (validateNewNoteContent() && validateNewNoteCategory()) {
+    if (validateInput()) {
       boardService.createNewNote(props.currentBoardId, newNoteContent.value, newNoteCategory.value)
       newNoteContent.value = ''
       newNoteCategory.value = 0
