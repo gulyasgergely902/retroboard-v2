@@ -70,7 +70,7 @@ def remove_board(
 def get_notes(board_id: int) -> tuple[list[dict[str, str]], int]:
     """Return all notes for a board"""
     with db.get_session() as session:
-        notes = session.query(Note).where(Note.board_id.is_(board_id)).all()
+        notes = session.query(Note).where(Note.board_id.is_(board_id))
 
     notes_json = [
         {
@@ -88,8 +88,11 @@ def get_notes(board_id: int) -> tuple[list[dict[str, str]], int]:
 def get_notes_for_export(board_id: int) -> dict[str, str | list[dict[str, str]]]:
     """Return all notes for export from a board"""
     board_name = get_board_name_from_id(board_id)
+    if board_name == "":
+        return {}
+
     with db.get_session() as session:
-        notes = session.query(Note).where(Note.board_id.is_(board_id)).all()
+        notes = session.query(Note).where(Note.board_id.is_(board_id))
 
     notes_json = {
         "board_name": board_name,
