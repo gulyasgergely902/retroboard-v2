@@ -102,7 +102,7 @@ def get_notes_for_export(board_id: int) -> dict[str, str | list[dict[str, str]]]
                 "category": note.category,
             }
             for note in notes
-        ]
+        ],
     }
 
     return notes_json
@@ -181,8 +181,7 @@ def modify_note_tags(
 def get_categories(board_id: int) -> tuple[list[dict[str, str]], int]:
     """Return all categories for a board or all"""
     with db.get_session() as session:
-        categories = session.query(Category).where(
-            Category.board_id.is_(board_id))
+        categories = session.query(Category).where(Category.board_id.is_(board_id))
 
     categories_json = [
         {"id": category.id, "name": category.name} for category in categories
@@ -197,8 +196,7 @@ def add_category(
     """Add a new category"""
     with db.get_session() as session:
         try:
-            session.add(Category(name=category_name,
-                        board_id=category_board_id))
+            session.add(Category(name=category_name, board_id=category_board_id))
             session.commit()
         except DatabaseError as e:
             session.rollback()

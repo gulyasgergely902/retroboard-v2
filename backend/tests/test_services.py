@@ -9,8 +9,8 @@ from services.services import (
     add_board,
     add_category,
     add_note,
-    get_boards,
     get_board_name_from_id,
+    get_boards,
     get_categories,
     get_notes,
     get_notes_for_export,
@@ -71,7 +71,9 @@ class TestServices(unittest.TestCase):
         self.assertEqual(result, mock_board.name)
 
     @patch("services.services.db")
-    def test_get_board_name_from_id_failure_board_not_found(self, mock_database_handler):
+    def test_get_board_name_from_id_failure_board_not_found(
+        self, mock_database_handler
+    ):
         """Test get board name from id where board not found"""
         mock_session = MagicMock()
 
@@ -236,9 +238,11 @@ class TestServices(unittest.TestCase):
         self.assertEqual(result, expected_json)
         self.assertEqual(status_code, 200)
 
-    @patch('services.services.get_board_name_from_id')
+    @patch("services.services.get_board_name_from_id")
     @patch("services.services.db")
-    def test_get_notes_for_export(self, mock_database_handler, mock_get_board_name_from_id):
+    def test_get_notes_for_export(
+        self, mock_database_handler, mock_get_board_name_from_id
+    ):
         """Test get notes for export"""
         mock_session = MagicMock()
 
@@ -250,22 +254,19 @@ class TestServices(unittest.TestCase):
         mock_query = mock_session.query.return_value
         mock_query.where.return_value = [mock_note]
 
-        mock_database_handler.get_session.return_value.__enter__.return_value = mock_session
+        mock_database_handler.get_session.return_value.__enter__.return_value = (
+            mock_session
+        )
 
         result = get_notes_for_export(ANY)
         expected_json = {
             "board_name": "Sample Board",
-            "notes": [
-                {
-                    "description": "Test Note",
-                    "category": 10
-                }
-            ]
+            "notes": [{"description": "Test Note", "category": 10}],
         }
 
         self.assertEqual(result, expected_json)
 
-    @patch('services.services.get_board_name_from_id')
+    @patch("services.services.get_board_name_from_id")
     def test_get_notes_for_export_empty_board_name(self, mock_get_board_name_from_id):
         """Test get notes for export where board cannot be found"""
         mock_get_board_name_from_id.return_value = ""

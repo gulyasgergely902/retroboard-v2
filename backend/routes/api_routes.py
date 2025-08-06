@@ -3,15 +3,15 @@
 import json
 from datetime import datetime
 
-from flask import request, send_from_directory, Response
+from flask import Response, request, send_from_directory
 from flask_restx import Namespace, Resource, fields, reqparse
 
 from services.services import (
     add_board,
     add_category,
     add_note,
-    get_boards,
     get_board_name_from_id,
+    get_boards,
     get_categories,
     get_notes,
     get_notes_for_export,
@@ -62,9 +62,9 @@ class BoardsExport(Resource):
         args = parser.parse_args()
         result = get_notes_for_export(args["board_id"])
         export_data = json.dumps(result, indent=2)
-        response = Response(export_data.encode("utf-8"),
-                            mimetype='application/json',
-                            status=200)
+        response = Response(
+            export_data.encode("utf-8"), mimetype="application/json", status=200
+        )
         timestamp = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
         board_name = get_board_name_from_id(args["board_id"])
         filename = f"export_{timestamp}_{board_name}.json"
@@ -92,8 +92,7 @@ category_model = notes_ns.model(
 
 tags_model = notes_ns.model(
     "TagsUpdate",
-    {"tags": fields.List(fields.String, required=True,
-                         description="New tags")},
+    {"tags": fields.List(fields.String, required=True, description="New tags")},
 )
 
 
@@ -158,8 +157,7 @@ class NoteTagsResource(Resource):
         return result or error, status
 
 
-categories_ns = Namespace(
-    "categories", description="Category related operation")
+categories_ns = Namespace("categories", description="Category related operation")
 
 category_model = categories_ns.model(
     "Category",
