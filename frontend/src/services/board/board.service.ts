@@ -118,5 +118,32 @@ export const useBoardService = defineStore('board', {
         this.selectedCategory = null
       }
     },
+
+    async exportData(boardId: string) {
+      try {
+        const response = await fetch(`/api/boards/export?board_id=${boardId}`)
+
+        const disposition = response.headers.get('Content-Disposition')
+        let filename = 'export.json'
+
+        if (disposition) {
+          const match = disposition.match(/filename="?([^"]+)"?/)
+          if (match && match[1]) {
+            filename = match[1]
+          }
+        }
+
+        const blob = await response.blob()
+        const url = window.URL.createObjectURL(blob)
+        const link = document.createElement('a')
+        link.href = url
+        link.setAttribute('download', filename)
+        document.body.appendChild(link)
+        link.click()
+        link.remove()
+      } catch (err) {
+        console.error('Error exporting board:', err)
+      }
+    },
   },
 })

@@ -38,7 +38,7 @@
               <div class="background-color px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 <div class="sm:flex sm:items-start">
                   <div
-                    class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full background-color-primary-soft sm:mx-0 sm:size-10"
+                    class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full icon-background sm:mx-0 sm:size-10"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -111,7 +111,7 @@
                         for="note_category"
                         class="block mt-2 text-sm font-medium text-color-danger"
                       >
-                        {{ newNoteContentError }}
+                        {{ newNoteCategoryError }}
                       </label>
                       <p class="text-sm text-gray-900 dark:text-white">
                         Notes cannot be modified after creation!
@@ -171,6 +171,7 @@
       return false
     }
     if (typeof newNoteContent.value !== 'string') {
+      newNoteContentError.value = 'Note can only contain text!'
       return false
     }
     newNoteContentError.value = ''
@@ -182,15 +183,20 @@
       newNoteCategoryError.value = 'You must select a category!'
       return false
     }
-    if (typeof newNoteContent.value !== 'number') {
-      return false
-    }
     newNoteCategoryError.value = ''
     return true
   }
 
+  function validateInput() {
+    let inputValid = true
+    inputValid = validateNewNoteContent()
+    inputValid = validateNewNoteCategory()
+
+    return inputValid
+  }
+
   function createNote() {
-    if (validateNewNoteContent() && validateNewNoteCategory()) {
+    if (validateInput()) {
       boardService.createNewNote(props.currentBoardId, newNoteContent.value, newNoteCategory.value)
       newNoteContent.value = ''
       newNoteCategory.value = 0

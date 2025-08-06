@@ -64,6 +64,18 @@ class TestRoutes(unittest.TestCase):
         self.assertEqual(response.get_json(), mock_json)
         self.assertEqual(response.status_code, 500)
 
+    @patch("routes.api_routes.get_notes_for_export")
+    def test_get_boardsexport(self, mock_get_notes_for_export):
+        """Test GET request to boards/export endpoint"""
+        mock_json = {
+            "board_name": "Test Board",
+            "notes": [{"description": "Test note", "category": 11}],
+        }
+        mock_get_notes_for_export.return_value = mock_json
+
+        response = self.client.get("/api/boards/export")
+        self.assertEqual(response.get_json(), mock_json)
+
     @patch("routes.api_routes.get_notes")
     def test_get_notes_success(self, mock_get_notes):
         """Test GET request to notes endpoint"""

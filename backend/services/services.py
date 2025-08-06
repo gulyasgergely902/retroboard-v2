@@ -22,6 +22,17 @@ def get_boards() -> tuple[list[dict[str, str]], int]:
     return boards_json, 200
 
 
+def get_board_name_from_id(board_id) -> str:
+    """Return the name of the board from its id"""
+    with db.get_session() as session:
+        board = session.query(Board).filter(Board.id == board_id).first()
+
+    if board is None:
+        return ""
+
+    return board.name
+
+
 def add_board(
     board_name: str,
 ) -> tuple[Optional[dict[str, Union[str, int]]], Optional[dict[str, str]], int]:
@@ -57,7 +68,7 @@ def remove_board(
 
 
 def get_notes(board_id: int) -> tuple[list[dict[str, str]], int]:
-    """Return all notes for a board or all"""
+    """Return all notes for a board"""
     with db.get_session() as session:
         notes = session.query(Note).where(Note.board_id.is_(board_id))
 
@@ -72,6 +83,29 @@ def get_notes(board_id: int) -> tuple[list[dict[str, str]], int]:
     ]
 
     return notes_json, 200
+
+
+def get_notes_for_export(board_id: int) -> dict[str, str | list[dict[str, str]]]:
+    """Return all notes for export from a board"""
+    board_name = get_board_name_from_id(board_id)
+    if board_name == "":
+        return {}
+
+    with db.get_session() as session:
+        notes = session.query(Note).where(Note.board_id.is_(board_id))
+
+    notes_json = {
+        "board_name": board_name,
+        "notes": [
+            {
+                "description": note.description,
+                "category": note.category,
+            }
+            for note in notes
+        ],
+    }
+
+    return notes_json
 
 
 def add_note(
