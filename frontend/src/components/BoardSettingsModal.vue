@@ -190,7 +190,7 @@
                   type="button"
                   class="background-color text-color transition-colors border border-color inline-flex w-full justify-center items-center rounded-sm px-3 py-2 text-sm font-semibold mt-2 sm:mt-0 sm:ml-3 sm:w-auto cursor-pointer"
                   @click="boardService.exportData(props.currentBoardId)"
-                  >
+                >
                   Export
                 </button>
                 <button
