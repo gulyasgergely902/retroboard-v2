@@ -19,6 +19,7 @@
         :key="n"
         class="blur-sm grayscale brightness-150"
         title="Boards are loading..."
+        :note-count="n"
       />
       <RouterLink
         v-else
@@ -27,13 +28,8 @@
         :to="{ name: 'board', params: { id: String(board.id) } }"
       >
         <BoardCard
-          v-if="board.id"
           :title="board.name"
-        />
-        <BoardCard
-          v-else
-          class="grayscale"
-          title="Board data is missing"
+          :note-count="board.note_count"
         />
       </RouterLink>
     </div>
