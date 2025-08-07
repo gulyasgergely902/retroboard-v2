@@ -15,7 +15,7 @@ A lightweight, full-stack application for running productive sprint retrospectiv
 Built with collaborative teams in mind for an efficient retrospective ceremony:
 
 * 🧠 **Write your thoughts in private**: Everyone can write down their feedback about the last sprint — but you won’t see what others wrote until everyone is ready to discuss. This keeps the input unbiased and personal.
-* 👀 **Reveal mode when it's time to discuss**: Once everyone’s done writing, we switch to a reveal page that shows all the ideas for group discussion.
+* 👀 **Reveal mode when it's time to discuss**: Once everyone’s done writing, switch to a reveal page to show all the ideas for group discussion.
 * 🚀 **Fast, clean, no clutter**: Just the essentials — no logins, no bloat, no distractions. Open the link, write your thoughts, done.
 * 🔐 **Fully self-hosted**: You can run it on your own servers or environment, so you stay in control of your data — perfect if your company has privacy or security policies.
 
@@ -38,7 +38,9 @@ This is cool, but how should I use it? Here is a simple breakdown:
 The tool lives in a docker container to simple things even futher. It needs to be hosted on your server and expose it to the network, the application will take care of the rest. Make sure you either expose port `8000` or re-route it as you like. Ensure that you assign a persistent directory for storing the database so that its data remains intact across updates.
 
 Here is an example:
-```docker run --rm -ti -v path/to/database:/app/src/database/ -p 8000:8000 ghcr.io/gulyasgergely902/retroboard:[tag]```
+```docker run --rm -ti -v path/to/database:/app/src/database/ -p 8000:8000 ghcr.io/gulyasgergely902/retroboard```
+
+You can also specify a version using tags e.g.: `retroboard:1.1.0`. The complete list of docker versions can be seen under packages.
 
 ## Build from source
 
