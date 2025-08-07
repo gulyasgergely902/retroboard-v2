@@ -2,7 +2,7 @@
 
 from typing import Optional, Union
 
-from sqlalchemy import select, func
+from sqlalchemy import func, select
 from sqlalchemy.exc import DatabaseError
 
 from database.database_handler import DatabaseHandler
@@ -24,18 +24,17 @@ def get_boards() -> tuple[list[dict[str, str]], int]:
         )
 
     boards_json = [{"id": board.id, "name": board.name} for board in boards]
-    note_count_json = [{"board_id": item[0], "note_count": item[1]}
-                       for item in counts]
+    note_count_json = [{"board_id": item[0], "note_count": item[1]} for item in counts]
 
-    note_count_lookup = {item['board_id']: item['note_count']
-                         for item in note_count_json}
+    note_count_lookup = {
+        item["board_id"]: item["note_count"] for item in note_count_json
+    }
 
     merged_boards_json = []
     for board in boards_json:
-        merged_boards_json.append({
-            **board,
-            "note_count": note_count_lookup.get(board["id"], 0)
-        })
+        merged_boards_json.append(
+            {**board, "note_count": note_count_lookup.get(board["id"], 0)}
+        )
 
     return merged_boards_json, 200
 
