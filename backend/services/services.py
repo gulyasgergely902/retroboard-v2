@@ -2,7 +2,7 @@
 
 from typing import Optional, Union
 
-from sqlalchemy import select
+from sqlalchemy import select, func
 from sqlalchemy.exc import DatabaseError
 
 from database.database_handler import DatabaseHandler
@@ -16,10 +16,28 @@ def get_boards() -> tuple[list[dict[str, str]], int]:
     """Return all boards"""
     with db.get_session() as session:
         boards = session.query(Board).all()
+        counts = (
+            session.query(Note.board_id, func.count().label("board_id_count"))
+            .group_by(Note.board_id)
+            .order_by(Note.board_id)
+            .all()
+        )
 
     boards_json = [{"id": board.id, "name": board.name} for board in boards]
+    note_count_json = [{"board_id": item[0], "note_count": item[1]}
+                       for item in counts]
 
-    return boards_json, 200
+    note_count_lookup = {item['board_id']: item['note_count']
+                         for item in note_count_json}
+
+    merged_boards_json = []
+    for board in boards_json:
+        merged_boards_json.append({
+            **board,
+            "note_count": note_count_lookup.get(board["id"], 0)
+        })
+
+    return merged_boards_json, 200
 
 
 def get_board_name_from_id(board_id) -> str:
