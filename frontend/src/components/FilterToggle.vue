@@ -5,14 +5,27 @@
       class="overflow-x-auto overflow-y-hidden whitespace-nowrap fade-right no-scrollbar flex items-center mx-auto px-4"
     >
       <button
+        type="button"
+        @click="selectOption(-1)"
+        :class="[
+          categoryToHighlight === -1
+            ? 'button-color-primary text-color-over-primary'
+            : 'button-color-primary-soft text-color',
+        ]"
+        class="px-4 py-2 text-sm font-medium rounded-sm focus:z-10 mx-1 transition-colors cursor-pointer"
+      >
+        All
+      </button>
+      <div class="inline-block mx-2 self-stretch vertical-separator separator-width"></div>
+      <button
         v-for="category in categories"
         :key="category.id"
         type="button"
         @click="selectOption(category.id)"
         :class="[
           categoryToHighlight === category.id
-            ? 'background-color-primary text-color-over-primary'
-            : 'background-color-primary-soft text-color',
+            ? 'button-color-primary text-color-over-primary'
+            : 'button-color-primary-soft text-color',
         ]"
         class="px-4 py-2 text-sm font-medium rounded-sm focus:z-10 mx-1 transition-colors cursor-pointer"
       >

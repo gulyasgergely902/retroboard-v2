@@ -37,7 +37,7 @@
       </button>
       <button
         type="button"
-        class="background-color-primary text-color-over-primary transition-colors ml-auto inline-flex items-center gap-x-2 rounded-sm px-3 py-2 text-sm font-semibold cursor-pointer"
+        class="button-color-primary text-color-over-primary transition-colors ml-auto inline-flex items-center gap-x-2 rounded-sm px-3 py-2 text-sm font-semibold cursor-pointer"
         @click="isNewNoteModalOpen = true"
       >
         New Note
@@ -86,7 +86,13 @@
             </button>
           </div>
           <div class="flex flex-col pb-7 ps-2">
-            <span>{{ item.description }}</span>
+            <p class="text-color text-lg">{{ item.description }}</p>
+            <p
+              v-if="boardService.selectedCategory === -1"
+              class="background-color-primary text-color-over-primary text-xs inline-block max-w-max rounded-full py-1 px-2 mt-2"
+            >
+              {{ boardService.getCategoryNameById(item.category) }}
+            </p>
           </div>
         </div>
       </template>
