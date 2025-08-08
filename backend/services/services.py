@@ -12,16 +12,25 @@ db = DatabaseHandler()
 db.create_tables()
 
 
-def get_boards() -> tuple[list[dict[str, str]], int]:
-    """Return all boards"""
+def get_note_count_on_board():
+    """Return the note count from each board"""
     with db.get_session() as session:
-        boards = session.query(Board).all()
         counts = (
             session.query(Note.board_id, func.count().label("board_id_count"))
             .group_by(Note.board_id)
             .order_by(Note.board_id)
             .all()
         )
+
+    return counts
+
+
+def get_boards() -> tuple[list[dict[str, str]], int]:
+    """Return all boards"""
+    with db.get_session() as session:
+        boards = session.query(Board).all()
+
+    counts = get_note_count_on_board()
 
     boards_json = [{"id": board.id, "name": board.name} for board in boards]
     note_count_json = [{"board_id": item[0], "note_count": item[1]} for item in counts]
