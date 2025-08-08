@@ -148,5 +148,9 @@ export const useBoardService = defineStore('board', {
         console.error('Error exporting board:', err)
       }
     },
+
+    getCategoryNameById(categoryId: number) {
+      return this.categories.find((n) => n.id === categoryId)?.name
+    }
   },
 })
