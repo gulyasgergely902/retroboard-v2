@@ -37,7 +37,7 @@
       </button>
       <button
         type="button"
-        class="background-color-primary text-color-over-primary transition-colors ml-auto inline-flex items-center gap-x-2 rounded-sm px-3 py-2 text-sm font-semibold cursor-pointer"
+        class="button-color-primary text-color-over-primary transition-colors ml-auto inline-flex items-center gap-x-2 rounded-sm px-3 py-2 text-sm font-semibold cursor-pointer"
         @click="isNewNoteModalOpen = true"
       >
         New Note

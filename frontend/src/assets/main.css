@@ -24,8 +24,24 @@ body {
   background-color: #0c66e4;
 }
 
-.background-color-primary:hover {
+.background-color-dummy {
+  background-color: #dcdfe4;
+}
+
+.button-color-primary {
+  background-color: #0c66e4;
+}
+
+.button-color-primary:hover {
   background-color: #0055cc;
+}
+
+.button-color-primary-soft {
+  background-color: #cce0ff;
+}
+
+.button-color-primary-soft:hover {
+  background-color: #85b8ff;
 }
 
 .text-hover-color-primary:hover {
@@ -38,14 +54,6 @@ body {
 
 .text-color-danger:hover {
   color: #ae2e24;
-}
-
-.background-color-primary-soft {
-  background-color: #cce0ff;
-}
-
-.background-color-primary-soft:hover {
-  background-color: #85b8ff;
 }
 
 .icon-background {
@@ -80,8 +88,12 @@ body {
   background-color: #ae2e24;
 }
 
-.separator {
+.horizontal-separator {
   background-color: #ffffff;
+}
+
+.vertical-separator {
+  background-color: #dcdfe4;
 }
 
 .input-error {
@@ -107,8 +119,24 @@ body {
     background-color: #579dff;
   }
 
-  .background-color-primary:hover {
+  .background-color-dummy {
+    background-color: #22272b;
+  }
+
+  .button-color-primary {
+    background-color: #579dff;
+  }
+
+  .button-color-primary:hover {
     background-color: #85b8ff;
+  }
+
+  .button-color-primary-soft {
+    background-color: #1c2b41;
+  }
+
+  .button-color-primary-soft:hover {
+    background-color: #09326c;
   }
 
   .text-hover-color-primary:hover {
@@ -121,14 +149,6 @@ body {
 
   .text-color-danger:hover {
     color: #fd9891;
-  }
-
-  .background-color-primary-soft {
-    background-color: #1c2b41;
-  }
-
-  .background-color-primary-soft:hover {
-    background-color: #09326c;
   }
 
   .icon-background {
@@ -167,11 +187,19 @@ body {
     background-color: #161a1d;
   }
 
+  .vertical-separator {
+    background-color: #22272b;
+  }
+
   .input-error {
     border-style: solid;
     border-width: 2px;
     border-color: #c9372c;
   }
+}
+
+.separator-width {
+  width: 1px;
 }
 
 @layer utilities {

@@ -125,7 +125,7 @@
                             </div>
                             <hr
                               v-if="index < boardService.categories.length - 1"
-                              class="h-px my-1 border-0 separator"
+                              class="h-px my-1 border-0 horizontal-separator"
                             />
                           </li>
                         </ul>
@@ -152,7 +152,7 @@
                           required
                         />
                         <button
-                          class="background-color-primary text-color-over-primary transition-colors inline-flex w-full justify-center items-center rounded-sm px-3 py-2 text-sm font-semibold mt-2 sm:mt-0 sm:ml-3 sm:w-auto cursor-pointer"
+                          class="button-color-primary text-color-over-primary transition-colors inline-flex w-full justify-center items-center rounded-sm px-3 py-2 text-sm font-semibold mt-2 sm:mt-0 sm:ml-3 sm:w-auto cursor-pointer"
                           type="button"
                           @click="addCategory()"
                         >
@@ -173,7 +173,7 @@
               <div class="background-color px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                 <button
                   type="button"
-                  class="background-color-primary text-color-over-primary transition-colors inline-flex w-full justify-center items-center rounded-sm px-3 py-2 text-sm font-semibold mt-2 sm:mt-0 sm:ml-3 sm:w-auto cursor-pointer"
+                  class="button-color-primary text-color-over-primary transition-colors inline-flex w-full justify-center items-center rounded-sm px-3 py-2 text-sm font-semibold mt-2 sm:mt-0 sm:ml-3 sm:w-auto cursor-pointer"
                   @click="closeModal()"
                 >
                   Save
