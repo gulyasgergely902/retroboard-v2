@@ -25,8 +25,9 @@ from services.services import (
 class TestServices(unittest.TestCase):
     """Tests for Services"""
 
+    @patch("services.services.get_note_count_on_board")
     @patch("services.services.db")
-    def test_get_boards_success(self, mock_database_handler):
+    def test_get_boards_success(self, mock_database_handler, mock_get_count):
         """Test get boards"""
         mock_session = MagicMock()
 
@@ -41,8 +42,11 @@ class TestServices(unittest.TestCase):
             mock_session
         )
 
+        mock_get_count.return_value = [(10, 3)]
+
         result, status_code = get_boards()
-        expected_json = [{"id": 10, "name": "Test Board"}]
+
+        expected_json = [{"id": 10, "name": "Test Board", "note_count": 3}]
 
         self.assertEqual(result, expected_json)
         self.assertEqual(status_code, 200)

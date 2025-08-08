@@ -2,7 +2,7 @@
 
 from typing import Optional, Union
 
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.exc import DatabaseError
 
 from database.database_handler import DatabaseHandler
@@ -12,14 +12,40 @@ db = DatabaseHandler()
 db.create_tables()
 
 
+def get_note_count_on_board():
+    """Return the note count from each board"""
+    with db.get_session() as session:
+        counts = (
+            session.query(Note.board_id, func.count().label("board_id_count"))
+            .group_by(Note.board_id)
+            .order_by(Note.board_id)
+            .all()
+        )
+
+    return counts
+
+
 def get_boards() -> tuple[list[dict[str, str]], int]:
     """Return all boards"""
     with db.get_session() as session:
         boards = session.query(Board).all()
 
-    boards_json = [{"id": board.id, "name": board.name} for board in boards]
+    counts = get_note_count_on_board()
 
-    return boards_json, 200
+    boards_json = [{"id": board.id, "name": board.name} for board in boards]
+    note_count_json = [{"board_id": item[0], "note_count": item[1]} for item in counts]
+
+    note_count_lookup = {
+        item["board_id"]: item["note_count"] for item in note_count_json
+    }
+
+    merged_boards_json = []
+    for board in boards_json:
+        merged_boards_json.append(
+            {**board, "note_count": note_count_lookup.get(board["id"], 0)}
+        )
+
+    return merged_boards_json, 200
 
 
 def get_board_name_from_id(board_id) -> str:
