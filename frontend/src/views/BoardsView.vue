@@ -17,9 +17,8 @@
         v-if="appService.loading"
         v-for="n in 10"
         :key="n"
-        class="blur-sm grayscale brightness-150"
-        title="Boards are loading..."
-        :note-count="n"
+        class="grayscale animate-pulse"
+        :dummy="true"
       />
       <RouterLink
         v-else
