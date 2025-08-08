@@ -10,7 +10,10 @@ export const useBoardService = defineStore('board', {
     selectedCategory: null,
   }),
   getters: {
-    filteredNotes: (state) => state.notes.filter((n) => n.category === state.selectedCategory),
+    filteredNotes: (state) =>
+      state.selectedCategory === -1
+        ? state.notes
+        : state.notes.filter((n) => n.category === state.selectedCategory),
   },
   actions: {
     async fetchBoardData(boardId: string) {
