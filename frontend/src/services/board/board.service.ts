@@ -151,6 +151,6 @@ export const useBoardService = defineStore('board', {
 
     getCategoryNameById(categoryId: number) {
       return this.categories.find((n) => n.id === categoryId)?.name
-    }
+    },
   },
 })
