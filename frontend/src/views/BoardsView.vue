@@ -1,4 +1,5 @@
 <template>
+  <NewBoardModal v-model:is-modal-open="isModalOpen" />
   <div class="background-color-bold pt-4 rounded-lg w-full">
     <div class="flex content-center h-8 px-2 w-full">
       <span class="text-color ms-1 text-xl font-medium">Active Boards</span>
@@ -9,7 +10,6 @@
       >
         Create Board
       </button>
-      <NewBoardModal v-model:is-modal-open="isModalOpen" />
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 p-2">
       <!-- eslint-disable -->

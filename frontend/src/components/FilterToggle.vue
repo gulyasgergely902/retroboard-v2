@@ -1,8 +1,8 @@
 <template>
-  <div class="inline-flex items-center mr-2 w-1/2">
+  <div class="inline-flex items-center mr-2 w-full">
     <span class="text-color me-3 text-sm font-medium">Filters</span>
     <div
-      class="overflow-x-auto overflow-y-hidden whitespace-nowrap fade-right no-scrollbar flex items-center mx-auto px-4"
+      class="overflow-x-auto overflow-y-hidden whitespace-nowrap fade-right no-scrollbar flex items-center px-4"
     >
       <button
         type="button"
@@ -49,16 +49,6 @@
 </script>
 <style lang="css" scoped>
   .fade-right {
-    width: 100%;
-
-    /* Apply a mask to fade out on the right */
-    -webkit-mask-image: linear-gradient(to right, black 95%, transparent 98%);
-    mask-image: linear-gradient(to right, black 95%, transparent 98%);
-  }
-  .fade-right-dark {
-    width: 100%;
-
-    /* Apply a mask to fade out on the right */
     -webkit-mask-image: linear-gradient(to right, black 95%, transparent 98%);
     mask-image: linear-gradient(to right, black 95%, transparent 98%);
   }
