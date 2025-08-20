@@ -1,6 +1,6 @@
 """All service operations"""
 
-from typing import Optional, Union
+from typing import Optional
 
 from sqlalchemy import func, select
 from sqlalchemy.exc import DatabaseError
