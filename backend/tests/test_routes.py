@@ -49,7 +49,9 @@ class TestRoutes(unittest.TestCase):
     def test_remove_boards_success(self, mock_remove_board):
         """Test REMOVE request to boards endpoint"""
         mock_json = {"status": "Success"}
-        mock_remove_board.return_value = ApiResponse(response=mock_json, status_code=200)
+        mock_remove_board.return_value = ApiResponse(
+            response=mock_json, status_code=200
+        )
 
         response = self.client.delete("/api/boards/?board_id=1")
         self.assertEqual(response.get_json(), mock_json)
@@ -59,7 +61,9 @@ class TestRoutes(unittest.TestCase):
     def test_remove_boards_failure(self, mock_remove_board):
         """Test REMOVE request to boards endpoint"""
         mock_json = {"status": "DB Error"}
-        mock_remove_board.return_value = ApiResponse(response=mock_json, status_code=500)
+        mock_remove_board.return_value = ApiResponse(
+            response=mock_json, status_code=500
+        )
 
         response = self.client.delete("/api/boards/?board_id=1")
         self.assertEqual(response.get_json(), mock_json)
@@ -137,7 +141,9 @@ class TestRoutes(unittest.TestCase):
     def test_put_notes_category_success(self, mock_modify_note_category):
         """Test PUT request to modify notes category endpoint"""
         mock_json = {"status": "Success"}
-        mock_modify_note_category.return_value = ApiResponse(response=mock_json, status_code=200)
+        mock_modify_note_category.return_value = ApiResponse(
+            response=mock_json, status_code=200
+        )
 
         response = self.client.put(
             "/api/notes/1/category", json={"category": "othercategory"}
@@ -149,7 +155,9 @@ class TestRoutes(unittest.TestCase):
     def test_put_notes_category_failure(self, mock_modify_note_category):
         """Test PUT request to modify note category endpoint"""
         mock_json = {"status": "DB Error"}
-        mock_modify_note_category.return_value = ApiResponse(response=mock_json, status_code=500)
+        mock_modify_note_category.return_value = ApiResponse(
+            response=mock_json, status_code=500
+        )
 
         response = self.client.put(
             "/api/notes/1/category", json={"category": "othercategory"}
@@ -161,7 +169,9 @@ class TestRoutes(unittest.TestCase):
     def test_put_notes_tags_success(self, mock_modify_note_tags):
         """Test PUT request to modify note tags endpoint"""
         mock_json = {"status": "Success"}
-        mock_modify_note_tags.return_value = ApiResponse(response=mock_json, status_code=200)
+        mock_modify_note_tags.return_value = ApiResponse(
+            response=mock_json, status_code=200
+        )
 
         response = self.client.put("/api/notes/1/tags", json={"tags": ["test_tag"]})
         self.assertEqual(response.get_json(), mock_json)
@@ -171,7 +181,9 @@ class TestRoutes(unittest.TestCase):
     def test_put_notes_tags_failure(self, mock_modify_note_tags):
         """Test PUT request to modify note tags endpoint"""
         mock_json = {"status": "DB Error"}
-        mock_modify_note_tags.return_value = ApiResponse(response=mock_json, status_code=500)
+        mock_modify_note_tags.return_value = ApiResponse(
+            response=mock_json, status_code=500
+        )
 
         response = self.client.put("/api/notes/1/tags", json={"tags": ["test_tag"]})
         self.assertEqual(response.get_json(), mock_json)
@@ -181,7 +193,9 @@ class TestRoutes(unittest.TestCase):
     def test_get_categories_success(self, mock_get_categories):
         """Test GET request to categories endpoint"""
         mock_json = [{"id": 1, "name": "test"}]
-        mock_get_categories.return_value = ApiResponse(response=mock_json, status_code=200)
+        mock_get_categories.return_value = ApiResponse(
+            response=mock_json, status_code=200
+        )
 
         response = self.client.get("/api/categories/?board_id=1")
         self.assertEqual(response.get_json(), mock_json)
@@ -191,7 +205,9 @@ class TestRoutes(unittest.TestCase):
     def test_post_categories_success(self, mock_add_category):
         """Test POST request to categories endpoint"""
         mock_json = {"status": "Success"}
-        mock_add_category.return_value = ApiResponse(response=mock_json, status_code=200)
+        mock_add_category.return_value = ApiResponse(
+            response=mock_json, status_code=200
+        )
 
         response = self.client.post(
             "/api/categories/", json={"name": "Test category", "board_id": 1}
@@ -203,7 +219,9 @@ class TestRoutes(unittest.TestCase):
     def test_post_categories_failure(self, mock_add_category):
         """Test POST request to categories endpoint"""
         mock_json = {"status": "DB Error"}
-        mock_add_category.return_value = ApiResponse(response=mock_json, status_code=500)
+        mock_add_category.return_value = ApiResponse(
+            response=mock_json, status_code=500
+        )
 
         response = self.client.post(
             "/api/categories/", json={"name": "Test category", "board_id": 1}
@@ -215,7 +233,9 @@ class TestRoutes(unittest.TestCase):
     def test_delete_categories_success(self, mock_remove_category):
         """Test DELETE request to categories endpoint"""
         mock_json = {"status": "Success"}
-        mock_remove_category.return_value = ApiResponse(response=mock_json, status_code=200)
+        mock_remove_category.return_value = ApiResponse(
+            response=mock_json, status_code=200
+        )
 
         response = self.client.delete("/api/categories/?category_id=1")
         self.assertEqual(response.get_json(), mock_json)
@@ -225,7 +245,9 @@ class TestRoutes(unittest.TestCase):
     def test_delete_categories_failure(self, mock_remove_category):
         """Test DELETE request to categories endpoint"""
         mock_json = {"status": "Success"}
-        mock_remove_category.return_value = ApiResponse(response=mock_json, status_code=500)
+        mock_remove_category.return_value = ApiResponse(
+            response=mock_json, status_code=500
+        )
 
         response = self.client.delete("/api/categories/?category_id=1")
         self.assertEqual(response.get_json(), mock_json)

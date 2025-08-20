@@ -603,8 +603,10 @@ class TestServices(unittest.TestCase):
 
         resp = remove_category(ANY)
 
-        self.assertEqual(resp.response, {
-                         "status": "Cannot delete: notes still associated with this category"})
+        self.assertEqual(
+            resp.response,
+            {"status": "Cannot delete: notes still associated with this category"},
+        )
         self.assertEqual(resp.status_code, 400)
 
         mock_session.get.assert_called_once_with(mock_category_class, ANY)

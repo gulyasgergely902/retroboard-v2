@@ -1,13 +1,11 @@
 """All service operations"""
 
-from typing import Optional
-
 from sqlalchemy import func, select
 from sqlalchemy.exc import DatabaseError
 
+from custom_types.api_response import ApiResponse
 from database.database_handler import DatabaseHandler
 from database.models import Board, Category, Note
-from custom_types.api_response import ApiResponse
 
 db = DatabaseHandler()
 db.create_tables()
@@ -34,8 +32,7 @@ def get_boards() -> ApiResponse:
     counts = get_note_count_on_board()
 
     boards_json = [{"id": board.id, "name": board.name} for board in boards]
-    note_count_json = [{"board_id": item[0], "note_count": item[1]}
-                       for item in counts]
+    note_count_json = [{"board_id": item[0], "note_count": item[1]} for item in counts]
 
     note_count_lookup = {
         item["board_id"]: item["note_count"] for item in note_count_json
@@ -75,7 +72,9 @@ def add_board(
         except DatabaseError as e:
             session.rollback()
             return ApiResponse(response={"status": f"DB Error: {e}"}, status_code=500)
-    return ApiResponse(response={"status": "Success", "board_id": board_id}, status_code=200)
+    return ApiResponse(
+        response={"status": "Success", "board_id": board_id}, status_code=200
+    )
 
 
 def remove_board(
@@ -86,7 +85,9 @@ def remove_board(
         try:
             board = session.get(Board, board_id)
             if board is None:
-                return ApiResponse(response={"status": "Board not found"}, status_code=404)
+                return ApiResponse(
+                    response={"status": "Board not found"}, status_code=404
+                )
             session.delete(board)
             session.commit()
         except DatabaseError as e:
@@ -165,7 +166,9 @@ def remove_note(
         try:
             note = session.get(Note, note_id)
             if note is None:
-                return ApiResponse(response={"status": "Note not found"}, status_code=404)
+                return ApiResponse(
+                    response={"status": "Note not found"}, status_code=404
+                )
             session.delete(note)
             session.commit()
         except DatabaseError as e:
@@ -174,9 +177,7 @@ def remove_note(
     return ApiResponse(response={"status": "Success"}, status_code=200)
 
 
-def modify_note_category(
-    note_id: int, new_category: int
-) -> ApiResponse:
+def modify_note_category(note_id: int, new_category: int) -> ApiResponse:
     """Modify a note category by id"""
     with db.get_session() as session:
         try:
@@ -190,9 +191,7 @@ def modify_note_category(
     return ApiResponse(response={"status": "Success"}, status_code=200)
 
 
-def modify_note_tags(
-    note_id: int, new_tags: list
-) -> ApiResponse:
+def modify_note_tags(note_id: int, new_tags: list) -> ApiResponse:
     """Modify note tags by id"""
     with db.get_session() as session:
         try:
@@ -209,8 +208,7 @@ def modify_note_tags(
 def get_categories(board_id: int) -> ApiResponse:
     """Return all categories for a board or all"""
     with db.get_session() as session:
-        categories = session.query(Category).where(
-            Category.board_id.is_(board_id))
+        categories = session.query(Category).where(Category.board_id.is_(board_id))
 
     categories_json = [
         {"id": category.id, "name": category.name} for category in categories
@@ -219,14 +217,11 @@ def get_categories(board_id: int) -> ApiResponse:
     return ApiResponse(response=categories_json, status_code=200)
 
 
-def add_category(
-    category_name: str, category_board_id: int
-) -> ApiResponse:
+def add_category(category_name: str, category_board_id: int) -> ApiResponse:
     """Add a new category"""
     with db.get_session() as session:
         try:
-            session.add(Category(name=category_name,
-                        board_id=category_board_id))
+            session.add(Category(name=category_name, board_id=category_board_id))
             session.commit()
         except DatabaseError as e:
             session.rollback()
@@ -246,13 +241,16 @@ def remove_category(
         try:
             category = session.get(Category, category_id)
             if category is None:
-                return ApiResponse(response={"status": "Category not found"}, status_code=404)
+                return ApiResponse(
+                    response={"status": "Category not found"}, status_code=404
+                )
 
             if session.query(Note).filter_by(category=category_id).first():
                 return ApiResponse(
                     response={
-                        "status": "Cannot delete: notes still associated with this category"},
-                    status_code=400
+                        "status": "Cannot delete: notes still associated with this category"
+                    },
+                    status_code=400,
                 )
 
             session.delete(category)
@@ -260,5 +258,4 @@ def remove_category(
             return ApiResponse(response={"status": "Success"}, status_code=200)
         except DatabaseError as e:
             session.rollback()
-            return ApiResponse(
-                response={"status": f"DB Error: {e}"}, status_code=500)
+            return ApiResponse(response={"status": f"DB Error: {e}"}, status_code=500)
