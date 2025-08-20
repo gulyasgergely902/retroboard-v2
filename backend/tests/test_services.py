@@ -44,12 +44,12 @@ class TestServices(unittest.TestCase):
 
         mock_get_count.return_value = [(10, 3)]
 
-        result, status_code = get_boards()
+        resp = get_boards()
 
         expected_json = [{"id": 10, "name": "Test Board", "note_count": 3}]
 
-        self.assertEqual(result, expected_json)
-        self.assertEqual(status_code, 200)
+        self.assertEqual(resp.response, expected_json)
+        self.assertEqual(resp.status_code, 200)
 
     @patch("services.services.db")
     def test_get_board_name_from_id_success(self, mock_database_handler):
@@ -108,11 +108,10 @@ class TestServices(unittest.TestCase):
             mock_session
         )
 
-        result, error, status_code = add_board(ANY)
+        resp = add_board(ANY)
 
-        self.assertEqual(result, {"status": "Success", "board_id": 10})
-        self.assertIsNone(error)
-        self.assertEqual(status_code, 200)
+        self.assertEqual(resp.response, {"status": "Success", "board_id": 10})
+        self.assertEqual(resp.status_code, 200)
 
         mock_session.add.assert_called_once_with(mock_board)
         mock_session.commit.assert_called_once()
@@ -133,12 +132,10 @@ class TestServices(unittest.TestCase):
             "statement", {}, Exception("Error")
         )
 
-        result, error, status_code = add_board(ANY)
+        resp = add_board(ANY)
 
-        self.assertIsNone(result)
-        self.assertIsNotNone(error)
-        self.assertIn("DB Error", error["status"])  # type: ignore
-        self.assertEqual(status_code, 500)
+        self.assertIn("DB Error", resp.response["status"])  # type: ignore
+        self.assertEqual(resp.status_code, 500)
 
         mock_session.add.assert_called_once_with(mock_board)
         mock_session.commit.assert_called_once()
@@ -155,11 +152,10 @@ class TestServices(unittest.TestCase):
             mock_session
         )
 
-        result, error, status_code = remove_board(ANY)
+        resp = remove_board(ANY)
 
-        self.assertEqual(result, {"status": "Success"})
-        self.assertIsNone(error)
-        self.assertEqual(status_code, 200)
+        self.assertEqual(resp.response, {"status": "Success"})
+        self.assertEqual(resp.status_code, 200)
 
         mock_session.get.assert_called_once_with(mock_board_class, ANY)
         mock_session.delete.assert_called_once_with(mock_board)
@@ -179,11 +175,10 @@ class TestServices(unittest.TestCase):
 
         mock_session.get.return_value = None
 
-        result, error, status_code = remove_board(ANY)
+        resp = remove_board(ANY)
 
-        self.assertIsNone(result)
-        self.assertEqual(error, {"status": "Board not found"})
-        self.assertEqual(status_code, 404)
+        self.assertEqual(resp.response, {"status": "Board not found"})
+        self.assertEqual(resp.status_code, 404)
 
         mock_session.get.assert_called_once_with(mock_board_class, ANY)
 
@@ -205,12 +200,10 @@ class TestServices(unittest.TestCase):
             "statement", {}, Exception("Error")
         )
 
-        result, error, status_code = remove_board(ANY)
+        resp = remove_board(ANY)
 
-        self.assertIsNone(result)
-        self.assertIsNotNone(error)
-        self.assertIn("DB Error", error["status"])  # type: ignore
-        self.assertEqual(status_code, 500)
+        self.assertIn("DB Error", resp.response["status"])  # type: ignore
+        self.assertEqual(resp.status_code, 500)
 
         mock_session.get.assert_called_once_with(mock_board_class, ANY)
         mock_session.rollback.assert_called_once()
@@ -234,13 +227,13 @@ class TestServices(unittest.TestCase):
             mock_session
         )
 
-        result, status_code = get_notes(ANY)
+        resp = get_notes(ANY)
         expected_json = [
             {"id": 10, "description": "Test Note", "category": 10, "tags": []}
         ]
 
-        self.assertEqual(result, expected_json)
-        self.assertEqual(status_code, 200)
+        self.assertEqual(resp.response, expected_json)
+        self.assertEqual(resp.status_code, 200)
 
     @patch("services.services.get_board_name_from_id")
     @patch("services.services.db")
@@ -293,11 +286,10 @@ class TestServices(unittest.TestCase):
             mock_session
         )
 
-        result, error, status_code = add_note(ANY, ANY, ANY, ANY)
+        resp = add_note(ANY, ANY, ANY, ANY)
 
-        self.assertEqual(result, {"status": "Success"})
-        self.assertIsNone(error)
-        self.assertEqual(status_code, 200)
+        self.assertEqual(resp.response, {"status": "Success"})
+        self.assertEqual(resp.status_code, 200)
 
         mock_session.add.assert_called_once_with(mock_note)
         mock_session.commit.assert_called_once()
@@ -322,12 +314,10 @@ class TestServices(unittest.TestCase):
             "statement", {}, Exception("Error")
         )
 
-        result, error, status_code = add_note(ANY, ANY, ANY, ANY)
+        resp = add_note(ANY, ANY, ANY, ANY)
 
-        self.assertIsNone(result)
-        self.assertIsNotNone(error)
-        self.assertIn("DB Error", error["status"])  # type: ignore
-        self.assertEqual(status_code, 500)
+        self.assertIn("DB Error", resp.response["status"])  # type: ignore
+        self.assertEqual(resp.status_code, 500)
 
         mock_session.add.assert_called_once_with(mock_note)
         mock_session.commit.assert_called_once()
@@ -344,11 +334,10 @@ class TestServices(unittest.TestCase):
             mock_session
         )
 
-        result, error, status_code = remove_note(ANY)
+        resp = remove_note(ANY)
 
-        self.assertEqual(result, {"status": "Success"})
-        self.assertIsNone(error)
-        self.assertEqual(status_code, 200)
+        self.assertEqual(resp.response, {"status": "Success"})
+        self.assertEqual(resp.status_code, 200)
 
         mock_session.get.assert_called_once_with(mock_note_class, ANY)
         mock_session.delete.assert_called_once_with(mock_note)
@@ -368,11 +357,10 @@ class TestServices(unittest.TestCase):
 
         mock_session.get.return_value = None
 
-        result, error, status_code = remove_note(ANY)
+        resp = remove_note(ANY)
 
-        self.assertIsNone(result)
-        self.assertEqual(error, {"status": "Note not found"})
-        self.assertEqual(status_code, 404)
+        self.assertEqual(resp.response, {"status": "Note not found"})
+        self.assertEqual(resp.status_code, 404)
 
         mock_session.get.assert_called_once_with(mock_note_class, ANY)
 
@@ -394,12 +382,10 @@ class TestServices(unittest.TestCase):
             "statement", {}, Exception("Error")
         )
 
-        result, error, status_code = remove_note(ANY)
+        resp = remove_note(ANY)
 
-        self.assertIsNone(result)
-        self.assertIsNotNone(error)
-        self.assertIn("DB Error", error["status"])  # type: ignore
-        self.assertEqual(status_code, 500)
+        self.assertIn("DB Error", resp.response["status"])  # type: ignore
+        self.assertEqual(resp.status_code, 500)
 
         mock_session.get.assert_called_once_with(mock_note_class, ANY)
         mock_session.rollback.assert_called_once()
@@ -417,11 +403,10 @@ class TestServices(unittest.TestCase):
         mock_scalars.one.return_value = mock_note
         mock_session.scalars.return_value = mock_scalars
 
-        result, error, status_code = modify_note_category(1, 2)
+        resp = modify_note_category(1, 2)
 
-        self.assertEqual(result, {"status": "Success"})
-        self.assertIsNone(error)
-        self.assertEqual(status_code, 200)
+        self.assertEqual(resp.response, {"status": "Success"})
+        self.assertEqual(resp.status_code, 200)
         self.assertEqual(mock_note.category, 2)
         mock_session.commit.assert_called_once()
 
@@ -437,11 +422,10 @@ class TestServices(unittest.TestCase):
             "statement", {}, Exception("Error")
         )
 
-        result, error, status_code = modify_note_category(1, 2)
+        resp = modify_note_category(1, 2)
 
-        self.assertIsNone(result)
-        self.assertIn("DB Error", error["status"])  # type: ignore
-        self.assertEqual(status_code, 500)
+        self.assertIn("DB Error", resp.response["status"])  # type: ignore
+        self.assertEqual(resp.status_code, 500)
         mock_session.rollback.assert_called_once()
 
     @patch("services.services.db")
@@ -457,11 +441,10 @@ class TestServices(unittest.TestCase):
         mock_scalars.one.return_value = mock_note
         mock_session.scalars.return_value = mock_scalars
 
-        result, error, status_code = modify_note_tags(1, ["sample_tag"])
+        resp = modify_note_tags(1, ["sample_tag"])
 
-        self.assertEqual(result, {"status": "Success"})
-        self.assertIsNone(error)
-        self.assertEqual(status_code, 200)
+        self.assertEqual(resp.response, {"status": "Success"})
+        self.assertEqual(resp.status_code, 200)
         self.assertEqual(mock_note.tags, ["sample_tag"])
         mock_session.commit.assert_called_once()
 
@@ -477,11 +460,10 @@ class TestServices(unittest.TestCase):
             "statement", {}, Exception("Error")
         )
 
-        result, error, status_code = modify_note_tags(1, ["sample_tag"])
+        resp = modify_note_tags(1, ["sample_tag"])
 
-        self.assertIsNone(result)
-        self.assertIn("DB Error", error["status"])  # type: ignore
-        self.assertEqual(status_code, 500)
+        self.assertIn("DB Error", resp.response["status"])  # type: ignore
+        self.assertEqual(resp.status_code, 500)
         mock_session.rollback.assert_called_once()
 
     @patch("services.services.db")
@@ -502,11 +484,11 @@ class TestServices(unittest.TestCase):
             mock_session
         )
 
-        result, status_code = get_categories(20)
+        resp = get_categories(20)
         expected_json = [{"id": 10, "name": "Test Category"}]
 
-        self.assertEqual(result, expected_json)
-        self.assertEqual(status_code, 200)
+        self.assertEqual(resp.response, expected_json)
+        self.assertEqual(resp.status_code, 200)
 
     @patch("services.services.Category")
     @patch("services.services.db")
@@ -523,11 +505,10 @@ class TestServices(unittest.TestCase):
             mock_session
         )
 
-        result, error, status_code = add_category(ANY, ANY)
+        resp = add_category(ANY, ANY)
 
-        self.assertEqual(result, {"status": "Success"})
-        self.assertIsNone(error)
-        self.assertEqual(status_code, 200)
+        self.assertEqual(resp.response, {"status": "Success"})
+        self.assertEqual(resp.status_code, 200)
 
         mock_session.add.assert_called_once_with(mock_category)
         mock_session.commit.assert_called_once()
@@ -551,12 +532,10 @@ class TestServices(unittest.TestCase):
             "statement", {}, Exception("Error")
         )
 
-        result, error, status_code = add_category(ANY, ANY)
+        resp = add_category(ANY, ANY)
 
-        self.assertIsNone(result)
-        self.assertIsNotNone(error)
-        self.assertIn("DB Error", error["status"])  # type: ignore
-        self.assertEqual(status_code, 500)
+        self.assertIn("DB Error", resp.response["status"])  # type: ignore
+        self.assertEqual(resp.status_code, 500)
 
         mock_session.add.assert_called_once_with(mock_category)
         mock_session.commit.assert_called_once()
@@ -574,11 +553,10 @@ class TestServices(unittest.TestCase):
         )
         mock_session.query.return_value.filter_by.return_value.first.return_value = None
 
-        result, error, status_code = remove_category(ANY)
+        resp = remove_category(ANY)
 
-        self.assertEqual(result, {"status": "Success"})
-        self.assertIsNone(error)
-        self.assertEqual(status_code, 200)
+        self.assertEqual(resp.response, {"status": "Success"})
+        self.assertEqual(resp.status_code, 200)
 
         mock_session.get.assert_called_once_with(mock_category_class, ANY)
         mock_session.delete.assert_called_once_with(mock_category)
@@ -598,11 +576,10 @@ class TestServices(unittest.TestCase):
 
         mock_session.get.return_value = None
 
-        result, error, status_code = remove_category(ANY)
+        resp = remove_category(ANY)
 
-        self.assertIsNone(result)
-        self.assertEqual(error, {"status": "Category not found"})
-        self.assertEqual(status_code, 404)
+        self.assertEqual(resp.response, {"status": "Category not found"})
+        self.assertEqual(resp.status_code, 404)
 
         mock_session.get.assert_called_once_with(mock_category_class, ANY)
 
@@ -624,14 +601,13 @@ class TestServices(unittest.TestCase):
             mock_note
         )
 
-        result, error, status_code = remove_category(ANY)
+        resp = remove_category(ANY)
 
-        self.assertIsNone(result)
         self.assertEqual(
-            error,
+            resp.response,
             {"status": "Cannot delete: notes still associated with this category"},
         )
-        self.assertEqual(status_code, 400)
+        self.assertEqual(resp.status_code, 400)
 
         mock_session.get.assert_called_once_with(mock_category_class, ANY)
 
@@ -653,12 +629,10 @@ class TestServices(unittest.TestCase):
             "statement", {}, Exception("Error")
         )
 
-        result, error, status_code = remove_category(ANY)
+        resp = remove_category(ANY)
 
-        self.assertIsNone(result)
-        self.assertIsNotNone(error)
-        self.assertIn("DB Error", error["status"])  # type: ignore
-        self.assertEqual(status_code, 500)
+        self.assertIn("DB Error", resp.response["status"])  # type: ignore
+        self.assertEqual(resp.status_code, 500)
 
         mock_session.get.assert_called_once_with(mock_category_class, ANY)
         mock_session.rollback.assert_called_once()

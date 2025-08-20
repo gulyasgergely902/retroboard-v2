@@ -33,22 +33,23 @@ class Boards(Resource):
 
     def get(self):
         """Get all boards"""
-        return get_boards()
+        resp = get_boards()
+        return resp.response, resp.status_code
 
     @boards_ns.expect(board_model)
     def post(self):
         """Add a new board"""
         data = request.get_json()
-        result, error, status = add_board(data["name"])
-        return result or error, status
+        resp = add_board(data["name"])
+        return resp.response, resp.status_code
 
     def delete(self):
         """Remove a board by id"""
         parser = reqparse.RequestParser()
         parser.add_argument("board_id", type=int)
         args = parser.parse_args()
-        result, error, status = remove_board(args["board_id"])
-        return result or error, status
+        resp = remove_board(args["board_id"])
+        return resp.response, resp.status_code
 
 
 @boards_ns.route("/export")
@@ -105,28 +106,28 @@ class Notes(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument("board_id", type=int)
         args = parser.parse_args()
-        result, status = get_notes(args["board_id"])
-        return result, status
+        resp = get_notes(args["board_id"])
+        return resp.response, resp.status_code
 
     @notes_ns.expect(note_model)
     def post(self):
         """Add a new note"""
         data = request.get_json()
-        result, error, status = add_note(
+        resp = add_note(
             data["description"],
             data["category"],
             data.get("tags", []),
             data["board_id"],
         )
-        return result or error, status
+        return resp.response, resp.status_code
 
     def delete(self):
         """Remove a note by id"""
         parser = reqparse.RequestParser()
         parser.add_argument("note_id", type=int)
         args = parser.parse_args()
-        result, error, status = remove_note(args["note_id"])
-        return result or error, status
+        resp = remove_note(args["note_id"])
+        return resp.response, resp.status_code
 
 
 @notes_ns.route("/<int:note_id>/category")
@@ -139,8 +140,8 @@ class NoteCategoryResource(Resource):
         data = request.get_json()
         new_category = data.get("category")
 
-        result, error, status = modify_note_category(note_id, new_category)
-        return result or error, status
+        resp = modify_note_category(note_id, new_category)
+        return resp.response, resp.status_code
 
 
 @notes_ns.route("/<int:note_id>/tags")
@@ -153,8 +154,8 @@ class NoteTagsResource(Resource):
         data = request.get_json()
         new_tags = data.get("tags")
 
-        result, error, status = modify_note_tags(note_id, new_tags)
-        return result or error, status
+        resp = modify_note_tags(note_id, new_tags)
+        return resp.response, resp.status_code
 
 
 categories_ns = Namespace("categories", description="Category related operation")
@@ -178,23 +179,23 @@ class Categories(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument("board_id", type=int)
         args = parser.parse_args()
-        result, status = get_categories(args["board_id"])
-        return result, status
+        resp = get_categories(args["board_id"])
+        return resp.response, resp.status_code
 
     @notes_ns.expect(category_model)
     def post(self):
         """Add a new category"""
         data = request.get_json()
-        result, error, status = add_category(data["name"], data["board_id"])
-        return result or error, status
+        resp = add_category(data["name"], data["board_id"])
+        return resp.response, resp.status_code
 
     def delete(self):
         """Delete a category by id"""
         parser = reqparse.RequestParser()
         parser.add_argument("category_id")
         args = parser.parse_args()
-        result, error, status = remove_category(args["category_id"])
-        return result or error, status
+        resp = remove_category(args["category_id"])
+        return resp.response, resp.status_code
 
 
 def register_static_routes(app):

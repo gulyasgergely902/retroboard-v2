@@ -1,10 +1,9 @@
 """All service operations"""
 
-from typing import Optional, Union
-
 from sqlalchemy import func, select
 from sqlalchemy.exc import DatabaseError
 
+from custom_types.api_response import ApiResponse
 from database.database_handler import DatabaseHandler
 from database.models import Board, Category, Note
 
@@ -25,7 +24,7 @@ def get_note_count_on_board():
     return counts
 
 
-def get_boards() -> tuple[list[dict[str, str]], int]:
+def get_boards() -> ApiResponse:
     """Return all boards"""
     with db.get_session() as session:
         boards = session.query(Board).all()
@@ -45,7 +44,7 @@ def get_boards() -> tuple[list[dict[str, str]], int]:
             {**board, "note_count": note_count_lookup.get(board["id"], 0)}
         )
 
-    return merged_boards_json, 200
+    return ApiResponse(response=merged_boards_json, status_code=200)
 
 
 def get_board_name_from_id(board_id) -> str:
@@ -61,7 +60,7 @@ def get_board_name_from_id(board_id) -> str:
 
 def add_board(
     board_name: str,
-) -> tuple[Optional[dict[str, Union[str, int]]], Optional[dict[str, str]], int]:
+) -> ApiResponse:
     """Add a new board"""
     board_id = 0
     with db.get_session() as session:
@@ -72,28 +71,32 @@ def add_board(
             board_id = board.id
         except DatabaseError as e:
             session.rollback()
-            return None, {"status": f"DB Error: {e}"}, 500
-    return {"status": "Success", "board_id": board_id}, None, 200
+            return ApiResponse(response={"status": f"DB Error: {e}"}, status_code=500)
+    return ApiResponse(
+        response={"status": "Success", "board_id": board_id}, status_code=200
+    )
 
 
 def remove_board(
     board_id: int,
-) -> tuple[Optional[dict[str, str]], Optional[dict[str, str]], int]:
+) -> ApiResponse:
     """Remove a board"""
     with db.get_session() as session:
         try:
             board = session.get(Board, board_id)
             if board is None:
-                return None, {"status": "Board not found"}, 404
+                return ApiResponse(
+                    response={"status": "Board not found"}, status_code=404
+                )
             session.delete(board)
             session.commit()
         except DatabaseError as e:
             session.rollback()
-            return None, {"status": f"DB Error: {e}"}, 500
-    return {"status": "Success"}, None, 200
+            return ApiResponse(response={"status": f"DB Error: {e}"}, status_code=500)
+    return ApiResponse(response={"status": "Success"}, status_code=200)
 
 
-def get_notes(board_id: int) -> tuple[list[dict[str, str]], int]:
+def get_notes(board_id: int) -> ApiResponse:
     """Return all notes for a board"""
     with db.get_session() as session:
         notes = session.query(Note).where(Note.board_id.is_(board_id))
@@ -108,7 +111,7 @@ def get_notes(board_id: int) -> tuple[list[dict[str, str]], int]:
         for note in notes
     ]
 
-    return notes_json, 200
+    return ApiResponse(response=notes_json, status_code=200)
 
 
 def get_notes_for_export(board_id: int) -> dict[str, str | list[dict[str, str]]]:
@@ -136,7 +139,7 @@ def get_notes_for_export(board_id: int) -> dict[str, str | list[dict[str, str]]]
 
 def add_note(
     note_description: str, note_category: int, note_tags: str, note_board_id: int
-) -> tuple[Optional[dict[str, str]], Optional[dict[str, str]], int]:
+) -> ApiResponse:
     """Add a new note"""
     with db.get_session() as session:
         try:
@@ -151,30 +154,30 @@ def add_note(
             session.commit()
         except DatabaseError as e:
             session.rollback()
-            return None, {"status": f"DB Error: {e}"}, 500
-    return {"status": "Success"}, None, 200
+            return ApiResponse(response={"status": f"DB Error: {e}"}, status_code=500)
+    return ApiResponse(response={"status": "Success"}, status_code=200)
 
 
 def remove_note(
     note_id: int,
-) -> tuple[Optional[dict[str, str]], Optional[dict[str, str]], int]:
+) -> ApiResponse:
     """Remove a note"""
     with db.get_session() as session:
         try:
             note = session.get(Note, note_id)
             if note is None:
-                return None, {"status": "Note not found"}, 404
+                return ApiResponse(
+                    response={"status": "Note not found"}, status_code=404
+                )
             session.delete(note)
             session.commit()
         except DatabaseError as e:
             session.rollback()
-            return None, {"status": f"DB Error: {e}"}, 500
-    return {"status": "Success"}, None, 200
+            return ApiResponse({"status": f"DB Error: {e}"}, status_code=500)
+    return ApiResponse(response={"status": "Success"}, status_code=200)
 
 
-def modify_note_category(
-    note_id: int, new_category: int
-) -> tuple[Optional[dict[str, str]], Optional[dict[str, str]], int]:
+def modify_note_category(note_id: int, new_category: int) -> ApiResponse:
     """Modify a note category by id"""
     with db.get_session() as session:
         try:
@@ -184,13 +187,11 @@ def modify_note_category(
             session.commit()
         except DatabaseError as e:
             session.rollback()
-            return None, {"status": f"DB Error: {e}"}, 500
-    return {"status": "Success"}, None, 200
+            return ApiResponse(response={"status": f"DB Error: {e}"}, status_code=500)
+    return ApiResponse(response={"status": "Success"}, status_code=200)
 
 
-def modify_note_tags(
-    note_id: int, new_tags: list
-) -> tuple[Optional[dict[str, str]], Optional[dict[str, str]], int]:
+def modify_note_tags(note_id: int, new_tags: list) -> ApiResponse:
     """Modify note tags by id"""
     with db.get_session() as session:
         try:
@@ -200,11 +201,11 @@ def modify_note_tags(
             session.commit()
         except DatabaseError as e:
             session.rollback()
-            return None, {"status": f"DB Error: {e}"}, 500
-    return {"status": "Success"}, None, 200
+            return ApiResponse(response={"status": f"DB Error: {e}"}, status_code=500)
+    return ApiResponse(response={"status": "Success"}, status_code=200)
 
 
-def get_categories(board_id: int) -> tuple[list[dict[str, str]], int]:
+def get_categories(board_id: int) -> ApiResponse:
     """Return all categories for a board or all"""
     with db.get_session() as session:
         categories = session.query(Category).where(Category.board_id.is_(board_id))
@@ -213,12 +214,10 @@ def get_categories(board_id: int) -> tuple[list[dict[str, str]], int]:
         {"id": category.id, "name": category.name} for category in categories
     ]
 
-    return categories_json, 200
+    return ApiResponse(response=categories_json, status_code=200)
 
 
-def add_category(
-    category_name: str, category_board_id: int
-) -> tuple[Optional[dict[str, str]], Optional[dict[str, str]], int]:
+def add_category(category_name: str, category_board_id: int) -> ApiResponse:
     """Add a new category"""
     with db.get_session() as session:
         try:
@@ -226,13 +225,13 @@ def add_category(
             session.commit()
         except DatabaseError as e:
             session.rollback()
-            return None, {"status": f"DB Error: {e}"}, 500
-    return {"status": "Success"}, None, 200
+            return ApiResponse(response={"status": f"DB Error: {e}"}, status_code=500)
+    return ApiResponse(response={"status": "Success"}, status_code=200)
 
 
 def remove_category(
     category_id: int,
-) -> tuple[Optional[dict[str, str]], Optional[dict[str, str]], int]:
+) -> ApiResponse:
     """
     Remove a category by its ID.
 
@@ -242,22 +241,21 @@ def remove_category(
         try:
             category = session.get(Category, category_id)
             if category is None:
-                return None, {"status": "Category not found"}, 404
+                return ApiResponse(
+                    response={"status": "Category not found"}, status_code=404
+                )
 
             if session.query(Note).filter_by(category=category_id).first():
-                return (
-                    None,
-                    {
-                        "status": (
-                            "Cannot delete: notes still associated with this category"
-                        )
+                return ApiResponse(
+                    response={
+                        "status": "Cannot delete: notes still associated with this category"
                     },
-                    400,
+                    status_code=400,
                 )
 
             session.delete(category)
             session.commit()
-            return {"status": "Success"}, None, 200
+            return ApiResponse(response={"status": "Success"}, status_code=200)
         except DatabaseError as e:
             session.rollback()
-            return None, {"status": f"DB Error: {e}"}, 500
+            return ApiResponse(response={"status": f"DB Error: {e}"}, status_code=500)
