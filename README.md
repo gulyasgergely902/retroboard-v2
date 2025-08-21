@@ -25,7 +25,7 @@ Built with collaborative teams in mind for an efficient retrospective ceremony:
 * **Frontend**: Vue 3 to make the tool fast and simple.
 * **Database**: Using SQLite to store the data locally — where it belongs.
 
-## Using to tool
+## Using the tool
 
 This is cool, but how should I use it? Here is a simple breakdown:
 
@@ -33,7 +33,7 @@ This is cool, but how should I use it? Here is a simple breakdown:
 2. When the meeting starts, everyone opens the app and writes their feedback to different categories from the last sprint. Don't worry, no-one can see these at this stage, yet.
 3. After the team finished adding new ideas, the faciliator of the meeting reveals the notes and the team checks them together.
 
-## How to run it
+### How to run it
 
 The tool lives in a docker container to simple things even futher. It needs to be hosted on your server and expose it to the network, the application will take care of the rest. Make sure you either expose port `8000` or re-route it as you like. Ensure that you assign a persistent directory for storing the database so that its data remains intact across updates.
 
@@ -42,7 +42,7 @@ Here is an example:
 
 You can also specify a version using tags e.g.: `retroboard:1.1.0`. The complete list of docker versions can be seen under packages.
 
-## Build from source
+### Build from source
 
 1. Build the frontend using `scripts/build_frontend.sh`.
 2. Create a virtual environment: `python3 -m venv rb_venv` then `source rb_venv/bin/activate`.
