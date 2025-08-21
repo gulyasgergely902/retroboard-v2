@@ -8,5 +8,5 @@ if [ "$1" = "--fix" ]; then
     ruff format .
 else
     ruff check .
-    ruff format --check .
+    ruff format --diff .
 fi
