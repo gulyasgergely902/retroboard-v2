@@ -107,7 +107,7 @@ limitations under the License.
                             aria-describedby="helper-checkbox-text"
                             type="checkbox"
                             value=""
-                            v-model="createDefaultCategories"
+                            v-model="initializeWithCategories"
                             class="w-4 h-4 text-color background-color border-gray-300 rounded-sm dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
                           />
                         </div>
@@ -122,10 +122,42 @@ limitations under the License.
                             id="helper-checkbox-text"
                             class="text-xs font-normal text-color-muted"
                           >
-                            Creates default categories for retrospective ceremonies (went well,
-                            needs improvement, action items)
+                            Choose a board category template to initialize your board with.
                           </p>
                         </div>
+                      </div>
+                      <div
+                        v-if="initializeWithCategories"
+                        class="ms-2 text-sm mt-2"
+                      >
+                        <label
+                          for="initial_category"
+                          class="font-medium text-color"
+                        >
+                          Templates
+                        </label>
+                        <select
+                          id="initial_category"
+                          v-model="selectedCategoryTemplateId"
+                          @blur="validateSelectedTemplate()"
+                          class="background-color-bold text-color text-sm rounded-sm block w-full p-2.5"
+                          :class="{ 'input-error': noSelectedTemplateError }"
+                        >
+                          <option
+                            v-for="template in templates"
+                            :key="template.id"
+                            :value="template.id"
+                          >
+                            {{ template.templateName }}
+                          </option>
+                        </select>
+                        <label
+                          v-if="noSelectedTemplateError"
+                          for="note_category"
+                          class="block mt-2 text-sm font-medium text-color-danger"
+                        >
+                          {{ noSelectedTemplateError }}
+                        </label>
                       </div>
                     </div>
                   </div>
@@ -162,7 +194,9 @@ limitations under the License.
   import { useBoardService } from '@/services/board/board.service'
   const newBoardName = ref('')
   const newBoardNameError = ref('')
-  const createDefaultCategories = ref(false)
+  const initializeWithCategories = ref(false)
+  const selectedCategoryTemplateId = ref(0)
+  const noSelectedTemplateError = ref('')
 
   const isModalOpen = defineModel<boolean>('isModalOpen')
   import {
@@ -172,6 +206,30 @@ limitations under the License.
     TransitionChild,
     TransitionRoot,
   } from '@headlessui/vue'
+
+  interface BoardCategoriesTemplate {
+    id: number
+    templateName: string
+    categories: string[]
+  }
+
+  const templates = ref<BoardCategoriesTemplate[]>([
+    {
+      id: 1,
+      templateName: 'Retrospective (Good, Bad, Actions)',
+      categories: ['Went well', 'Needs improvement', 'Action items'],
+    },
+    {
+      id: 2,
+      templateName: 'Team Centric (Liked, Learned, Lacked, Longed for)',
+      categories: ['Liked', 'Learned', 'Lacked', 'Longed for'],
+    },
+    {
+      id: 3,
+      templateName: 'SWOT (Strengths, Weaknesses, Opportunities, Threats)',
+      categories: ['Strengths', 'Weaknesses', 'Opportunities', 'Threats'],
+    },
+  ])
 
   const appService = useAppService()
   const boardService = useBoardService()
@@ -188,15 +246,37 @@ limitations under the License.
     return true
   }
 
+  function validateSelectedTemplate() {
+    if (initializeWithCategories.value && selectedCategoryTemplateId.value === 0) {
+      noSelectedTemplateError.value = 'You must select a template!'
+      return false
+    }
+    noSelectedTemplateError.value = ''
+    return true
+  }
+
+  function validateInput() {
+    let inputValid = true
+    inputValid = validateNewBoardName()
+    inputValid = validateSelectedTemplate()
+
+    return inputValid
+  }
+
   async function createBoard() {
-    if (validateNewBoardName() && typeof newBoardName.value === 'string') {
+    if (validateInput()) {
       const board_data = await appService.createNewBoard(newBoardName.value)
       // @ts-expect-error 'board_id' not undefined
       const board_id = board_data.board_id
-      if (createDefaultCategories.value) {
-        boardService.addCategory(board_id, 'Went well')
-        boardService.addCategory(board_id, 'Needs improvement')
-        boardService.addCategory(board_id, 'Action items')
+      if (initializeWithCategories.value) {
+        const selectedTemplate = templates.value.find(
+          (template) => template.id === selectedCategoryTemplateId.value,
+        )
+        if (selectedTemplate) {
+          for (const categoryName of selectedTemplate.categories) {
+            boardService.addCategory(board_id, categoryName)
+          }
+        }
       }
       closeModal()
     }
@@ -206,5 +286,8 @@ limitations under the License.
     isModalOpen.value = false
     newBoardNameError.value = ''
     newBoardName.value = ''
+    initializeWithCategories.value = false
+    selectedCategoryTemplateId.value = 0
+    noSelectedTemplateError.value = ''
   }
 </script>
