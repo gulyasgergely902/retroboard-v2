@@ -14,7 +14,7 @@ limitations under the License.
 
 <template>
   <div
-    class="text-color transition-colors p-4 rounded-md border-1 border-color h-32"
+    class="text-color transition-colors p-4 rounded-md border-1 border-color border-color-hover h-32"
     :class="[dummy ? 'background-color-dummy' : 'background-color']"
   >
     <p

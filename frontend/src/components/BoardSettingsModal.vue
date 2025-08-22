@@ -194,7 +194,7 @@ limitations under the License.
                 </button>
                 <button
                   type="button"
-                  class="background-color text-color transition-colors border border-color inline-flex w-full justify-center items-center rounded-sm px-3 py-2 text-sm font-semibold mt-2 sm:mt-0 sm:ml-6 sm:w-auto mb-4 sm:mb-0 cursor-pointer"
+                  class="background-color text-color transition-colors border border-color border-color-hover inline-flex w-full justify-center items-center rounded-sm px-3 py-2 text-sm font-semibold mt-2 sm:mt-0 sm:ml-6 sm:w-auto mb-4 sm:mb-0 cursor-pointer"
                   @click="closeModal()"
                   ref="cancelButtonRef"
                 >
@@ -202,7 +202,7 @@ limitations under the License.
                 </button>
                 <button
                   type="button"
-                  class="background-color text-color transition-colors border border-color inline-flex w-full justify-center items-center rounded-sm px-3 py-2 text-sm font-semibold mt-2 sm:mt-0 sm:ml-3 sm:w-auto cursor-pointer"
+                  class="background-color text-color transition-colors border border-color border-color-hover inline-flex w-full justify-center items-center rounded-sm px-3 py-2 text-sm font-semibold mt-2 sm:mt-0 sm:ml-3 sm:w-auto cursor-pointer"
                   @click="boardService.exportData(props.currentBoardId)"
                 >
                   Export
