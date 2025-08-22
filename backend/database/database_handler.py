@@ -12,10 +12,12 @@
 
 """Database handler"""
 
-from sqlalchemy import create_engine, event
-from sqlalchemy.orm import Session, declarative_base, sessionmaker
+import json
+from sqlite3 import DatabaseError
 
-Base = declarative_base()
+from database.models import Setting, Base
+from sqlalchemy import create_engine, event
+from sqlalchemy.orm import Session, sessionmaker
 
 
 class DatabaseHandler:
@@ -36,3 +38,26 @@ class DatabaseHandler:
     def get_session(self) -> Session:
         """Get database session"""
         return self.session_local()
+
+    def sync_settings(self, session: Session):
+        """Reads settings file and adds not yet existing settings to the DB"""
+        with open("settings.json", "r", encoding="utf-8") as settings_file:
+            settings_list = json.load(settings_file)
+
+        for setting in settings_list:
+            exists = session.query(Setting).filter_by(setting_name=setting["setting_name"]).first()
+            if not exists:
+                try:
+                    tmp_setting = Setting(
+                        setting_name=setting["setting_name"],
+                        setting_value=setting["default_value"],
+                        setting_type=setting["setting_type"],
+                        setting_display_name=setting["setting_display_name"],
+                        setting_description=setting["setting_description"]
+                    )
+                    session.add(tmp_setting)
+                except DatabaseError:
+                    session.rollback()
+                    raise
+
+        session.commit()

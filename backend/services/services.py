@@ -17,10 +17,11 @@ from sqlalchemy.exc import DatabaseError
 
 from custom_types.api_response import ApiResponse
 from database.database_handler import DatabaseHandler
-from database.models import Board, Category, Note
+from database.models import Board, Category, Note, Setting
 
 db = DatabaseHandler()
 db.create_tables()
+db.sync_settings(db.get_session())
 
 
 def get_note_count_on_board():
@@ -271,3 +272,38 @@ def remove_category(
         except DatabaseError as e:
             session.rollback()
             return ApiResponse(response={"status": f"DB Error: {e}"}, status_code=500)
+
+
+def get_settings() -> ApiResponse:
+    """Return all settings stored"""
+    with db.get_session() as session:
+        settings = session.query(Setting).all()
+
+    settings_json = [
+        {
+            "setting_name": setting.setting_name,
+            "setting_value": setting.setting_value,
+            "setting_type": setting.setting_type,
+            "setting_display_name": setting.setting_display_name,
+            "setting_description": setting.setting_description
+        }
+        for setting in settings
+    ]
+
+    return ApiResponse(response=settings_json, status_code=200)
+
+
+def modify_setting(setting_name: str, new_value: str) -> ApiResponse:
+    """Modify a given setting"""
+    with db.get_session() as session:
+        try:
+            statement = select(Setting).where(
+                Setting.setting_name == setting_name)
+            setting = session.scalars(statement).one()
+            setting.setting_value = new_value
+            session.commit()
+        except DatabaseError as e:
+            session.rollback()
+            return ApiResponse(
+                response={"status": f"DB Error: {e}"}, status_code=500)
+    return ApiResponse(response={"status": "Success"}, status_code=200)

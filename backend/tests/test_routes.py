@@ -264,3 +264,45 @@ class TestRoutes(unittest.TestCase):
         response = self.client.delete("/api/categories/?category_id=1")
         self.assertEqual(response.get_json(), mock_json)
         self.assertEqual(response.status_code, 500)
+
+    @patch("routes.api_routes.get_settings")
+    def test_get_settings_success(self, mock_get_settings):
+        """Test GET request to settings endpoint"""
+        mock_json = [{"id": 10, "setting_name": "test_setting_name",
+                      "setting_value": "ABCD", "setting_type": "string",
+                      "setting_display_name": "Test Setting Name",
+                      "setting_description": "Test Description"}]
+        mock_get_settings.return_value = ApiResponse(
+            response=mock_json, status_code=200)
+
+        response = self.client.get("/api/settings/")
+        self.assertEqual(response.get_json(), mock_json)
+        self.assertEqual(response.status_code, 200)
+
+    @patch("routes.api_routes.modify_setting")
+    def test_put_settings_success(self, mock_modify_setting):
+        """Test PUT request to modify a setting endpoint"""
+        mock_json = {"status": "Success"}
+        mock_modify_setting.return_value = ApiResponse(
+            response=mock_json, status_code=200
+        )
+
+        response = self.client.put(
+            "/api/settings/1", json={"new_value": "Some value"}
+        )
+        self.assertEqual(response.get_json(), mock_json)
+        self.assertEqual(response.status_code, 200)
+
+    @patch("routes.api_routes.modify_setting")
+    def test_put_settings_failure(self, mock_modify_setting):
+        """Test PUT request to modify a setting endpoint"""
+        mock_json = {"status": "DB Error"}
+        mock_modify_setting.return_value = ApiResponse(
+            response=mock_json, status_code=500
+        )
+
+        response = self.client.put(
+            "/api/settings/1", json={"new_value": "Some value"}
+        )
+        self.assertEqual(response.get_json(), mock_json)
+        self.assertEqual(response.status_code, 500)

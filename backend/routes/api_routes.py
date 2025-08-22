@@ -27,8 +27,10 @@ from services.services import (
     get_categories,
     get_notes,
     get_notes_for_export,
+    get_settings,
     modify_note_category,
     modify_note_tags,
+    modify_setting,
     remove_board,
     remove_category,
     remove_note,
@@ -207,6 +209,40 @@ class Categories(Resource):
         parser.add_argument("category_id")
         args = parser.parse_args()
         resp = remove_category(args["category_id"])
+        return resp.response, resp.status_code
+
+
+settings_ns = Namespace("settings", description="Settings related operations")
+
+setting_model = settings_ns.model(
+    "Setting",
+    {
+        "setting_name": fields.String(required=True),
+        "setting_value": fields.Integer(required=True),
+    },
+)
+
+
+@settings_ns.route("/")
+class Settings(Resource):
+    """All settings related endpoints"""
+
+    def get(self):
+        """Get all settings"""
+        resp = get_settings()
+        return resp.response, resp.status_code
+
+
+@settings_ns.route("/<string:setting_name>")
+class ModifyStringSetting(Resource):
+    """Modify a string setting"""
+
+    def put(self, setting_name):
+        """Update the tags of a note"""
+        data = request.get_json()
+        new_value = data.get("new_value")
+
+        resp = modify_setting(setting_name, new_value)
         return resp.response, resp.status_code
 
 

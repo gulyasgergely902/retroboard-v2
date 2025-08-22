@@ -22,6 +22,7 @@ from routes.api_routes import (
     boards_ns,
     categories_ns,
     notes_ns,
+    settings_ns,
     register_static_routes,
 )
 
@@ -61,6 +62,7 @@ def create_app(testing=False):
     api.add_namespace(boards_ns)
     api.add_namespace(categories_ns)
     api.add_namespace(notes_ns)
+    api.add_namespace(settings_ns)
 
     register_static_routes(flask_app)
 

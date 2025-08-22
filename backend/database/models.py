@@ -15,9 +15,9 @@
 from typing import List
 
 from sqlalchemy import JSON, ForeignKey, String
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm import Mapped, mapped_column, relationship, declarative_base
 
-from database.database_handler import Base
+Base = declarative_base()
 
 
 class Board(Base):
@@ -36,7 +36,9 @@ class Board(Base):
     )
 
     def __repr__(self) -> str:
-        return f"Board(id={self.id!r}, name={self.name!r},notes={self.notes!r})"
+        return (
+            f"Board(id={self.id!r}, name={self.name!r},notes={self.notes!r})"
+        )
 
 
 class Note(Base):
@@ -74,3 +76,26 @@ class Category(Base):
 
     def __repr__(self) -> str:
         return f"Category(id={self.id!r}, name={self.name!r})"
+
+
+class Setting(Base):
+    """Database model for Settings"""
+
+    __tablename__ = "settings"
+
+    setting_name: Mapped[str] = mapped_column(primary_key=True)
+    setting_value: Mapped[str] = mapped_column(String(64))
+    setting_type: Mapped[str] = mapped_column(String(16))
+    setting_display_name: Mapped[str] = mapped_column(String(32))
+    setting_description: Mapped[str] = mapped_column(String(128))
+
+    def __repr__(self) -> str:
+        return (
+            f"Settings("
+            f"setting_name={self.setting_name!r}, "
+            f"setting_value={self.setting_value!r},"
+            f"setting_type={self.setting_type!r},"
+            f"setting_display_name={self.setting_display_name!r},"
+            f"setting_description={self.setting_description!r}"
+            f")"
+        )

@@ -26,8 +26,10 @@ from services.services import (
     get_categories,
     get_notes,
     get_notes_for_export,
+    get_settings,
     modify_note_category,
     modify_note_tags,
+    modify_setting,
     remove_board,
     remove_category,
     remove_note,
@@ -647,4 +649,74 @@ class TestServices(unittest.TestCase):
         self.assertEqual(resp.status_code, 500)
 
         mock_session.get.assert_called_once_with(mock_category_class, ANY)
+        mock_session.rollback.assert_called_once()
+
+    @patch("services.services.db")
+    def test_get_settings_success(self, mock_database_handler):
+        """Test get settings"""
+        mock_session = MagicMock()
+
+        mock_setting = MagicMock()
+        mock_setting.setting_name = "test_setting_name"
+        mock_setting.setting_value = "ABCD"
+        mock_setting.setting_type = "string"
+        mock_setting.setting_display_name = "Test Setting Name"
+        mock_setting.setting_description = "Test Description"
+
+        mock_query = mock_session.query.return_value
+
+        mock_query.all.return_value = [mock_setting]
+
+        mock_database_handler.get_session.return_value.__enter__.return_value = mock_session
+
+        resp = get_settings()
+        expected_json = [
+            {
+                "setting_name": "test_setting_name",
+                "setting_value": "ABCD",
+                "setting_type": "string",
+                "setting_display_name": "Test Setting Name",
+                "setting_description": "Test Description"
+            }
+        ]
+
+        self.assertEqual(resp.response, expected_json)
+        self.assertEqual(resp.status_code, 200)
+
+    @patch("services.services.db")
+    def test_modify_setting_success(self, mock_database_handler):
+        """Test modify setting"""
+        mock_session = MagicMock()
+        mock_setting = MagicMock()
+        mock_database_handler.get_session.return_value.__enter__.return_value = (
+            mock_session
+        )
+
+        mock_scalars = MagicMock()
+        mock_scalars.one.return_value = mock_setting
+        mock_session.scalars.return_value = mock_scalars
+
+        resp = modify_setting(1, "Test value")
+
+        self.assertEqual(resp.response, {"status": "Success"})
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(mock_setting.setting_value, "Test value")
+        mock_session.commit.assert_called_once()
+
+    @patch("services.services.db")
+    def test_modify_setting_database_error(self, mock_database_handler):
+        """Test modify setting"""
+        mock_session = MagicMock()
+        mock_database_handler.get_session.return_value.__enter__.return_value = (
+            mock_session
+        )
+
+        mock_session.scalars.side_effect = DatabaseError(
+            "statement", {}, Exception("Error")
+        )
+
+        resp = modify_setting(1, "Test value")
+
+        self.assertIn("DB Error", resp.response["status"])  # type: ignore
+        self.assertEqual(resp.status_code, 500)
         mock_session.rollback.assert_called_once()
