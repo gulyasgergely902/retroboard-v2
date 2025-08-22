@@ -13,15 +13,16 @@
  */
 
 import { defineStore } from 'pinia'
-import type { Board } from '@/services/app/types'
+import type { Board, Setting } from '@/services/app/types'
 import type { Result } from '@/services/global/types'
 import { $fetch } from '@/composables/fetch'
 import router from '@/router/'
 
 export const useAppService = defineStore('app', {
-  state: (): { loading: boolean; boards: Board[] } => ({
+  state: (): { loading: boolean; boards: Board[]; settings: Setting[] } => ({
     loading: true,
     boards: [],
+    settings: [],
   }),
 
   actions: {
@@ -80,6 +81,38 @@ export const useAppService = defineStore('app', {
         router.push('/')
       } catch (err) {
         console.error('Error deleting board ', boardId, ', err:', err)
+      }
+    },
+
+    async fetchSettings() {
+      try {
+        const response = await $fetch<Setting[]>(`/api/settings`)
+        const data = await response.json()
+
+        this.settings = data.map((setting) => {
+          if (setting.setting_type === 'boolean') {
+            return { ...setting, setting_value: (setting.setting_value =="1") }
+          }
+          return setting
+        })
+      } catch (err) {
+        console.error('Error fetching settings:', err)
+      }
+    },
+
+    async saveSettings() {
+      for (const setting of [...this.settings]) {
+        try {
+          const requestOptions = {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ new_value: setting.setting_value }),
+          }
+          const endpoint = `/api/settings/` + setting.setting_name
+          await $fetch<Result>(endpoint, requestOptions)
+        } catch (err) {
+          console.error('Error saving settings:', err)
+        }
       }
     },
   },
