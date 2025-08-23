@@ -13,7 +13,7 @@ limitations under the License.
 -->
 
 <template>
-  <SettingsModal v-model:is-settings-modal-open="isSettingsModalOpen"/>
+  <SettingsModal v-model:is-settings-modal-open="isSettingsModalOpen" />
   <nav>
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
       <RouterLink
@@ -28,9 +28,7 @@ limitations under the License.
         as="div"
         class="relative ml-3"
       >
-        <MenuButton
-          class="relative flex rounded-full cursor-pointer"
-        >
+        <MenuButton class="relative flex rounded-full cursor-pointer">
           <span class="absolute -inset-1.5" />
           <span class="sr-only">Open user menu</span>
           <svg
