@@ -15,11 +15,11 @@ limitations under the License.
 <template>
   <TransitionRoot
     as="template"
-    :show="isModalOpen"
+    :show="isSettingsModalOpen"
   >
     <Dialog
       class="relative z-10"
-      @close="isModalOpen = false"
+      @close="closeModal()"
     >
       <TransitionChild
         as="template"
@@ -47,7 +47,7 @@ limitations under the License.
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
             <DialogPanel
-              class="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
+              class="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 w-full sm:max-w-lg"
             >
               <div class="background-color px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 <div class="sm:flex sm:items-start">
@@ -79,10 +79,26 @@ limitations under the License.
                       as="h3"
                       class="text-color text-xl font-medium font-semibold"
                     >
-                      Are you sure?
+                      Settings
                     </DialogTitle>
                     <div class="mt-2">
-                      <span class="text-color">This action is irreversible!</span>
+                      <div
+                        v-for="setting in appService.settings"
+                        :key="setting.setting_name"
+                      >
+                        <TextInputComponent
+                          v-if="setting.setting_type === 'string'"
+                          :label="setting.setting_display_name"
+                          :description="setting.setting_description"
+                          v-model:textContent="setting.setting_value"
+                        />
+                        <CheckboxInputComponent
+                          v-if="setting.setting_type === 'boolean'"
+                          :label="setting.setting_display_name"
+                          :description="setting.setting_description"
+                          v-model:checkedState="setting.setting_value"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -90,15 +106,15 @@ limitations under the License.
               <div class="background-color px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                 <button
                   type="button"
-                  class="button-color-danger text-color-over-primary transition-colors inline-flex w-full justify-center rounded-sm px-3 py-2 text-sm font-semibold sm:ml-3 sm:w-auto cursor-pointer"
-                  @click="closeModal()"
+                  class="button-color-primary text-color-over-primary transition-colors inline-flex w-full justify-center rounded-sm px-3 py-2 text-sm font-semibold sm:ml-3 sm:w-auto cursor-pointer"
+                  @click="saveSettings()"
                 >
-                  Yes
+                  Save
                 </button>
                 <button
                   type="button"
-                  class="background-color text-color transition-colors mt-3 inline-flex w-full justify-center rounded-sm px-3 py-2 text-sm font-semibold shadow-xs sm:mt-0 sm:ml-3 sm:w-auto cursor-pointer"
-                  @click="isModalOpen = false"
+                  class="background-color text-color transition-colors mt-3 inline-flex w-full justify-center rounded-sm px-3 py-2 text-sm font-semibold shadow-xs sm:mt-0 sm:w-auto cursor-pointer"
+                  @click="closeModal()"
                   ref="cancelButtonRef"
                 >
                   Cancel
@@ -113,6 +129,12 @@ limitations under the License.
 </template>
 
 <script setup lang="ts">
+  import { useAppService } from '@/services/app/app.service'
+  import TextInputComponent from './TextInputComponent.vue'
+  import CheckboxInputComponent from './CheckboxInputComponent.vue'
+  import { onMounted } from 'vue'
+
+  const isSettingsModalOpen = defineModel<boolean>('isSettingsModalOpen')
   import {
     Dialog,
     DialogPanel,
@@ -121,11 +143,18 @@ limitations under the License.
     TransitionRoot,
   } from '@headlessui/vue'
 
-  const emit = defineEmits(['answer'])
-  const isModalOpen = defineModel<boolean>('isModalOpen')
+  const appService = useAppService()
+
+  onMounted(async () => {
+    appService.fetchSettings()
+  })
+
+  function saveSettings() {
+    appService.saveSettings()
+    closeModal()
+  }
 
   function closeModal() {
-    isModalOpen.value = false
-    emit('answer', true)
+    isSettingsModalOpen.value = false
   }
 </script>

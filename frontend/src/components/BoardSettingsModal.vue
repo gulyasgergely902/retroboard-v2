@@ -82,26 +82,12 @@ limitations under the License.
                       Board Settings
                     </DialogTitle>
                     <div class="mt-2">
-                      <label
-                        for="note_content"
-                        class="block mb-2 text-sm font-medium text-color"
-                      >
-                        Board Name
-                      </label>
-                      <input
-                        type="text"
-                        id="board_name"
-                        v-model="newBoardName"
-                        class="background-color-bold text-color text-sm rounded-sm block w-full p-2.5"
-                        placeholder="My Board"
-                        disabled
+                      <TextInputComponent
+                        label="Board Name"
+                        description="A descriptive name for the new board, e.g. Backend Team Retrospective."
+                        v-model:textContent="newBoardName"
+                        v-model:error="newBoardNameError"
                       />
-                      <p
-                        v-if="newBoardNameError"
-                        class="text-red-500 text-sm"
-                      >
-                        Board name cannot be empty!
-                      </p>
                       <span class="block mt-4 mb-2 text-sm font-medium text-color">Categories</span>
                       <div
                         class="background-color-bold rounded-sm p-2 max-h-[256px] overflow-x-hidden overflow-y-auto"
@@ -194,7 +180,7 @@ limitations under the License.
                 </button>
                 <button
                   type="button"
-                  class="background-color text-color transition-colors border border-color inline-flex w-full justify-center items-center rounded-sm px-3 py-2 text-sm font-semibold mt-2 sm:mt-0 sm:ml-6 sm:w-auto mb-4 sm:mb-0 cursor-pointer"
+                  class="background-color text-color transition-colors border border-color border-color-hover inline-flex w-full justify-center items-center rounded-sm px-3 py-2 text-sm font-semibold mt-2 sm:mt-0 sm:ml-6 sm:w-auto mb-4 sm:mb-0 cursor-pointer"
                   @click="closeModal()"
                   ref="cancelButtonRef"
                 >
@@ -202,14 +188,14 @@ limitations under the License.
                 </button>
                 <button
                   type="button"
-                  class="background-color text-color transition-colors border border-color inline-flex w-full justify-center items-center rounded-sm px-3 py-2 text-sm font-semibold mt-2 sm:mt-0 sm:ml-3 sm:w-auto cursor-pointer"
+                  class="background-color text-color transition-colors border border-color border-color-hover inline-flex w-full justify-center items-center rounded-sm px-3 py-2 text-sm font-semibold mt-2 sm:mt-0 sm:ml-3 sm:w-auto cursor-pointer"
                   @click="boardService.exportData(props.currentBoardId)"
                 >
                   Export
                 </button>
                 <button
                   type="button"
-                  class="background-color-danger text-color-over-primary transition-colors inline-flex w-full justify-center items-center rounded-sm px-3 py-2 text-sm font-semibold mt-2 sm:mt-0 sm:ml-3 sm:w-auto cursor-pointer"
+                  class="button-color-danger text-color-over-primary transition-colors inline-flex w-full justify-center items-center rounded-sm px-3 py-2 text-sm font-semibold mt-2 sm:mt-0 sm:ml-3 sm:w-auto cursor-pointer"
                   @click="isYesNoModalOpen = true"
                 >
                   Delete
@@ -232,6 +218,7 @@ limitations under the License.
   import { useAppService } from '@/services/app/app.service'
   import { useBoardService } from '@/services/board/board.service'
   import YesNoModal from '@/components/YesNoModal.vue'
+  import TextInputComponent from './TextInputComponent.vue'
   import {
     Dialog,
     DialogPanel,

@@ -17,3 +17,11 @@ export interface Board {
   name: string
   note_count: number
 }
+
+export interface Setting {
+  setting_name: string
+  setting_value: string | boolean
+  setting_type: string
+  setting_display_name: string
+  setting_description: string
+}

@@ -80,7 +80,7 @@ limitations under the License.
     >
       <template #default="{ item }">
         <div
-          class="background-color text-color transition-colors p-4 rounded-md border-color border-1"
+          class="background-color text-color transition-colors p-4 rounded-md border-color border-color-hover border-1"
           :class="{ 'blur-sm': visibilityChecked }"
         >
           <div class="flex justify-end">

@@ -1,0 +1,9 @@
+[
+  {
+    "setting_name": "notification_banner_text",
+    "default_value": "",
+    "setting_type": "string",
+    "setting_display_name": "Notification Banner",
+    "setting_description": "Show a persistent text on every screen."
+  }
+]

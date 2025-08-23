@@ -27,8 +27,10 @@ from services.services import (
     get_categories,
     get_notes,
     get_notes_for_export,
+    get_settings,
     modify_note_category,
     modify_note_tags,
+    modify_setting,
     remove_board,
     remove_category,
     remove_note,
@@ -76,13 +78,17 @@ class BoardsExport(Resource):
         result = get_notes_for_export(args["board_id"])
         export_data = json.dumps(result, indent=2)
         response = Response(
-            export_data.encode("utf-8"), mimetype="application/json", status=200
+            export_data.encode("utf-8"),
+            mimetype="application/json",
+            status=200,
         )
         timestamp = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
         board_name = get_board_name_from_id(args["board_id"])
         filename = f"export_{timestamp}_{board_name}.json"
 
-        response.headers["Content-Disposition"] = f"attachment; filename={filename}"
+        response.headers["Content-Disposition"] = (
+            f"attachment; filename={filename}"
+        )
         return response
 
 
@@ -105,7 +111,11 @@ category_model = notes_ns.model(
 
 tags_model = notes_ns.model(
     "TagsUpdate",
-    {"tags": fields.List(fields.String, required=True, description="New tags")},
+    {
+        "tags": fields.List(
+            fields.String, required=True, description="New tags"
+        )
+    },
 )
 
 
@@ -170,7 +180,9 @@ class NoteTagsResource(Resource):
         return resp.response, resp.status_code
 
 
-categories_ns = Namespace("categories", description="Category related operation")
+categories_ns = Namespace(
+    "categories", description="Category related operation"
+)
 
 category_model = categories_ns.model(
     "Category",
@@ -207,6 +219,40 @@ class Categories(Resource):
         parser.add_argument("category_id")
         args = parser.parse_args()
         resp = remove_category(args["category_id"])
+        return resp.response, resp.status_code
+
+
+settings_ns = Namespace("settings", description="Settings related operations")
+
+setting_model = settings_ns.model(
+    "Setting",
+    {
+        "setting_name": fields.String(required=True),
+        "setting_value": fields.Integer(required=True),
+    },
+)
+
+
+@settings_ns.route("/")
+class Settings(Resource):
+    """All settings related endpoints"""
+
+    def get(self):
+        """Get all settings"""
+        resp = get_settings()
+        return resp.response, resp.status_code
+
+
+@settings_ns.route("/<string:setting_name>")
+class ModifyStringSetting(Resource):
+    """Modify a string setting"""
+
+    def put(self, setting_name):
+        """Update the tags of a note"""
+        data = request.get_json()
+        new_value = data.get("new_value")
+
+        resp = modify_setting(setting_name, new_value)
         return resp.response, resp.status_code
 
 

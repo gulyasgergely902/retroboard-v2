@@ -77,55 +77,17 @@ limitations under the License.
                       Create Board
                     </DialogTitle>
                     <div class="mt-2">
-                      <label
-                        for="board_name"
-                        class="block mb-2 text-sm font-medium text-color"
-                      >
-                        Board Name
-                      </label>
-                      <input
-                        type="text"
-                        id="board_name"
-                        v-model="newBoardName"
-                        @blur="validateNewBoardName()"
-                        class="background-color-bold text-color text-sm rounded-sm block w-full p-2.5"
-                        :class="{ 'input-error': newBoardNameError }"
-                        placeholder="My Board"
-                        required
+                      <TextInputComponent
+                        label="Board Name"
+                        description="A descriptive name for the new board, e.g. Backend Team Retrospective."
+                        v-model:textContent="newBoardName"
+                        v-model:error="newBoardNameError"
                       />
-                      <label
-                        v-if="newBoardNameError"
-                        for="board_name"
-                        class="block mt-2 text-sm font-medium text-color-danger"
-                      >
-                        {{ newBoardNameError }}
-                      </label>
-                      <div class="flex mt-4">
-                        <div class="flex items-center h-5">
-                          <input
-                            id="helper-checkbox"
-                            aria-describedby="helper-checkbox-text"
-                            type="checkbox"
-                            value=""
-                            v-model="initializeWithCategories"
-                            class="w-4 h-4 text-color background-color border-gray-300 rounded-sm dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
-                          />
-                        </div>
-                        <div class="ms-2 text-sm">
-                          <label
-                            for="helper-checkbox"
-                            class="font-medium text-color"
-                          >
-                            Create default categories
-                          </label>
-                          <p
-                            id="helper-checkbox-text"
-                            class="text-xs font-normal text-color-muted"
-                          >
-                            Choose a board category template to initialize your board with.
-                          </p>
-                        </div>
-                      </div>
+                      <CheckboxInputComponent
+                        label="Create default categories"
+                        description="Choose a board category template to initialize your board with."
+                        v-model:checkedState="initializeWithCategories"
+                      />
                       <div
                         v-if="initializeWithCategories"
                         class="ms-2 text-sm mt-2"
@@ -206,6 +168,8 @@ limitations under the License.
     TransitionChild,
     TransitionRoot,
   } from '@headlessui/vue'
+  import CheckboxInputComponent from './CheckboxInputComponent.vue'
+  import TextInputComponent from './TextInputComponent.vue'
 
   interface BoardCategoriesTemplate {
     id: number
@@ -255,16 +219,20 @@ limitations under the License.
     return true
   }
 
-  function validateInput() {
-    let inputValid = true
-    inputValid = validateNewBoardName()
-    inputValid = validateSelectedTemplate()
+  function validateAll() {
+    const validators = [validateNewBoardName, validateSelectedTemplate]
 
-    return inputValid
+    for (const validator of validators) {
+      if (!validator()) {
+        return false
+      }
+    }
+
+    return true
   }
 
   async function createBoard() {
-    if (validateInput()) {
+    if (validateAll()) {
       const board_data = await appService.createNewBoard(newBoardName.value)
       // @ts-expect-error 'board_id' not undefined
       const board_id = board_data.board_id
