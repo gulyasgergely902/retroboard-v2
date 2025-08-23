@@ -78,13 +78,17 @@ class BoardsExport(Resource):
         result = get_notes_for_export(args["board_id"])
         export_data = json.dumps(result, indent=2)
         response = Response(
-            export_data.encode("utf-8"), mimetype="application/json", status=200
+            export_data.encode("utf-8"),
+            mimetype="application/json",
+            status=200,
         )
         timestamp = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
         board_name = get_board_name_from_id(args["board_id"])
         filename = f"export_{timestamp}_{board_name}.json"
 
-        response.headers["Content-Disposition"] = f"attachment; filename={filename}"
+        response.headers["Content-Disposition"] = (
+            f"attachment; filename={filename}"
+        )
         return response
 
 
@@ -107,7 +111,11 @@ category_model = notes_ns.model(
 
 tags_model = notes_ns.model(
     "TagsUpdate",
-    {"tags": fields.List(fields.String, required=True, description="New tags")},
+    {
+        "tags": fields.List(
+            fields.String, required=True, description="New tags"
+        )
+    },
 )
 
 
@@ -172,7 +180,9 @@ class NoteTagsResource(Resource):
         return resp.response, resp.status_code
 
 
-categories_ns = Namespace("categories", description="Category related operation")
+categories_ns = Namespace(
+    "categories", description="Category related operation"
+)
 
 category_model = categories_ns.model(
     "Category",

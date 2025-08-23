@@ -45,7 +45,9 @@ def get_boards() -> ApiResponse:
     counts = get_note_count_on_board()
 
     boards_json = [{"id": board.id, "name": board.name} for board in boards]
-    note_count_json = [{"board_id": item[0], "note_count": item[1]} for item in counts]
+    note_count_json = [
+        {"board_id": item[0], "note_count": item[1]} for item in counts
+    ]
 
     note_count_lookup = {
         item["board_id"]: item["note_count"] for item in note_count_json
@@ -84,7 +86,9 @@ def add_board(
             board_id = board.id
         except DatabaseError as e:
             session.rollback()
-            return ApiResponse(response={"status": f"DB Error: {e}"}, status_code=500)
+            return ApiResponse(
+                response={"status": f"DB Error: {e}"}, status_code=500
+            )
     return ApiResponse(
         response={"status": "Success", "board_id": board_id}, status_code=200
     )
@@ -105,7 +109,9 @@ def remove_board(
             session.commit()
         except DatabaseError as e:
             session.rollback()
-            return ApiResponse(response={"status": f"DB Error: {e}"}, status_code=500)
+            return ApiResponse(
+                response={"status": f"DB Error: {e}"}, status_code=500
+            )
     return ApiResponse(response={"status": "Success"}, status_code=200)
 
 
@@ -127,7 +133,9 @@ def get_notes(board_id: int) -> ApiResponse:
     return ApiResponse(response=notes_json, status_code=200)
 
 
-def get_notes_for_export(board_id: int) -> dict[str, str | list[dict[str, str]]]:
+def get_notes_for_export(
+    board_id: int,
+) -> dict[str, str | list[dict[str, str]]]:
     """Return all notes for export from a board"""
     board_name = get_board_name_from_id(board_id)
     if board_name == "":
@@ -151,7 +159,10 @@ def get_notes_for_export(board_id: int) -> dict[str, str | list[dict[str, str]]]
 
 
 def add_note(
-    note_description: str, note_category: int, note_tags: str, note_board_id: int
+    note_description: str,
+    note_category: int,
+    note_tags: str,
+    note_board_id: int,
 ) -> ApiResponse:
     """Add a new note"""
     with db.get_session() as session:
@@ -167,7 +178,9 @@ def add_note(
             session.commit()
         except DatabaseError as e:
             session.rollback()
-            return ApiResponse(response={"status": f"DB Error: {e}"}, status_code=500)
+            return ApiResponse(
+                response={"status": f"DB Error: {e}"}, status_code=500
+            )
     return ApiResponse(response={"status": "Success"}, status_code=200)
 
 
@@ -200,7 +213,9 @@ def modify_note_category(note_id: int, new_category: int) -> ApiResponse:
             session.commit()
         except DatabaseError as e:
             session.rollback()
-            return ApiResponse(response={"status": f"DB Error: {e}"}, status_code=500)
+            return ApiResponse(
+                response={"status": f"DB Error: {e}"}, status_code=500
+            )
     return ApiResponse(response={"status": "Success"}, status_code=200)
 
 
@@ -214,14 +229,18 @@ def modify_note_tags(note_id: int, new_tags: list) -> ApiResponse:
             session.commit()
         except DatabaseError as e:
             session.rollback()
-            return ApiResponse(response={"status": f"DB Error: {e}"}, status_code=500)
+            return ApiResponse(
+                response={"status": f"DB Error: {e}"}, status_code=500
+            )
     return ApiResponse(response={"status": "Success"}, status_code=200)
 
 
 def get_categories(board_id: int) -> ApiResponse:
     """Return all categories for a board or all"""
     with db.get_session() as session:
-        categories = session.query(Category).where(Category.board_id.is_(board_id))
+        categories = session.query(Category).where(
+            Category.board_id.is_(board_id)
+        )
 
     categories_json = [
         {"id": category.id, "name": category.name} for category in categories
@@ -234,11 +253,15 @@ def add_category(category_name: str, category_board_id: int) -> ApiResponse:
     """Add a new category"""
     with db.get_session() as session:
         try:
-            session.add(Category(name=category_name, board_id=category_board_id))
+            session.add(
+                Category(name=category_name, board_id=category_board_id)
+            )
             session.commit()
         except DatabaseError as e:
             session.rollback()
-            return ApiResponse(response={"status": f"DB Error: {e}"}, status_code=500)
+            return ApiResponse(
+                response={"status": f"DB Error: {e}"}, status_code=500
+            )
     return ApiResponse(response={"status": "Success"}, status_code=200)
 
 
@@ -271,7 +294,9 @@ def remove_category(
             return ApiResponse(response={"status": "Success"}, status_code=200)
         except DatabaseError as e:
             session.rollback()
-            return ApiResponse(response={"status": f"DB Error: {e}"}, status_code=500)
+            return ApiResponse(
+                response={"status": f"DB Error: {e}"}, status_code=500
+            )
 
 
 def get_settings() -> ApiResponse:
@@ -285,7 +310,7 @@ def get_settings() -> ApiResponse:
             "setting_value": setting.setting_value,
             "setting_type": setting.setting_type,
             "setting_display_name": setting.setting_display_name,
-            "setting_description": setting.setting_description
+            "setting_description": setting.setting_description,
         }
         for setting in settings
     ]
@@ -298,12 +323,14 @@ def modify_setting(setting_name: str, new_value: str) -> ApiResponse:
     with db.get_session() as session:
         try:
             statement = select(Setting).where(
-                Setting.setting_name == setting_name)
+                Setting.setting_name == setting_name
+            )
             setting = session.scalars(statement).one()
             setting.setting_value = new_value
             session.commit()
         except DatabaseError as e:
             session.rollback()
             return ApiResponse(
-                response={"status": f"DB Error: {e}"}, status_code=500)
+                response={"status": f"DB Error: {e}"}, status_code=500
+            )
     return ApiResponse(response={"status": "Success"}, status_code=200)

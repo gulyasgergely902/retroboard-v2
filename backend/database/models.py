@@ -15,7 +15,12 @@
 from typing import List
 
 from sqlalchemy import JSON, ForeignKey, String
-from sqlalchemy.orm import Mapped, mapped_column, relationship, declarative_base
+from sqlalchemy.orm import (
+    Mapped,
+    declarative_base,
+    mapped_column,
+    relationship,
+)
 
 Base = declarative_base()
 

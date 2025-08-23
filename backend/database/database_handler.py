@@ -15,9 +15,10 @@
 import json
 from sqlite3 import DatabaseError
 
-from database.models import Setting, Base
 from sqlalchemy import create_engine, event
 from sqlalchemy.orm import Session, sessionmaker
+
+from database.models import Base, Setting
 
 
 class DatabaseHandler:
@@ -41,11 +42,15 @@ class DatabaseHandler:
 
     def sync_settings(self, session: Session):
         """Reads settings file and adds not yet existing settings to the DB"""
-        with open("settings.json", "r", encoding="utf-8") as settings_file:
+        with open("settings.json", encoding="utf-8") as settings_file:
             settings_list = json.load(settings_file)
 
         for setting in settings_list:
-            exists = session.query(Setting).filter_by(setting_name=setting["setting_name"]).first()
+            exists = (
+                session.query(Setting)
+                .filter_by(setting_name=setting["setting_name"])
+                .first()
+            )
             if not exists:
                 try:
                     tmp_setting = Setting(
@@ -53,7 +58,7 @@ class DatabaseHandler:
                         setting_value=setting["default_value"],
                         setting_type=setting["setting_type"],
                         setting_display_name=setting["setting_display_name"],
-                        setting_description=setting["setting_description"]
+                        setting_description=setting["setting_description"],
                     )
                     session.add(tmp_setting)
                 except DatabaseError:

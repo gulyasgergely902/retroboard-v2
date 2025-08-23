@@ -22,8 +22,8 @@ from routes.api_routes import (
     boards_ns,
     categories_ns,
     notes_ns,
-    settings_ns,
     register_static_routes,
+    settings_ns,
 )
 
 CONFIG = {
@@ -37,7 +37,9 @@ def create_app(testing=False):
 
     env = os.environ.get("FLASK_ENV", "production").lower()
     static_folder_path = os.path.join(os.path.dirname(__file__), "static")
-    flask_app = Flask(__name__, static_folder=static_folder_path, static_url_path="")
+    flask_app = Flask(
+        __name__, static_folder=static_folder_path, static_url_path=""
+    )
 
     if testing:
         flask_app.config.update(
