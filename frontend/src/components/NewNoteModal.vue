@@ -201,16 +201,20 @@ limitations under the License.
     return true
   }
 
-  function validateInput() {
-    let inputValid = true
-    inputValid = validateNewNoteContent()
-    inputValid = validateNewNoteCategory()
+  function validateAll() {
+    const validators = [validateNewNoteContent, validateNewNoteCategory]
 
-    return inputValid
+    for (const validator of validators) {
+      if (!validator()) {
+        return false
+      }
+    }
+
+    return true
   }
 
   function createNote() {
-    if (validateInput()) {
+    if (validateAll()) {
       boardService.createNewNote(props.currentBoardId, newNoteContent.value, newNoteCategory.value)
       newNoteContent.value = ''
       newNoteCategory.value = 0

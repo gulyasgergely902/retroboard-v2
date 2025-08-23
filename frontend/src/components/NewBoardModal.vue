@@ -219,16 +219,20 @@ limitations under the License.
     return true
   }
 
-  function validateInput() {
-    let inputValid = true
-    inputValid = validateNewBoardName()
-    inputValid = validateSelectedTemplate()
+  function validateAll() {
+    const validators = [validateNewBoardName, validateSelectedTemplate]
 
-    return inputValid
+    for (const validator of validators) {
+      if (!validator()) {
+        return false
+      }
+    }
+
+    return true
   }
 
   async function createBoard() {
-    if (validateInput()) {
+    if (validateAll()) {
       const board_data = await appService.createNewBoard(newBoardName.value)
       // @ts-expect-error 'board_id' not undefined
       const board_id = board_data.board_id
