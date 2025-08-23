@@ -66,6 +66,14 @@ body {
   background-color: #85b8ff;
 }
 
+.button-color-danger {
+  background-color: #c9372c;
+}
+
+.button-color-danger:hover {
+  background-color: #ae2e24;
+}
+
 .text-hover-color-primary:hover {
   color: #0055cc;
 }
@@ -100,14 +108,6 @@ body {
 
 .border-color-hover:hover {
   border-color: #0c66e4;
-}
-
-.background-color-danger {
-  background-color: #c9372c;
-}
-
-.background-color-danger:hover {
-  background-color: #ae2e24;
 }
 
 .horizontal-separator {
@@ -169,6 +169,14 @@ body {
     background-color: #09326c;
   }
 
+  .button-color-danger {
+    background-color: #f87168;
+  }
+
+  .button-color-danger:hover {
+    background-color: #fd9891;
+  }
+
   .text-hover-color-primary:hover {
     color: #85b8ff;
   }
@@ -203,14 +211,6 @@ body {
 
   .border-color-hover:hover {
     border-color: #85b8ff;
-  }
-
-  .background-color-danger {
-    background-color: #f87168;
-  }
-
-  .background-color-danger:hover {
-    background-color: #fd9891;
   }
 
   .separator {
