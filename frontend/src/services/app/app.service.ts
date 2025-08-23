@@ -91,7 +91,7 @@ export const useAppService = defineStore('app', {
 
         this.settings = data.map((setting) => {
           if (setting.setting_type === 'boolean') {
-            return { ...setting, setting_value: (setting.setting_value =="1") }
+            return { ...setting, setting_value: setting.setting_value == '1' }
           }
           return setting
         })
@@ -114,6 +114,11 @@ export const useAppService = defineStore('app', {
           console.error('Error saving settings:', err)
         }
       }
+    },
+
+    getSettingValue(setting_name: string) {
+      const setting = this.settings.find((setting) => setting.setting_name === setting_name)
+      return setting?.setting_value
     },
   },
 })

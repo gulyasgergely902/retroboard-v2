@@ -42,6 +42,10 @@ body {
   background-color: #dcdfe4;
 }
 
+.background-color-alert {
+  background-color: #fec195;
+}
+
 .button-color {
   background-color: #ffffff;
 }
@@ -84,6 +88,10 @@ body {
 
 .text-color-danger:hover {
   color: #ae2e24;
+}
+
+.text-color-alert {
+  color: #702e00;
 }
 
 .icon-background {
@@ -145,6 +153,10 @@ body {
     background-color: #22272b;
   }
 
+  .background-color-alert {
+    background-color: #702e00;
+  }
+
   .button-color {
     background-color: #161a1d;
   }
@@ -187,6 +199,10 @@ body {
 
   .text-color-danger:hover {
     color: #fd9891;
+  }
+
+  .text-color-alert {
+    color: #fec195;
   }
 
   .icon-background {

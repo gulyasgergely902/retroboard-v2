@@ -76,14 +76,23 @@ limitations under the License.
       </Menu>
     </div>
   </nav>
+  <div
+    v-if="appService.getSettingValue('notification_banner_text')"
+    class="w-full background-color-alert rounded-sm"
+  >
+    <p class="text-color-alert p-2">{{ appService.getSettingValue('notification_banner_text') }}</p>
+  </div>
 </template>
 
 <script setup lang="ts">
   import { RouterLink } from 'vue-router'
   import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
   import SettingsModal from './SettingsModal.vue'
+  import { useAppService } from '@/services/app/app.service'
 
   import { ref } from 'vue'
+
+  const appService = useAppService()
 
   const isSettingsModalOpen = ref(false)
 </script>
