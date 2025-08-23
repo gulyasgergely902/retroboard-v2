@@ -107,7 +107,7 @@ limitations under the License.
                 <button
                   type="button"
                   class="button-color-primary text-color-over-primary transition-colors inline-flex w-full justify-center rounded-sm px-3 py-2 text-sm font-semibold sm:ml-3 sm:w-auto cursor-pointer"
-                  @click="appService.saveSettings()"
+                  @click="saveSettings()"
                 >
                   Save
                 </button>
@@ -148,6 +148,11 @@ limitations under the License.
   onMounted(async () => {
     appService.fetchSettings()
   })
+
+  function saveSettings() {
+    appService.saveSettings()
+    closeModal()
+  }
 
   function closeModal() {
     isSettingsModalOpen.value = false
