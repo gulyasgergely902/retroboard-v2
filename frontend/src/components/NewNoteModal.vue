@@ -99,34 +99,13 @@ limitations under the License.
                       >
                         {{ newNoteContentError }}
                       </label>
-                      <label
-                        for="note_category"
-                        class="block mt-4 mb-2 text-sm font-medium text-color"
-                      >
-                        Note Category
-                      </label>
-                      <select
-                        id="note_category"
-                        v-model="newNoteCategory"
-                        @blur="validateNewNoteCategory()"
-                        class="background-color-bold text-color text-sm rounded-sm block w-full p-2.5"
-                        :class="{ 'input-error': newNoteCategoryError }"
-                      >
-                        <option
-                          v-for="category in boardService.categories"
-                          :key="category.id"
-                          :value="category.id"
-                        >
-                          {{ category.name }}
-                        </option>
-                      </select>
-                      <label
-                        v-if="newNoteCategoryError"
-                        for="note_category"
-                        class="block mt-2 text-sm font-medium text-color-danger"
-                      >
-                        {{ newNoteCategoryError }}
-                      </label>
+                      <SelectInputComponent
+                        label="Note Category"
+                        description="Pick a category for this note."
+                        :options="boardService.categories"
+                        v-model:selection="newNoteCategory"
+                        v-model:error="newNoteCategoryError"
+                      />
                       <p class="text-sm text-gray-900 dark:text-white">
                         Notes cannot be modified after creation!
                       </p>

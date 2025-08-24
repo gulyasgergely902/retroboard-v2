@@ -92,34 +92,13 @@ limitations under the License.
                         v-if="initializeWithCategories"
                         class="ms-2 text-sm mt-2"
                       >
-                        <label
-                          for="initial_category"
-                          class="font-medium text-color"
-                        >
-                          Templates
-                        </label>
-                        <select
-                          id="initial_category"
-                          v-model="selectedCategoryTemplateId"
-                          @blur="validateSelectedTemplate()"
-                          class="background-color-bold text-color text-sm rounded-sm block w-full p-2.5"
-                          :class="{ 'input-error': noSelectedTemplateError }"
-                        >
-                          <option
-                            v-for="template in templates"
-                            :key="template.id"
-                            :value="template.id"
-                          >
-                            {{ template.templateName }}
-                          </option>
-                        </select>
-                        <label
-                          v-if="noSelectedTemplateError"
-                          for="note_category"
-                          class="block mt-2 text-sm font-medium text-color-danger"
-                        >
-                          {{ noSelectedTemplateError }}
-                        </label>
+                        <SelectInputComponent
+                        label="Templates"
+                        description="Choose a template to initialize the board with."
+                        :options="templates"
+                        v-model:selection="selectedCategoryTemplateId"
+                        v-model:error="noSelectedTemplateError"
+                        />
                       </div>
                     </div>
                   </div>
@@ -163,10 +142,11 @@ limitations under the License.
     TransitionChild,
     TransitionRoot,
   } from '@headlessui/vue'
+import SelectInputComponent from './input/SelectInputComponent.vue'
 
   interface BoardCategoriesTemplate {
     id: number
-    templateName: string
+    name: string
     categories: string[]
   }
 
@@ -178,17 +158,17 @@ limitations under the License.
   const templates = ref<BoardCategoriesTemplate[]>([
     {
       id: 1,
-      templateName: 'Retrospective (Good, Bad, Actions)',
+      name: 'Retrospective (Good, Bad, Actions)',
       categories: ['Went well', 'Needs improvement', 'Action items'],
     },
     {
       id: 2,
-      templateName: 'Team Centric (Liked, Learned, Lacked, Longed for)',
+      name: 'Team Centric (Liked, Learned, Lacked, Longed for)',
       categories: ['Liked', 'Learned', 'Lacked', 'Longed for'],
     },
     {
       id: 3,
-      templateName: 'SWOT (Strengths, Weaknesses, Opportunities, Threats)',
+      name: 'SWOT (Strengths, Weaknesses, Opportunities, Threats)',
       categories: ['Strengths', 'Weaknesses', 'Opportunities', 'Threats'],
     },
   ])
