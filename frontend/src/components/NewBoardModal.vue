@@ -221,14 +221,15 @@ limitations under the License.
 
   function validateAll() {
     const validators = [validateNewBoardName, validateSelectedTemplate]
+    let allValid = true
 
     for (const validator of validators) {
       if (!validator()) {
-        return false
+        allValid = false
       }
     }
 
-    return true
+    return allValid
   }
 
   async function createBoard() {
