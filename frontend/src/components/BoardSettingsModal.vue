@@ -218,7 +218,7 @@ limitations under the License.
   import { useAppService } from '@/services/app/app.service'
   import { useBoardService } from '@/services/board/board.service'
   import YesNoModal from '@/components/YesNoModal.vue'
-  import TextInputComponent from './TextInputComponent.vue'
+  import TextInputComponent from './input/TextInputComponent.vue'
   import {
     Dialog,
     DialogPanel,

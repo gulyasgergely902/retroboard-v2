@@ -168,8 +168,8 @@ limitations under the License.
     TransitionChild,
     TransitionRoot,
   } from '@headlessui/vue'
-  import CheckboxInputComponent from './CheckboxInputComponent.vue'
-  import TextInputComponent from './TextInputComponent.vue'
+  import CheckboxInputComponent from './input/CheckboxInputComponent.vue'
+  import TextInputComponent from './input/TextInputComponent.vue'
 
   interface BoardCategoriesTemplate {
     id: number

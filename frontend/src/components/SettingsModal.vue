@@ -130,8 +130,8 @@ limitations under the License.
 
 <script setup lang="ts">
   import { useAppService } from '@/services/app/app.service'
-  import TextInputComponent from './TextInputComponent.vue'
-  import CheckboxInputComponent from './CheckboxInputComponent.vue'
+  import TextInputComponent from './input/TextInputComponent.vue'
+  import CheckboxInputComponent from './input/CheckboxInputComponent.vue'
   import { onMounted } from 'vue'
 
   const isSettingsModalOpen = defineModel<boolean>('isSettingsModalOpen')
