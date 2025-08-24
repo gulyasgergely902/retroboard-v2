@@ -24,7 +24,7 @@ limitations under the License.
   <div class="background-color-bold pt-4 rounded-lg w-full">
     <div class="flex content-center h-8 px-2 w-full">
       <span class="text-color ms-1 text-xl font-medium">
-        {{ appService.getBoardNameById(boardId) }}
+        {{ appService.boardName }}
       </span>
     </div>
     <div class="flex w-full flex-col md:flex-row items-center justify-between mx-auto px-3">
@@ -152,6 +152,7 @@ limitations under the License.
   const isBoardSettingsModalOpen = ref(false)
   const isYesNoModalOpen = ref(false)
 
+  void appService.getBoardNameById(boardId.value as string)
   void boardService.fetchBoardData(boardId.value as string)
 
   const selectedNoteId = ref(0)

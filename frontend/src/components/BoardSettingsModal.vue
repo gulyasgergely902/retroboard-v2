@@ -239,7 +239,8 @@ limitations under the License.
   const appService = useAppService()
   const boardService = useBoardService()
 
-  newBoardName.value = appService.getBoardNameById(props.currentBoardId)
+  void appService.getBoardNameById(props.currentBoardId.value as string)
+  newBoardName.value = appService.boardName
 
   function handleRemoveBoard(answer: boolean) {
     if (answer) {
