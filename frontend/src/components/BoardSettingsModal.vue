@@ -232,8 +232,10 @@ limitations under the License.
   const newBoardNameError = ref('')
   const newCategoryNameError = ref('')
   const showCategoryDeleteError = ref(false)
-  const isModalOpen = defineModel<boolean>('isModalOpen')
   const isYesNoModalOpen = ref(false)
+
+  const isModalOpen = defineModel<boolean>('isModalOpen')
+
   const props = defineProps(['currentBoardId'])
 
   const appService = useAppService()

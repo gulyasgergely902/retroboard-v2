@@ -154,13 +154,8 @@ limitations under the License.
   import { ref } from 'vue'
   import { useAppService } from '@/services/app/app.service'
   import { useBoardService } from '@/services/board/board.service'
-  const newBoardName = ref('')
-  const newBoardNameError = ref('')
-  const initializeWithCategories = ref(false)
-  const selectedCategoryTemplateId = ref(0)
-  const noSelectedTemplateError = ref('')
-
-  const isModalOpen = defineModel<boolean>('isModalOpen')
+  import CheckboxInputComponent from './input/CheckboxInputComponent.vue'
+  import TextInputComponent from './input/TextInputComponent.vue'
   import {
     Dialog,
     DialogPanel,
@@ -168,8 +163,6 @@ limitations under the License.
     TransitionChild,
     TransitionRoot,
   } from '@headlessui/vue'
-  import CheckboxInputComponent from './input/CheckboxInputComponent.vue'
-  import TextInputComponent from './input/TextInputComponent.vue'
 
   interface BoardCategoriesTemplate {
     id: number
@@ -177,6 +170,11 @@ limitations under the License.
     categories: string[]
   }
 
+  const newBoardName = ref('')
+  const newBoardNameError = ref('')
+  const initializeWithCategories = ref(false)
+  const selectedCategoryTemplateId = ref(0)
+  const noSelectedTemplateError = ref('')
   const templates = ref<BoardCategoriesTemplate[]>([
     {
       id: 1,
@@ -194,6 +192,8 @@ limitations under the License.
       categories: ['Strengths', 'Weaknesses', 'Opportunities', 'Threats'],
     },
   ])
+
+  const isModalOpen = defineModel<boolean>('isModalOpen')
 
   const appService = useAppService()
   const boardService = useBoardService()

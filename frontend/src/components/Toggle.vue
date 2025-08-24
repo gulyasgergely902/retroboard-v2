@@ -40,6 +40,7 @@ limitations under the License.
   import { computed } from 'vue'
 
   const props = defineProps<{ label: string; alignment: string; modelValue: boolean }>()
+
   const emit = defineEmits<(event: 'update:modelValue', value: boolean) => void>()
 
   const checked = computed({

@@ -32,8 +32,9 @@
 
 <script setup lang="ts">
   import { defineProps } from 'vue'
-  const props = defineProps(['label', 'description'])
 
   const textContent = defineModel<string>('textContent')
   const error = defineModel<string>('error')
+
+  const props = defineProps(['label', 'description'])
 </script>

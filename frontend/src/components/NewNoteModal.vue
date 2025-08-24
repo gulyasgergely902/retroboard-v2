@@ -162,13 +162,7 @@ limitations under the License.
 <script setup lang="ts">
   import { ref } from 'vue'
   import { useBoardService } from '@/services/board/board.service'
-  const newNoteContent = ref('')
-  const newNoteCategory = ref(0)
-  const newNoteContentError = ref('')
-  const newNoteCategoryError = ref('')
-
-  const isModalOpen = defineModel<boolean>('isModalOpen')
-  const props = defineProps(['currentBoardId'])
+  import SelectInputComponent from './input/SelectInputComponent.vue'
   import {
     Dialog,
     DialogPanel,
@@ -176,6 +170,15 @@ limitations under the License.
     TransitionChild,
     TransitionRoot,
   } from '@headlessui/vue'
+
+  const newNoteContent = ref('')
+  const newNoteCategory = ref(0)
+  const newNoteContentError = ref('')
+  const newNoteCategoryError = ref('')
+
+  const isModalOpen = defineModel<boolean>('isModalOpen')
+
+  const props = defineProps(['currentBoardId'])
 
   const boardService = useBoardService()
 

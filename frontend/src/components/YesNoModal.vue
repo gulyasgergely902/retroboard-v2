@@ -122,6 +122,7 @@ limitations under the License.
   } from '@headlessui/vue'
 
   const emit = defineEmits(['answer'])
+
   const isModalOpen = defineModel<boolean>('isModalOpen')
 
   function closeModal() {

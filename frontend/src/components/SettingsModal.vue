@@ -133,8 +133,6 @@ limitations under the License.
   import TextInputComponent from './input/TextInputComponent.vue'
   import CheckboxInputComponent from './input/CheckboxInputComponent.vue'
   import { onMounted } from 'vue'
-
-  const isSettingsModalOpen = defineModel<boolean>('isSettingsModalOpen')
   import {
     Dialog,
     DialogPanel,
@@ -142,6 +140,8 @@ limitations under the License.
     TransitionChild,
     TransitionRoot,
   } from '@headlessui/vue'
+
+  const isSettingsModalOpen = defineModel<boolean>('isSettingsModalOpen')
 
   const appService = useAppService()
 
