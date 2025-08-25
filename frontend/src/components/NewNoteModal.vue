@@ -86,7 +86,6 @@ limitations under the License.
                       <textarea
                         id="note_content"
                         v-model="newNoteContent"
-                        @blur="validateNewNoteContent()"
                         class="background-color-bold text-color text-sm rounded-sm block w-full p-2.5"
                         :class="{ 'input-error': newNoteContentError }"
                         placeholder="Note content goes here..."
