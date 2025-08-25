@@ -30,9 +30,9 @@
     } else if (props.danger) {
       return 'button-color-danger text-color-over-primary'
     } else if (props.icon) {
-        return 'text-color text-hover-color-primary'
+      return 'text-color text-hover-color-primary'
     } else if (props.icon_danger) {
-        return 'text-color-danger'
+      return 'text-color-danger'
     }
     return 'button-color text-color'
   })
