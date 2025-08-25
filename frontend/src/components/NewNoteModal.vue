@@ -86,7 +86,6 @@ limitations under the License.
                       <textarea
                         id="note_content"
                         v-model="newNoteContent"
-                        @blur="validateNewNoteContent()"
                         class="background-color-bold text-color text-sm rounded-sm block w-full p-2.5"
                         :class="{ 'input-error': newNoteContentError }"
                         placeholder="Note content goes here..."
@@ -99,34 +98,13 @@ limitations under the License.
                       >
                         {{ newNoteContentError }}
                       </label>
-                      <label
-                        for="note_category"
-                        class="block mt-4 mb-2 text-sm font-medium text-color"
-                      >
-                        Note Category
-                      </label>
-                      <select
-                        id="note_category"
-                        v-model="newNoteCategory"
-                        @blur="validateNewNoteCategory()"
-                        class="background-color-bold text-color text-sm rounded-sm block w-full p-2.5"
-                        :class="{ 'input-error': newNoteCategoryError }"
-                      >
-                        <option
-                          v-for="category in boardService.categories"
-                          :key="category.id"
-                          :value="category.id"
-                        >
-                          {{ category.name }}
-                        </option>
-                      </select>
-                      <label
-                        v-if="newNoteCategoryError"
-                        for="note_category"
-                        class="block mt-2 text-sm font-medium text-color-danger"
-                      >
-                        {{ newNoteCategoryError }}
-                      </label>
+                      <SelectInputComponent
+                        label="Note Category"
+                        description="Pick a category for this note."
+                        :options="boardService.categories"
+                        v-model:selection="newNoteCategory"
+                        v-model:error="newNoteCategoryError"
+                      />
                       <p class="text-sm text-gray-900 dark:text-white">
                         Notes cannot be modified after creation!
                       </p>
@@ -135,21 +113,18 @@ limitations under the License.
                 </div>
               </div>
               <div class="background-color px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                <button
-                  type="button"
-                  class="button-color-primary text-color-over-primary transition-colors inline-flex w-full justify-center rounded-sm px-3 py-2 text-sm font-semibold sm:ml-3 sm:w-auto cursor-pointer"
+                <ButtonInputComponent
+                  class="w-full justify-center mt-3 sm:mt-0 sm:ml-3 sm:w-auto"
                   @click="createNote()"
-                >
-                  Create
-                </button>
-                <button
-                  type="button"
-                  class="background-color text-color transition-colors mt-3 inline-flex w-full justify-center rounded-sm px-3 py-2 text-sm font-semibold shadow-xs sm:mt-0 sm:w-auto cursor-pointer"
+                  label="Create"
+                  primary
+                />
+                <ButtonInputComponent
+                  class="w-full justify-center mt-3 sm:mt-0 sm:w-auto"
                   @click="closeModal()"
-                  ref="cancelButtonRef"
-                >
-                  Cancel
-                </button>
+                  label="Cancel"
+                  outline
+                />
               </div>
             </DialogPanel>
           </TransitionChild>
@@ -162,13 +137,8 @@ limitations under the License.
 <script setup lang="ts">
   import { ref } from 'vue'
   import { useBoardService } from '@/services/board/board.service'
-  const newNoteContent = ref('')
-  const newNoteCategory = ref(0)
-  const newNoteContentError = ref('')
-  const newNoteCategoryError = ref('')
-
-  const isModalOpen = defineModel<boolean>('isModalOpen')
-  const props = defineProps(['currentBoardId'])
+  import SelectInputComponent from './input/SelectInputComponent.vue'
+  import ButtonInputComponent from './input/ButtonInputComponent.vue'
   import {
     Dialog,
     DialogPanel,
@@ -176,6 +146,15 @@ limitations under the License.
     TransitionChild,
     TransitionRoot,
   } from '@headlessui/vue'
+
+  const newNoteContent = ref('')
+  const newNoteCategory = ref(0)
+  const newNoteContentError = ref('')
+  const newNoteCategoryError = ref('')
+
+  const isModalOpen = defineModel<boolean>('isModalOpen')
+
+  const props = defineProps(['currentBoardId'])
 
   const boardService = useBoardService()
 
@@ -203,14 +182,15 @@ limitations under the License.
 
   function validateAll() {
     const validators = [validateNewNoteContent, validateNewNoteCategory]
+    let allValid = true
 
     for (const validator of validators) {
       if (!validator()) {
-        return false
+        allValid = false
       }
     }
 
-    return true
+    return allValid
   }
 
   function createNote() {

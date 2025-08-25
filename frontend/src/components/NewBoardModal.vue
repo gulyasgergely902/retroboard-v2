@@ -92,55 +92,31 @@ limitations under the License.
                         v-if="initializeWithCategories"
                         class="ms-2 text-sm mt-2"
                       >
-                        <label
-                          for="initial_category"
-                          class="font-medium text-color"
-                        >
-                          Templates
-                        </label>
-                        <select
-                          id="initial_category"
-                          v-model="selectedCategoryTemplateId"
-                          @blur="validateSelectedTemplate()"
-                          class="background-color-bold text-color text-sm rounded-sm block w-full p-2.5"
-                          :class="{ 'input-error': noSelectedTemplateError }"
-                        >
-                          <option
-                            v-for="template in templates"
-                            :key="template.id"
-                            :value="template.id"
-                          >
-                            {{ template.templateName }}
-                          </option>
-                        </select>
-                        <label
-                          v-if="noSelectedTemplateError"
-                          for="note_category"
-                          class="block mt-2 text-sm font-medium text-color-danger"
-                        >
-                          {{ noSelectedTemplateError }}
-                        </label>
+                        <SelectInputComponent
+                          label="Templates"
+                          description="Choose a template to initialize the board with."
+                          :options="templates"
+                          v-model:selection="selectedCategoryTemplateId"
+                          v-model:error="noSelectedTemplateError"
+                        />
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="background-color px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                <button
-                  type="button"
-                  class="button-color-primary text-color-over-primary transition-colors inline-flex w-full justify-center rounded-sm px-3 py-2 text-sm font-semibold sm:ml-3 sm:w-auto cursor-pointer"
+                <ButtonInputComponent
+                  class="w-full justify-center mt-3 sm:mt-0 sm:ml-3 sm:w-auto"
                   @click="createBoard()"
-                >
-                  Create
-                </button>
-                <button
-                  type="button"
-                  class="background-color text-color transition-colors mt-3 inline-flex w-full justify-center rounded-sm px-3 py-2 text-sm font-semibold shadow-xs sm:mt-0 sm:w-auto cursor-pointer"
+                  label="Create"
+                  primary
+                />
+                <ButtonInputComponent
+                  class="w-full justify-center mt-3 sm:mt-0 sm:w-auto"
                   @click="closeModal()"
-                  ref="cancelButtonRef"
-                >
-                  Cancel
-                </button>
+                  label="Cancel"
+                  outline
+                />
               </div>
             </DialogPanel>
           </TransitionChild>
@@ -154,13 +130,9 @@ limitations under the License.
   import { ref } from 'vue'
   import { useAppService } from '@/services/app/app.service'
   import { useBoardService } from '@/services/board/board.service'
-  const newBoardName = ref('')
-  const newBoardNameError = ref('')
-  const initializeWithCategories = ref(false)
-  const selectedCategoryTemplateId = ref(0)
-  const noSelectedTemplateError = ref('')
-
-  const isModalOpen = defineModel<boolean>('isModalOpen')
+  import CheckboxInputComponent from './input/CheckboxInputComponent.vue'
+  import TextInputComponent from './input/TextInputComponent.vue'
+  import ButtonInputComponent from './input/ButtonInputComponent.vue'
   import {
     Dialog,
     DialogPanel,
@@ -168,32 +140,38 @@ limitations under the License.
     TransitionChild,
     TransitionRoot,
   } from '@headlessui/vue'
-  import CheckboxInputComponent from './CheckboxInputComponent.vue'
-  import TextInputComponent from './TextInputComponent.vue'
+  import SelectInputComponent from './input/SelectInputComponent.vue'
 
   interface BoardCategoriesTemplate {
     id: number
-    templateName: string
+    name: string
     categories: string[]
   }
 
+  const newBoardName = ref('')
+  const newBoardNameError = ref('')
+  const initializeWithCategories = ref(false)
+  const selectedCategoryTemplateId = ref(0)
+  const noSelectedTemplateError = ref('')
   const templates = ref<BoardCategoriesTemplate[]>([
     {
       id: 1,
-      templateName: 'Retrospective (Good, Bad, Actions)',
+      name: 'Retrospective (Good, Bad, Actions)',
       categories: ['Went well', 'Needs improvement', 'Action items'],
     },
     {
       id: 2,
-      templateName: 'Team Centric (Liked, Learned, Lacked, Longed for)',
+      name: 'Team Centric (Liked, Learned, Lacked, Longed for)',
       categories: ['Liked', 'Learned', 'Lacked', 'Longed for'],
     },
     {
       id: 3,
-      templateName: 'SWOT (Strengths, Weaknesses, Opportunities, Threats)',
+      name: 'SWOT (Strengths, Weaknesses, Opportunities, Threats)',
       categories: ['Strengths', 'Weaknesses', 'Opportunities', 'Threats'],
     },
   ])
+
+  const isModalOpen = defineModel<boolean>('isModalOpen')
 
   const appService = useAppService()
   const boardService = useBoardService()
@@ -221,14 +199,15 @@ limitations under the License.
 
   function validateAll() {
     const validators = [validateNewBoardName, validateSelectedTemplate]
+    let allValid = true
 
     for (const validator of validators) {
       if (!validator()) {
-        return false
+        allValid = false
       }
     }
 
-    return true
+    return allValid
   }
 
   async function createBoard() {

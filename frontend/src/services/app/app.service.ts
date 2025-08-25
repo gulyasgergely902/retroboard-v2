@@ -19,10 +19,11 @@ import { $fetch } from '@/composables/fetch'
 import router from '@/router/'
 
 export const useAppService = defineStore('app', {
-  state: (): { loading: boolean; boards: Board[]; settings: Setting[] } => ({
+  state: (): { loading: boolean; boards: Board[]; settings: Setting[]; boardName: string } => ({
     loading: true,
     boards: [],
     settings: [],
+    boardName: '',
   }),
 
   actions: {
@@ -39,10 +40,16 @@ export const useAppService = defineStore('app', {
       }
     },
 
-    getBoardNameById(id: string): string | undefined {
-      const numericId = Number(id)
-      if (isNaN(numericId)) return undefined
-      return this.boards.find((board) => board.id === numericId)?.name
+    async getBoardNameById(boardId: string) {
+      console.log('Getting board name')
+      try {
+        const numericBoardId = Number(boardId)
+        if (isNaN(numericBoardId)) return ''
+        if (this.boards.length === 0) await this.fetchBoards()
+        this.boardName = this.boards.find((board) => board.id === numericBoardId)?.name ?? ''
+      } catch (err) {
+        console.error('Error getting board name: ', err)
+      }
     },
 
     async createNewBoard(boardTitle: string) {

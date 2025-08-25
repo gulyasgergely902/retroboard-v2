@@ -51,6 +51,7 @@ limitations under the License.
 
 <script setup lang="ts">
   import { defineProps } from 'vue'
+
   defineProps(['categories', 'categoryToHighlight'])
 
   const emit = defineEmits<{

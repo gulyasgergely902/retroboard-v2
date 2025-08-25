@@ -1,28 +1,35 @@
 <template>
   <div class="mt-2 mb-1">
     <label
-      for="text-input"
-      class="block mb-2 text-sm font-medium text-color"
+      for="select-input"
+      class="block mt-4 mb-2 text-sm font-medium text-color"
     >
       {{ props.label }}
     </label>
-    <input
-      type="text"
-      id="text-input"
-      v-model="textContent"
+    <select
+      id="select-input"
+      v-model="selection"
       class="background-color-bold text-color text-sm rounded-sm block w-full p-2.5"
       :class="{ 'input-error': error }"
-    />
+    >
+      <option
+        v-for="item in options"
+        :key="item.id"
+        :value="item.id"
+      >
+        {{ item.name }}
+      </option>
+    </select>
     <label
       v-if="props.description"
-      for="text-input"
+      for="select-input"
       class="block mt-2 mb-2 text-xs font-medium text-color-muted"
     >
       {{ props.description }}
     </label>
     <label
       v-if="error"
-      for="text-input"
+      for="select-input"
       class="block mt-2 mb-2 text-xs font-medium text-color-danger"
     >
       {{ error }}
@@ -32,8 +39,9 @@
 
 <script setup lang="ts">
   import { defineProps } from 'vue'
-  const props = defineProps(['label', 'description'])
 
-  const textContent = defineModel<string>('textContent')
+  const selection = defineModel<number>('selection')
   const error = defineModel<string>('error')
+
+  const props = defineProps(['label', 'description', 'options'])
 </script>

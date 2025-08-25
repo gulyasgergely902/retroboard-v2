@@ -104,21 +104,18 @@ limitations under the License.
                 </div>
               </div>
               <div class="background-color px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                <button
-                  type="button"
-                  class="button-color-primary text-color-over-primary transition-colors inline-flex w-full justify-center rounded-sm px-3 py-2 text-sm font-semibold sm:ml-3 sm:w-auto cursor-pointer"
+                <ButtonInputComponent
+                  class="w-full justify-center mt-3 sm:mt-0 sm:ml-3 sm:w-auto"
                   @click="saveSettings()"
-                >
-                  Save
-                </button>
-                <button
-                  type="button"
-                  class="background-color text-color transition-colors mt-3 inline-flex w-full justify-center rounded-sm px-3 py-2 text-sm font-semibold shadow-xs sm:mt-0 sm:w-auto cursor-pointer"
+                  label="Save"
+                  primary
+                />
+                <ButtonInputComponent
+                  class="w-full justify-center mt-3 sm:mt-0 sm:w-auto"
                   @click="closeModal()"
-                  ref="cancelButtonRef"
-                >
-                  Cancel
-                </button>
+                  label="Cancel"
+                  outline
+                />
               </div>
             </DialogPanel>
           </TransitionChild>
@@ -130,11 +127,10 @@ limitations under the License.
 
 <script setup lang="ts">
   import { useAppService } from '@/services/app/app.service'
-  import TextInputComponent from './TextInputComponent.vue'
-  import CheckboxInputComponent from './CheckboxInputComponent.vue'
+  import TextInputComponent from './input/TextInputComponent.vue'
+  import CheckboxInputComponent from './input/CheckboxInputComponent.vue'
+  import ButtonInputComponent from './input/ButtonInputComponent.vue'
   import { onMounted } from 'vue'
-
-  const isSettingsModalOpen = defineModel<boolean>('isSettingsModalOpen')
   import {
     Dialog,
     DialogPanel,
@@ -142,6 +138,8 @@ limitations under the License.
     TransitionChild,
     TransitionRoot,
   } from '@headlessui/vue'
+
+  const isSettingsModalOpen = defineModel<boolean>('isSettingsModalOpen')
 
   const appService = useAppService()
 
