@@ -102,10 +102,10 @@ limitations under the License.
                               class="w-full flex items-center justify-between"
                             >
                               <span class="text-color text-sm">{{ category.name }}</span>
-                              <button
-                                class="inline-block text-color-danger rounded-sm text-sm p-1.5 cursor-pointer"
-                                type="button"
+                              <ButtonInputComponent
+                                class="inline-block p-1.5"
                                 @click="removeCategory(category.id)"
+                                icon_danger
                               >
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
@@ -121,7 +121,7 @@ limitations under the License.
                                     d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
                                   />
                                 </svg>
-                              </button>
+                              </ButtonInputComponent>
                             </div>
                             <hr
                               v-if="index < boardService.categories.length - 1"
@@ -151,13 +151,12 @@ limitations under the License.
                           placeholder="Category name"
                           required
                         />
-                        <button
-                          class="button-color-primary text-color-over-primary transition-colors inline-flex w-full justify-center items-center rounded-sm px-3 py-2 text-sm font-semibold mt-2 sm:mt-0 sm:ml-3 sm:w-auto cursor-pointer"
-                          type="button"
+                        <ButtonInputComponent
+                          class="w-full justify-center mt-2 sm:mt-0 sm:ml-3 sm:w-auto"
                           @click="addCategory()"
-                        >
-                          Add
-                        </button>
+                          label="Add"
+                          primary
+                        />
                       </div>
                       <label
                         v-if="newCategoryNameError"
@@ -171,35 +170,30 @@ limitations under the License.
                 </div>
               </div>
               <div class="background-color px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                <button
-                  type="button"
-                  class="button-color-primary text-color-over-primary transition-colors inline-flex w-full justify-center items-center rounded-sm px-3 py-2 text-sm font-semibold mt-2 sm:mt-0 sm:ml-3 sm:w-auto cursor-pointer"
+                <ButtonInputComponent
+                  class="w-full justify-center mt-2 sm:mt-0 sm:ml-3 sm:w-auto"
                   @click="closeModal()"
-                >
-                  Save
-                </button>
-                <button
-                  type="button"
-                  class="background-color text-color transition-colors border border-color border-color-hover inline-flex w-full justify-center items-center rounded-sm px-3 py-2 text-sm font-semibold mt-2 sm:mt-0 sm:ml-6 sm:w-auto mb-4 sm:mb-0 cursor-pointer"
+                  label="Save"
+                  primary
+                />
+                <ButtonInputComponent
+                  class="w-full justify-center mt-2 sm:mt-0 sm:ml-6 sm:w-auto mb-4 sm:mb-0"
                   @click="closeModal()"
-                  ref="cancelButtonRef"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  class="background-color text-color transition-colors border border-color border-color-hover inline-flex w-full justify-center items-center rounded-sm px-3 py-2 text-sm font-semibold mt-2 sm:mt-0 sm:ml-3 sm:w-auto cursor-pointer"
+                  label="Cancel"
+                  outline
+                />
+                <ButtonInputComponent
+                  class="w-full justify-center mt-2 sm:mt-0 sm:ml-3 sm:w-auto"
                   @click="boardService.exportData(props.currentBoardId)"
-                >
-                  Export
-                </button>
-                <button
-                  type="button"
-                  class="button-color-danger text-color-over-primary transition-colors inline-flex w-full justify-center items-center rounded-sm px-3 py-2 text-sm font-semibold mt-2 sm:mt-0 sm:ml-3 sm:w-auto cursor-pointer"
+                  label="Export"
+                  outline
+                />
+                <ButtonInputComponent
+                  class="w-full justify-center mt-2 sm:mt-0 sm:ml-3 sm:w-auto"
                   @click="isYesNoModalOpen = true"
-                >
-                  Delete
-                </button>
+                  label="Delete"
+                  danger
+                />
                 <YesNoModal
                   v-model:is-modal-open="isYesNoModalOpen"
                   @answer="handleRemoveBoard"
@@ -219,6 +213,7 @@ limitations under the License.
   import { useBoardService } from '@/services/board/board.service'
   import YesNoModal from '@/components/YesNoModal.vue'
   import TextInputComponent from './input/TextInputComponent.vue'
+  import ButtonInputComponent from './input/ButtonInputComponent.vue'
   import {
     Dialog,
     DialogPanel,

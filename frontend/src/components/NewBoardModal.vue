@@ -93,11 +93,11 @@ limitations under the License.
                         class="ms-2 text-sm mt-2"
                       >
                         <SelectInputComponent
-                        label="Templates"
-                        description="Choose a template to initialize the board with."
-                        :options="templates"
-                        v-model:selection="selectedCategoryTemplateId"
-                        v-model:error="noSelectedTemplateError"
+                          label="Templates"
+                          description="Choose a template to initialize the board with."
+                          :options="templates"
+                          v-model:selection="selectedCategoryTemplateId"
+                          v-model:error="noSelectedTemplateError"
                         />
                       </div>
                     </div>
@@ -105,21 +105,18 @@ limitations under the License.
                 </div>
               </div>
               <div class="background-color px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                <button
-                  type="button"
-                  class="button-color-primary text-color-over-primary transition-colors inline-flex w-full justify-center rounded-sm px-3 py-2 text-sm font-semibold sm:ml-3 sm:w-auto cursor-pointer"
+                <ButtonInputComponent
+                  class="w-full justify-center mt-3 sm:mt-0 sm:ml-3 sm:w-auto"
                   @click="createBoard()"
-                >
-                  Create
-                </button>
-                <button
-                  type="button"
-                  class="background-color text-color transition-colors mt-3 inline-flex w-full justify-center rounded-sm px-3 py-2 text-sm font-semibold shadow-xs sm:mt-0 sm:w-auto cursor-pointer"
+                  label="Create"
+                  primary
+                />
+                <ButtonInputComponent
+                  class="w-full justify-center mt-3 sm:mt-0 sm:w-auto"
                   @click="closeModal()"
-                  ref="cancelButtonRef"
-                >
-                  Cancel
-                </button>
+                  label="Cancel"
+                  outline
+                />
               </div>
             </DialogPanel>
           </TransitionChild>
@@ -135,6 +132,7 @@ limitations under the License.
   import { useBoardService } from '@/services/board/board.service'
   import CheckboxInputComponent from './input/CheckboxInputComponent.vue'
   import TextInputComponent from './input/TextInputComponent.vue'
+  import ButtonInputComponent from './input/ButtonInputComponent.vue'
   import {
     Dialog,
     DialogPanel,
@@ -142,7 +140,7 @@ limitations under the License.
     TransitionChild,
     TransitionRoot,
   } from '@headlessui/vue'
-import SelectInputComponent from './input/SelectInputComponent.vue'
+  import SelectInputComponent from './input/SelectInputComponent.vue'
 
   interface BoardCategoriesTemplate {
     id: number
