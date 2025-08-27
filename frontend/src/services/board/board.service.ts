@@ -159,7 +159,19 @@ export const useBoardService = defineStore('board', {
         link.click()
         link.remove()
       } catch (err) {
-        console.error('Error exporting board:', err)
+        console.error('Error exporting board: ', err)
+      }
+    },
+
+    async exportDataString(boardId: string) {
+      try {
+        const response = await fetch(`/api/boards/export?board_id=${boardId}`)
+        const json = await response.json()
+
+        return JSON.stringify(json, null, 2)
+      } catch (err) {
+        console.error('Error exporting board to string: ', err)
+        return ''
       }
     },
 
