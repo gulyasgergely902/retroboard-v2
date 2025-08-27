@@ -1,4 +1,4 @@
-name: Run linter (prettier) on frontend code
+name: Frontend Linting (prettier)
 
 on:
   workflow_dispatch:

@@ -1,4 +1,4 @@
-name: Run linter (Ruff) on backend code
+name: Backend Linting (Ruff)
 
 on:
   workflow_dispatch:
