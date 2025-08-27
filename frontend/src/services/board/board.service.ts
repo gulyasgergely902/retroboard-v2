@@ -166,5 +166,27 @@ export const useBoardService = defineStore('board', {
     getCategoryNameById(categoryId: number) {
       return this.categories.find((n) => n.id === categoryId)?.name
     },
+
+    async modifyNoteCategory(noteId: number, newCategory: number, boardId: string) {
+      try {
+        const requestOptions = {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ category: newCategory }),
+        }
+        await $fetch<Result>(`/api/notes/` + noteId + `/category`, requestOptions)
+        await this.fetchNotes(boardId)
+      } catch (err) {
+        console.error(
+          'Error modifying category of note (id ',
+          noteId,
+          ') to category: ',
+          newCategory,
+          '(Err ',
+          err,
+          ')',
+        )
+      }
+    },
   },
 })
