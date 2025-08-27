@@ -72,6 +72,14 @@ In most cases, a short descriptive tag is sufficient for a commit message. Howev
 * There should be no linting or formatting errors.
 * Pull request description should be clear and helpful.
 
+## After opening a Pull Request
+
+* Wait for all the checks to run and fix the issues if any came up.
+* Make sure to check back on the PR regularly to see if any comment or change request was issued.
+
+> [!NOTE]
+> Stale Pull Requests will be closed in 1 week if there is no activity to comments and the checks are failed / changes were requested!
+
 ## Issue Reporting
 
 * Search existing issues before opening a new one.
