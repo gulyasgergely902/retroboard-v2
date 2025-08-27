@@ -19,7 +19,7 @@ limitations under the License.
   >
     <Dialog
       class="relative z-10"
-      @close="closeModal()"
+      @close="closeExportModal()"
     >
       <TransitionChild
         as="template"
@@ -65,7 +65,7 @@ limitations under the License.
                       <path
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        d="M13.5 8H4m4 6h8m0 0-2-2m2 2-2 2M4 6v13a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1h-5.032a1 1 0 0 1-.768-.36l-1.9-2.28a1 1 0 0 0-.768-.36H5a1 1 0 0 0-1 1Z"
+                        d="M19 10V4a1 1 0 0 0-1-1H9.914a1 1 0 0 0-.707.293L5.293 7.207A1 1 0 0 0 5 7.914V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2M10 3v4a1 1 0 0 1-1 1H5m5 6h9m0 0-2-2m2 2-2 2"
                       />
                     </svg>
                   </div>
@@ -74,15 +74,27 @@ limitations under the License.
                       as="h3"
                       class="text-color text-xl font-medium font-semibold"
                     >
-                      Edit Note Category
+                      Export Board
                     </DialogTitle>
                     <div class="mt-2">
-                      <SelectInputComponent
-                        label="New Note Category"
-                        description="Pick a category to move the note into."
-                        :options="boardService.categories"
-                        v-model:selection="newNoteCategory"
-                        v-model:error="newNoteCategoryError"
+                      <label
+                        for="export_content"
+                        class="block mb-2 text-sm font-medium text-color"
+                      >
+                        Board Content
+                      </label>
+                      <textarea
+                        id="export_content"
+                        v-model="exportContent"
+                        class="background-color-bold text-color text-sm rounded-sm block w-full p-2.5"
+                        rows="10"
+                        cols="50"
+                      />
+                      <ButtonInputComponent
+                        class="w-full justify-center mt-2 sm:w-auto"
+                        @click="exportJSON()"
+                        label="Export as JSON"
+                        outline
                       />
                     </div>
                   </div>
@@ -90,16 +102,10 @@ limitations under the License.
               </div>
               <div class="background-color px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                 <ButtonInputComponent
-                  class="w-full justify-center mt-3 sm:mt-0 sm:ml-3 sm:w-auto"
-                  @click="modifyNoteCategory()"
-                  label="Move"
-                  primary
-                />
-                <ButtonInputComponent
                   class="w-full justify-center mt-3 sm:mt-0 sm:w-auto"
-                  @click="closeModal()"
-                  label="Cancel"
-                  outline
+                  @click="closeExportModal()"
+                  label="Close"
+                  primary
                 />
               </div>
             </DialogPanel>
@@ -113,8 +119,7 @@ limitations under the License.
 <script setup lang="ts">
   import { ref } from 'vue'
   import { useBoardService } from '@/services/board/board.service'
-  import SelectInputComponent from './input/SelectInputComponent.vue'
-  import ButtonInputComponent from './input/ButtonInputComponent.vue'
+  import ButtonInputComponent from '@/components/input/ButtonInputComponent.vue'
   import {
     Dialog,
     DialogPanel,
@@ -123,48 +128,19 @@ limitations under the License.
     TransitionRoot,
   } from '@headlessui/vue'
 
-  const newNoteCategory = ref(0)
-  const newNoteCategoryError = ref('')
+  const exportContent = ref('')
 
   const isModalOpen = defineModel<boolean>('isModalOpen')
 
-  const props = defineProps(['currentBoardId', 'noteId'])
+  const props = defineProps(['currentBoardId'])
 
   const boardService = useBoardService()
 
-  function validateNewNoteCategory() {
-    if (newNoteCategory.value === 0) {
-      newNoteCategoryError.value = 'You must select a category!'
-      return false
-    }
-    newNoteCategoryError.value = ''
-    return true
+  async function exportJSON() {
+    exportContent.value = await boardService.exportDataString(props.currentBoardId)
   }
 
-  function validateAll() {
-    const validators = [validateNewNoteCategory]
-    let allValid = true
-
-    for (const validator of validators) {
-      if (!validator()) {
-        allValid = false
-      }
-    }
-
-    return allValid
-  }
-
-  function modifyNoteCategory() {
-    if (validateAll()) {
-      boardService.modifyNoteCategory(props.noteId, newNoteCategory.value, props.currentBoardId)
-      newNoteCategory.value = 0
-      closeModal()
-    }
-  }
-
-  function closeModal() {
+  function closeExportModal() {
     isModalOpen.value = false
-    newNoteCategory.value = 0
-    newNoteCategoryError.value = ''
   }
 </script>

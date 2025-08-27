@@ -127,9 +127,9 @@ limitations under the License.
 
 <script setup lang="ts">
   import { useAppService } from '@/services/app/app.service'
-  import TextInputComponent from './input/TextInputComponent.vue'
-  import CheckboxInputComponent from './input/CheckboxInputComponent.vue'
-  import ButtonInputComponent from './input/ButtonInputComponent.vue'
+  import TextInputComponent from '@/components/input/TextInputComponent.vue'
+  import CheckboxInputComponent from '@/components/input/CheckboxInputComponent.vue'
+  import ButtonInputComponent from '@/components/input/ButtonInputComponent.vue'
   import { onMounted } from 'vue'
   import {
     Dialog,

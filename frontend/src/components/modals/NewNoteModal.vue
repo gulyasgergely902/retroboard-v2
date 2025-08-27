@@ -65,7 +65,7 @@ limitations under the License.
                       <path
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        d="M13.5 16.875h3.375m0 0h3.375m-3.375 0V13.5m0 3.375v3.375M6 10.5h2.25a2.25 2.25 0 0 0 2.25-2.25V6a2.25 2.25 0 0 0-2.25-2.25H6A2.25 2.25 0 0 0 3.75 6v2.25A2.25 2.25 0 0 0 6 10.5Zm0 9.75h2.25A2.25 2.25 0 0 0 10.5 18v-2.25a2.25 2.25 0 0 0-2.25-2.25H6a2.25 2.25 0 0 0-2.25 2.25V18A2.25 2.25 0 0 0 6 20.25Zm9.75-9.75H18a2.25 2.25 0 0 0 2.25-2.25V6A2.25 2.25 0 0 0 18 3.75h-2.25A2.25 2.25 0 0 0 13.5 6v2.25a2.25 2.25 0 0 0 2.25 2.25Z"
+                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
                       />
                     </svg>
                   </div>
@@ -74,32 +74,40 @@ limitations under the License.
                       as="h3"
                       class="text-color text-xl font-medium font-semibold"
                     >
-                      Create Board
+                      Add Note
                     </DialogTitle>
                     <div class="mt-2">
-                      <TextInputComponent
-                        label="Board Name"
-                        description="A descriptive name for the new board, e.g. Backend Team Retrospective."
-                        v-model:textContent="newBoardName"
-                        v-model:error="newBoardNameError"
-                      />
-                      <CheckboxInputComponent
-                        label="Create default categories"
-                        description="Choose a board category template to initialize your board with."
-                        v-model:checkedState="initializeWithCategories"
-                      />
-                      <div
-                        v-if="initializeWithCategories"
-                        class="ms-2 text-sm mt-2"
+                      <label
+                        for="note_content"
+                        class="block mb-2 text-sm font-medium text-color"
                       >
-                        <SelectInputComponent
-                          label="Templates"
-                          description="Choose a template to initialize the board with."
-                          :options="templates"
-                          v-model:selection="selectedCategoryTemplateId"
-                          v-model:error="noSelectedTemplateError"
-                        />
-                      </div>
+                        Note Content
+                      </label>
+                      <textarea
+                        id="note_content"
+                        v-model="newNoteContent"
+                        class="background-color-bold text-color text-sm rounded-sm block w-full p-2.5"
+                        :class="{ 'input-error': newNoteContentError }"
+                        placeholder="Note content goes here..."
+                        required
+                      />
+                      <label
+                        v-if="newNoteContentError"
+                        for="note_content"
+                        class="block mt-2 text-sm font-medium text-color-danger"
+                      >
+                        {{ newNoteContentError }}
+                      </label>
+                      <SelectInputComponent
+                        label="Note Category"
+                        description="Pick a category for this note."
+                        :options="boardService.categories"
+                        v-model:selection="newNoteCategory"
+                        v-model:error="newNoteCategoryError"
+                      />
+                      <p class="text-sm text-gray-900 dark:text-white">
+                        Notes cannot be modified after creation!
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -107,7 +115,7 @@ limitations under the License.
               <div class="background-color px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                 <ButtonInputComponent
                   class="w-full justify-center mt-3 sm:mt-0 sm:ml-3 sm:w-auto"
-                  @click="createBoard()"
+                  @click="createNote()"
                   label="Create"
                   primary
                 />
@@ -128,11 +136,9 @@ limitations under the License.
 
 <script setup lang="ts">
   import { ref } from 'vue'
-  import { useAppService } from '@/services/app/app.service'
   import { useBoardService } from '@/services/board/board.service'
-  import CheckboxInputComponent from './input/CheckboxInputComponent.vue'
-  import TextInputComponent from './input/TextInputComponent.vue'
-  import ButtonInputComponent from './input/ButtonInputComponent.vue'
+  import SelectInputComponent from '@/components/input/SelectInputComponent.vue'
+  import ButtonInputComponent from '@/components/input/ButtonInputComponent.vue'
   import {
     Dialog,
     DialogPanel,
@@ -140,65 +146,42 @@ limitations under the License.
     TransitionChild,
     TransitionRoot,
   } from '@headlessui/vue'
-  import SelectInputComponent from './input/SelectInputComponent.vue'
 
-  interface BoardCategoriesTemplate {
-    id: number
-    name: string
-    categories: string[]
-  }
-
-  const newBoardName = ref('')
-  const newBoardNameError = ref('')
-  const initializeWithCategories = ref(false)
-  const selectedCategoryTemplateId = ref(0)
-  const noSelectedTemplateError = ref('')
-  const templates = ref<BoardCategoriesTemplate[]>([
-    {
-      id: 1,
-      name: 'Retrospective (Good, Bad, Actions)',
-      categories: ['Went well', 'Needs improvement', 'Action items'],
-    },
-    {
-      id: 2,
-      name: 'Team Centric (Liked, Learned, Lacked, Longed for)',
-      categories: ['Liked', 'Learned', 'Lacked', 'Longed for'],
-    },
-    {
-      id: 3,
-      name: 'SWOT (Strengths, Weaknesses, Opportunities, Threats)',
-      categories: ['Strengths', 'Weaknesses', 'Opportunities', 'Threats'],
-    },
-  ])
+  const newNoteContent = ref('')
+  const newNoteCategory = ref(0)
+  const newNoteContentError = ref('')
+  const newNoteCategoryError = ref('')
 
   const isModalOpen = defineModel<boolean>('isModalOpen')
 
-  const appService = useAppService()
+  const props = defineProps(['currentBoardId'])
+
   const boardService = useBoardService()
 
-  function validateNewBoardName() {
-    if (!newBoardName.value.trim()) {
-      newBoardNameError.value = 'This field cannot be empty!'
+  function validateNewNoteContent() {
+    if (!newNoteContent.value.trim()) {
+      newNoteContentError.value = 'This field cannot be empty!'
       return false
     }
-    if (typeof newBoardName.value !== 'string') {
+    if (typeof newNoteContent.value !== 'string') {
+      newNoteContentError.value = 'Note can only contain text!'
       return false
     }
-    newBoardNameError.value = ''
+    newNoteContentError.value = ''
     return true
   }
 
-  function validateSelectedTemplate() {
-    if (initializeWithCategories.value && selectedCategoryTemplateId.value === 0) {
-      noSelectedTemplateError.value = 'You must select a template!'
+  function validateNewNoteCategory() {
+    if (newNoteCategory.value === 0) {
+      newNoteCategoryError.value = 'You must select a category!'
       return false
     }
-    noSelectedTemplateError.value = ''
+    newNoteCategoryError.value = ''
     return true
   }
 
   function validateAll() {
-    const validators = [validateNewBoardName, validateSelectedTemplate]
+    const validators = [validateNewNoteContent, validateNewNoteCategory]
     let allValid = true
 
     for (const validator of validators) {
@@ -210,31 +193,20 @@ limitations under the License.
     return allValid
   }
 
-  async function createBoard() {
+  function createNote() {
     if (validateAll()) {
-      const board_data = await appService.createNewBoard(newBoardName.value)
-      // @ts-expect-error 'board_id' not undefined
-      const board_id = board_data.board_id
-      if (initializeWithCategories.value) {
-        const selectedTemplate = templates.value.find(
-          (template) => template.id === selectedCategoryTemplateId.value,
-        )
-        if (selectedTemplate) {
-          for (const categoryName of selectedTemplate.categories) {
-            boardService.addCategory(board_id, categoryName)
-          }
-        }
-      }
-      closeModal()
+      boardService.createNewNote(props.currentBoardId, newNoteContent.value, newNoteCategory.value)
+      newNoteContent.value = ''
+      newNoteCategory.value = 0
+      isModalOpen.value = false
     }
   }
 
   function closeModal() {
     isModalOpen.value = false
-    newBoardNameError.value = ''
-    newBoardName.value = ''
-    initializeWithCategories.value = false
-    selectedCategoryTemplateId.value = 0
-    noSelectedTemplateError.value = ''
+    newNoteContent.value = ''
+    newNoteCategory.value = 0
+    newNoteContentError.value = ''
+    newNoteCategoryError.value = ''
   }
 </script>

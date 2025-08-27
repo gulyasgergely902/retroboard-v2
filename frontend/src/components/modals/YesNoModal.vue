@@ -19,7 +19,7 @@ limitations under the License.
   >
     <Dialog
       class="relative z-10"
-      @close="closeExportModal()"
+      @close="isModalOpen = false"
     >
       <TransitionChild
         as="template"
@@ -47,7 +47,7 @@ limitations under the License.
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
             <DialogPanel
-              class="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 w-full sm:max-w-lg"
+              class="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
             >
               <div class="background-color px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 <div class="sm:flex sm:items-start">
@@ -63,9 +63,11 @@ limitations under the License.
                       class="size-6 fill-[#579dff]"
                     >
                       <path
+                        stroke="currentColor"
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        d="M19 10V4a1 1 0 0 0-1-1H9.914a1 1 0 0 0-.707.293L5.293 7.207A1 1 0 0 0 5 7.914V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2M10 3v4a1 1 0 0 1-1 1H5m5 6h9m0 0-2-2m2 2-2 2"
+                        stroke-width="2"
+                        d="M9.529 9.988a2.502 2.502 0 1 1 5 .191A2.441 2.441 0 0 1 12 12.582V14m-.01 3.008H12M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                       />
                     </svg>
                   </div>
@@ -74,38 +76,26 @@ limitations under the License.
                       as="h3"
                       class="text-color text-xl font-medium font-semibold"
                     >
-                      Export Board
+                      Are you sure?
                     </DialogTitle>
                     <div class="mt-2">
-                      <label
-                        for="export_content"
-                        class="block mb-2 text-sm font-medium text-color"
-                      >
-                        Board Content
-                      </label>
-                      <textarea
-                        id="export_content"
-                        v-model="exportContent"
-                        class="background-color-bold text-color text-sm rounded-sm block w-full p-2.5"
-                        rows="10"
-                        cols="50"
-                      />
-                      <ButtonInputComponent
-                        class="w-full justify-center mt-2 sm:w-auto"
-                        @click="exportJSON()"
-                        label="Export as JSON"
-                        outline
-                      />
+                      <span class="text-color">This action is irreversible!</span>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="background-color px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                 <ButtonInputComponent
+                  class="w-full justify-center mt-3 sm:mt-0 sm:ml-3 sm:w-auto"
+                  @click="emitTrue()"
+                  label="Yes"
+                  danger
+                />
+                <ButtonInputComponent
                   class="w-full justify-center mt-3 sm:mt-0 sm:w-auto"
-                  @click="closeExportModal()"
-                  label="Close"
-                  primary
+                  @click="isModalOpen = false"
+                  label="Cancel"
+                  outline
                 />
               </div>
             </DialogPanel>
@@ -117,9 +107,6 @@ limitations under the License.
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue'
-  import { useBoardService } from '@/services/board/board.service'
-  import ButtonInputComponent from './input/ButtonInputComponent.vue'
   import {
     Dialog,
     DialogPanel,
@@ -127,20 +114,14 @@ limitations under the License.
     TransitionChild,
     TransitionRoot,
   } from '@headlessui/vue'
+  import ButtonInputComponent from '@/components/input/ButtonInputComponent.vue'
 
-  const exportContent = ref('')
+  const emit = defineEmits(['answer'])
 
   const isModalOpen = defineModel<boolean>('isModalOpen')
 
-  const props = defineProps(['currentBoardId'])
-
-  const boardService = useBoardService()
-
-  async function exportJSON() {
-    exportContent.value = await boardService.exportDataString(props.currentBoardId)
-  }
-
-  function closeExportModal() {
+  function emitTrue() {
     isModalOpen.value = false
+    emit('answer', true)
   }
 </script>
