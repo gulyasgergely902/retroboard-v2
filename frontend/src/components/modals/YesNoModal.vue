@@ -88,13 +88,13 @@ limitations under the License.
                 <ButtonInputComponent
                   class="w-full justify-center mt-3 sm:mt-0 sm:ml-3 sm:w-auto"
                   @click="emitTrue()"
-                  :label=props.positiveActionLabel
+                  :label="props.positiveActionLabel"
                   :danger="props.danger"
                 />
                 <ButtonInputComponent
                   class="w-full justify-center mt-3 sm:mt-0 sm:w-auto"
                   @click="emitFalse()"
-                  :label=props.negativeActionLabel
+                  :label="props.negativeActionLabel"
                   outline
                 />
               </div>
