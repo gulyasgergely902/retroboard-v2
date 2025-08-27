@@ -102,6 +102,10 @@ body {
   color: #22272b;
 }
 
+.text-color-primary {
+  color: #0c66e4;
+}
+
 .text-color-muted {
   color: #454f59;
 }
@@ -211,6 +215,10 @@ body {
 
   .text-color {
     color: #f1f2f4;
+  }
+
+  .text-color-primary {
+    color: #579dff;
   }
 
   .text-color-muted {

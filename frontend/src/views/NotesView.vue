@@ -76,6 +76,7 @@ limitations under the License.
       </div>
     </div>
     <MasonryWall
+      v-if="boardService.filteredNotes.length > 0"
       :items="boardService.filteredNotes"
       :ssr-columns="1"
       :column-width="300"
@@ -146,6 +147,15 @@ limitations under the License.
         </div>
       </template>
     </MasonryWall>
+    <div
+      v-else
+      class="flex items-center justify-center mt-4"
+    >
+      <p class="text-xl font-semibold text-color">
+        <span class="text-color-primary">No</span>
+        notes added!
+      </p>
+    </div>
     <YesNoModal
       v-model:is-modal-open="isYesNoModalOpen"
       @answer="handleRemoveNote"
