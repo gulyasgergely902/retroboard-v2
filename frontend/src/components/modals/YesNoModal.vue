@@ -76,10 +76,10 @@ limitations under the License.
                       as="h3"
                       class="text-color text-xl font-medium font-semibold"
                     >
-                      Are you sure?
+                      {{ props.label }}
                     </DialogTitle>
                     <div class="mt-2">
-                      <span class="text-color">This action is irreversible!</span>
+                      <span class="text-color">{{ description }}</span>
                     </div>
                   </div>
                 </div>
@@ -88,13 +88,13 @@ limitations under the License.
                 <ButtonInputComponent
                   class="w-full justify-center mt-3 sm:mt-0 sm:ml-3 sm:w-auto"
                   @click="emitTrue()"
-                  label="Yes"
-                  danger
+                  :label=props.positiveActionLabel
+                  :danger="props.danger"
                 />
                 <ButtonInputComponent
                   class="w-full justify-center mt-3 sm:mt-0 sm:w-auto"
-                  @click="isModalOpen = false"
-                  label="Cancel"
+                  @click="emitFalse()"
+                  :label=props.negativeActionLabel
                   outline
                 />
               </div>
@@ -116,6 +116,14 @@ limitations under the License.
   } from '@headlessui/vue'
   import ButtonInputComponent from '@/components/input/ButtonInputComponent.vue'
 
+  const props = defineProps<{
+    label?: string
+    description?: string
+    positiveActionLabel?: string
+    negativeActionLabel?: string
+    danger?: boolean
+  }>()
+
   const emit = defineEmits(['answer'])
 
   const isModalOpen = defineModel<boolean>('isModalOpen')
@@ -123,5 +131,10 @@ limitations under the License.
   function emitTrue() {
     isModalOpen.value = false
     emit('answer', true)
+  }
+
+  function emitFalse() {
+    isModalOpen.value = false
+    emit('answer', false)
   }
 </script>

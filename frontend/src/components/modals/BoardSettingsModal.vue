@@ -198,6 +198,11 @@ limitations under the License.
                 <YesNoModal
                   v-model:is-modal-open="isYesNoModalOpen"
                   @answer="handleRemoveBoard"
+                  label="Are you sure?"
+                  description="This action is irreversible!"
+                  positiveActionLabel="Yes"
+                  negativeActionLabel="Cancel"
+                  danger
                 />
                 <ExportModal
                   v-model:is-modal-open="isExportModalOpen"

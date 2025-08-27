@@ -149,6 +149,11 @@ limitations under the License.
     <YesNoModal
       v-model:is-modal-open="isYesNoModalOpen"
       @answer="handleRemoveNote"
+      label="Are you sure?"
+      description="This action is irreversible!"
+      positiveActionLabel="Yes"
+      negativeActionLabel="Cancel"
+      danger
     />
   </div>
 </template>
