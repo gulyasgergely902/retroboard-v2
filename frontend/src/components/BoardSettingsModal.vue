@@ -87,6 +87,7 @@ limitations under the License.
                         description="A descriptive name for the new board, e.g. Backend Team Retrospective."
                         v-model:textContent="newBoardName"
                         v-model:error="newBoardNameError"
+                        disabled
                       />
                       <span class="block mt-4 mb-2 text-sm font-medium text-color">Categories</span>
                       <div

@@ -11,10 +11,11 @@
       id="text-input"
       v-model="textContent"
       class="background-color-bold text-color text-sm rounded-sm block w-full p-2.5"
+      :disabled="props.disabled"
       :class="{ 'input-error': error }"
     />
     <label
-      v-if="props.description"
+      v-if="props.description && !disabled"
       for="text-input"
       class="block mt-2 mb-2 text-xs font-medium text-color-muted"
     >
@@ -36,5 +37,9 @@
   const textContent = defineModel<string>('textContent')
   const error = defineModel<string>('error')
 
-  const props = defineProps(['label', 'description'])
+  const props = defineProps<{
+    label?: string
+    description?: string
+    disabled?: boolean
+  }>()
 </script>
