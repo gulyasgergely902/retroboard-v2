@@ -198,6 +198,11 @@ limitations under the License.
                 <YesNoModal
                   v-model:is-modal-open="isYesNoModalOpen"
                   @answer="handleRemoveBoard"
+                  label="Are you sure?"
+                  description="This action is irreversible!"
+                  positiveActionLabel="Yes"
+                  negativeActionLabel="Cancel"
+                  danger
                 />
                 <ExportModal
                   v-model:is-modal-open="isExportModalOpen"
@@ -216,10 +221,13 @@ limitations under the License.
   import { ref } from 'vue'
   import { useAppService } from '@/services/app/app.service'
   import { useBoardService } from '@/services/board/board.service'
-  import YesNoModal from '@/components/YesNoModal.vue'
-  import TextInputComponent from './input/TextInputComponent.vue'
-  import ButtonInputComponent from './input/ButtonInputComponent.vue'
-  import ExportModal from './ExportModal.vue'
+
+  import YesNoModal from '@/components/modals/YesNoModal.vue'
+  import ExportModal from '@/components/modals/ExportModal.vue'
+
+  import TextInputComponent from '@/components/input/TextInputComponent.vue'
+  import ButtonInputComponent from '@/components/input/ButtonInputComponent.vue'
+
   import {
     Dialog,
     DialogPanel,

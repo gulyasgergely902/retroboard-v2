@@ -149,6 +149,11 @@ limitations under the License.
     <YesNoModal
       v-model:is-modal-open="isYesNoModalOpen"
       @answer="handleRemoveNote"
+      label="Are you sure?"
+      description="This action is irreversible!"
+      positiveActionLabel="Yes"
+      negativeActionLabel="Cancel"
+      danger
     />
   </div>
 </template>
@@ -162,10 +167,12 @@ limitations under the License.
   import MasonryWall from '@yeger/vue-masonry-wall'
   import FilterToggle from '@/components/FilterToggle.vue'
   import Toggle from '@/components/Toggle.vue'
-  import NewNoteModal from '@/components/NewNoteModal.vue'
-  import BoardSettingsModal from '@/components/BoardSettingsModal.vue'
-  import YesNoModal from '@/components/YesNoModal.vue'
-  import EditNoteCategoryModal from '@/components/EditNoteCategoryModal.vue'
+
+  import NewNoteModal from '@/components/modals/NewNoteModal.vue'
+  import BoardSettingsModal from '@/components/modals/BoardSettingsModal.vue'
+  import YesNoModal from '@/components/modals/YesNoModal.vue'
+
+  import EditNoteCategoryModal from '@/components/modals/EditNoteCategoryModal.vue'
   import ButtonInputComponent from '@/components/input/ButtonInputComponent.vue'
 
   const route = useRoute()

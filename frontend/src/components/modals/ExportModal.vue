@@ -119,7 +119,7 @@ limitations under the License.
 <script setup lang="ts">
   import { ref } from 'vue'
   import { useBoardService } from '@/services/board/board.service'
-  import ButtonInputComponent from './input/ButtonInputComponent.vue'
+  import ButtonInputComponent from '@/components/input/ButtonInputComponent.vue'
   import {
     Dialog,
     DialogPanel,

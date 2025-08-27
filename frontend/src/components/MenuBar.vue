@@ -85,7 +85,9 @@ limitations under the License.
 <script setup lang="ts">
   import { RouterLink } from 'vue-router'
   import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
-  import SettingsModal from './SettingsModal.vue'
+
+  import SettingsModal from '@/components/modals/SettingsModal.vue'
+
   import { useAppService } from '@/services/app/app.service'
 
   import { ref } from 'vue'

@@ -52,7 +52,7 @@ limitations under the License.
   import { useAppService } from '@/services/app/app.service'
   import { ref } from 'vue'
   import BoardCard from '@/components/BoardCard.vue'
-  import NewBoardModal from '@/components/NewBoardModal.vue'
+  import NewBoardModal from '@/components/modals/NewBoardModal.vue'
   import ButtonInputComponent from '@/components/input/ButtonInputComponent.vue'
 
   const isModalOpen = ref(false)
