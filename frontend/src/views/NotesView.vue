@@ -88,7 +88,9 @@ limitations under the License.
           :class="{ 'blur-sm': visibilityChecked }"
         >
           <div class="flex justify-end">
-            <div class="background-color-bold rounded-sm border-1 border-color inline-flex items-center">
+            <div
+              class="background-color-bold rounded-sm border-1 border-color inline-flex items-center"
+            >
               <ButtonInputComponent
                 class="inline-block p-1.5"
                 @click="openEditNoteCategoryModal(item.id)"
