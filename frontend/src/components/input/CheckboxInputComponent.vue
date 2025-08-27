@@ -31,7 +31,7 @@
 <script setup lang="ts">
   import { defineProps } from 'vue'
 
-  const checkedState = defineModel<boolean>('checkedState')
+  const checkedState = defineModel<string | boolean>('checkedState')
 
   const props = defineProps(['label', 'description'])
 </script>

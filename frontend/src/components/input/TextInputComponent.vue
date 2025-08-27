@@ -34,7 +34,7 @@
 <script setup lang="ts">
   import { defineProps } from 'vue'
 
-  const textContent = defineModel<string>('textContent')
+  const textContent = defineModel<string | boolean>('textContent')
   const error = defineModel<string>('error')
 
   const props = defineProps<{
