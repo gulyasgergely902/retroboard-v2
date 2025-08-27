@@ -19,7 +19,7 @@ limitations under the License.
   >
     <Dialog
       class="relative z-10"
-      @close="isModalOpen = false"
+      @close="closeModal()"
     >
       <TransitionChild
         as="template"
@@ -47,7 +47,7 @@ limitations under the License.
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
             <DialogPanel
-              class="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
+              class="relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 w-full sm:max-w-lg"
             >
               <div class="background-color px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 <div class="sm:flex sm:items-start">
@@ -63,11 +63,9 @@ limitations under the License.
                       class="size-6 fill-[#579dff]"
                     >
                       <path
-                        stroke="currentColor"
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M9.529 9.988a2.502 2.502 0 1 1 5 .191A2.441 2.441 0 0 1 12 12.582V14m-.01 3.008H12M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                        d="M13.5 8H4m4 6h8m0 0-2-2m2 2-2 2M4 6v13a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1h-5.032a1 1 0 0 1-.768-.36l-1.9-2.28a1 1 0 0 0-.768-.36H5a1 1 0 0 0-1 1Z"
                       />
                     </svg>
                   </div>
@@ -76,10 +74,16 @@ limitations under the License.
                       as="h3"
                       class="text-color text-xl font-medium font-semibold"
                     >
-                      Are you sure?
+                      Edit Note Category
                     </DialogTitle>
                     <div class="mt-2">
-                      <span class="text-color">This action is irreversible!</span>
+                      <SelectInputComponent
+                        label="New Note Category"
+                        description="Pick a category to move the note into."
+                        :options="boardService.categories"
+                        v-model:selection="newNoteCategory"
+                        v-model:error="newNoteCategoryError"
+                      />
                     </div>
                   </div>
                 </div>
@@ -87,13 +91,13 @@ limitations under the License.
               <div class="background-color px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                 <ButtonInputComponent
                   class="w-full justify-center mt-3 sm:mt-0 sm:ml-3 sm:w-auto"
-                  @click="emitTrue()"
-                  label="Yes"
-                  danger
+                  @click="modifyNoteCategory()"
+                  label="Move"
+                  primary
                 />
                 <ButtonInputComponent
                   class="w-full justify-center mt-3 sm:mt-0 sm:w-auto"
-                  @click="isModalOpen = false"
+                  @click="closeModal()"
                   label="Cancel"
                   outline
                 />
@@ -107,6 +111,10 @@ limitations under the License.
 </template>
 
 <script setup lang="ts">
+  import { ref } from 'vue'
+  import { useBoardService } from '@/services/board/board.service'
+  import SelectInputComponent from './input/SelectInputComponent.vue'
+  import ButtonInputComponent from './input/ButtonInputComponent.vue'
   import {
     Dialog,
     DialogPanel,
@@ -114,14 +122,49 @@ limitations under the License.
     TransitionChild,
     TransitionRoot,
   } from '@headlessui/vue'
-  import ButtonInputComponent from './input/ButtonInputComponent.vue'
 
-  const emit = defineEmits(['answer'])
+  const newNoteCategory = ref(0)
+  const newNoteCategoryError = ref('')
 
   const isModalOpen = defineModel<boolean>('isModalOpen')
 
-  function emitTrue() {
+  const props = defineProps(['currentBoardId', 'noteId'])
+
+  const boardService = useBoardService()
+
+  function validateNewNoteCategory() {
+    if (newNoteCategory.value === 0) {
+      newNoteCategoryError.value = 'You must select a category!'
+      return false
+    }
+    newNoteCategoryError.value = ''
+    return true
+  }
+
+  function validateAll() {
+    const validators = [validateNewNoteCategory]
+    let allValid = true
+
+    for (const validator of validators) {
+      if (!validator()) {
+        allValid = false
+      }
+    }
+
+    return allValid
+  }
+
+  function modifyNoteCategory() {
+    if (validateAll()) {
+      boardService.modifyNoteCategory(props.noteId, newNoteCategory.value, props.currentBoardId)
+      newNoteCategory.value = 0
+      closeModal()
+    }
+  }
+
+  function closeModal() {
     isModalOpen.value = false
-    emit('answer', true)
+    newNoteCategory.value = 0
+    newNoteCategoryError.value = ''
   }
 </script>

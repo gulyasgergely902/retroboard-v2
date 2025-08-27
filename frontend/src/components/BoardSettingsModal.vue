@@ -87,6 +87,7 @@ limitations under the License.
                         description="A descriptive name for the new board, e.g. Backend Team Retrospective."
                         v-model:textContent="newBoardName"
                         v-model:error="newBoardNameError"
+                        disabled
                       />
                       <span class="block mt-4 mb-2 text-sm font-medium text-color">Categories</span>
                       <div
@@ -184,7 +185,7 @@ limitations under the License.
                 />
                 <ButtonInputComponent
                   class="w-full justify-center mt-2 sm:mt-0 sm:ml-3 sm:w-auto"
-                  @click="boardService.exportData(props.currentBoardId)"
+                  @click="isExportModalOpen = true"
                   label="Export"
                   outline
                 />
@@ -197,6 +198,10 @@ limitations under the License.
                 <YesNoModal
                   v-model:is-modal-open="isYesNoModalOpen"
                   @answer="handleRemoveBoard"
+                />
+                <ExportModal
+                  v-model:is-modal-open="isExportModalOpen"
+                  :current-board-id="props.currentBoardId"
                 />
               </div>
             </DialogPanel>
@@ -214,6 +219,7 @@ limitations under the License.
   import YesNoModal from '@/components/YesNoModal.vue'
   import TextInputComponent from './input/TextInputComponent.vue'
   import ButtonInputComponent from './input/ButtonInputComponent.vue'
+  import ExportModal from './ExportModal.vue'
   import {
     Dialog,
     DialogPanel,
@@ -228,6 +234,7 @@ limitations under the License.
   const newCategoryNameError = ref('')
   const showCategoryDeleteError = ref(false)
   const isYesNoModalOpen = ref(false)
+  const isExportModalOpen = ref(false)
 
   const isModalOpen = defineModel<boolean>('isModalOpen')
 

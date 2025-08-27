@@ -21,6 +21,11 @@ limitations under the License.
     v-model:is-modal-open="isBoardSettingsModalOpen"
     :current-board-id="boardId"
   />
+  <EditNoteCategoryModal
+    v-model:is-modal-open="isEditNoteCategoryModalOpen"
+    :current-board-id="boardId"
+    :note-id="selectedNoteId"
+  />
   <div class="background-color-bold pt-4 rounded-lg w-full">
     <div class="flex content-center h-8 px-2 w-full">
       <span class="text-color ms-1 text-xl font-medium">
@@ -83,26 +88,51 @@ limitations under the License.
           :class="{ 'blur-sm': visibilityChecked }"
         >
           <div class="flex justify-end">
-            <ButtonInputComponent
-              class="inline-block p-1.5"
-              @click="openConfirmModal(item.id)"
-              icon_danger
+            <div
+              class="background-color-bold rounded-sm border-1 border-color inline-flex items-center"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="size-4"
+              <ButtonInputComponent
+                class="inline-block p-1.5"
+                @click="openEditNoteCategoryModal(item.id)"
+                icon
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
-                />
-              </svg>
-            </ButtonInputComponent>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="size-4"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M13.5 8H4m4 6h8m0 0-2-2m2 2-2 2M4 6v13a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1h-5.032a1 1 0 0 1-.768-.36l-1.9-2.28a1 1 0 0 0-.768-.36H5a1 1 0 0 0-1 1Z"
+                  />
+                </svg>
+              </ButtonInputComponent>
+              <div class="inline-block self-stretch vertical-separator separator-width"></div>
+              <ButtonInputComponent
+                class="inline-block p-1.5"
+                @click="openConfirmModal(item.id)"
+                icon_danger
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="size-4"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
+                  />
+                </svg>
+              </ButtonInputComponent>
+            </div>
           </div>
           <div class="flex flex-col pb-7 ps-2">
             <p class="text-color text-lg">{{ item.description }}</p>
@@ -135,6 +165,7 @@ limitations under the License.
   import NewNoteModal from '@/components/NewNoteModal.vue'
   import BoardSettingsModal from '@/components/BoardSettingsModal.vue'
   import YesNoModal from '@/components/YesNoModal.vue'
+  import EditNoteCategoryModal from '@/components/EditNoteCategoryModal.vue'
   import ButtonInputComponent from '@/components/input/ButtonInputComponent.vue'
 
   const route = useRoute()
@@ -151,14 +182,23 @@ limitations under the License.
   const isNewNoteModalOpen = ref(false)
   const isBoardSettingsModalOpen = ref(false)
   const isYesNoModalOpen = ref(false)
+  const isEditNoteCategoryModalOpen = ref(false)
 
   void appService.getBoardNameById(boardId.value as string)
   void boardService.fetchBoardData(boardId.value as string)
 
   const selectedNoteId = ref(0)
-  function openConfirmModal(noteId: number) {
+  function selectNoteId(noteId: number) {
     selectedNoteId.value = noteId
+  }
+  function openConfirmModal(noteId: number) {
+    selectNoteId(noteId)
     isYesNoModalOpen.value = true
+  }
+
+  function openEditNoteCategoryModal(noteId: number) {
+    selectNoteId(noteId)
+    isEditNoteCategoryModalOpen.value = true
   }
 
   function handleRemoveNote(answer: boolean) {

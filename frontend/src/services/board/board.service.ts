@@ -159,12 +159,46 @@ export const useBoardService = defineStore('board', {
         link.click()
         link.remove()
       } catch (err) {
-        console.error('Error exporting board:', err)
+        console.error('Error exporting board: ', err)
+      }
+    },
+
+    async exportDataString(boardId: string) {
+      try {
+        const response = await fetch(`/api/boards/export?board_id=${boardId}`)
+        const json = await response.json()
+
+        return JSON.stringify(json, null, 2)
+      } catch (err) {
+        console.error('Error exporting board to string: ', err)
+        return ''
       }
     },
 
     getCategoryNameById(categoryId: number) {
       return this.categories.find((n) => n.id === categoryId)?.name
+    },
+
+    async modifyNoteCategory(noteId: number, newCategory: number, boardId: string) {
+      try {
+        const requestOptions = {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ category: newCategory }),
+        }
+        await $fetch<Result>(`/api/notes/` + noteId + `/category`, requestOptions)
+        await this.fetchNotes(boardId)
+      } catch (err) {
+        console.error(
+          'Error modifying category of note (id ',
+          noteId,
+          ') to category: ',
+          newCategory,
+          '(Err ',
+          err,
+          ')',
+        )
+      }
     },
   },
 })
