@@ -281,14 +281,6 @@ def remove_category(
                     response={"status": "Category not found"}, status_code=404
                 )
 
-            if session.query(Note).filter_by(category=category_id).first():
-                return ApiResponse(
-                    response={
-                        "status": "Cannot delete: notes still associated with this category"
-                    },
-                    status_code=400,
-                )
-
             session.delete(category)
             session.commit()
             return ApiResponse(response={"status": "Success"}, status_code=200)
