@@ -41,7 +41,6 @@ export const useAppService = defineStore('app', {
     },
 
     async getBoardNameById(boardId: string) {
-      console.log('Getting board name')
       try {
         const numericBoardId = Number(boardId)
         if (isNaN(numericBoardId)) return ''

@@ -48,14 +48,14 @@ export const useBoardService = defineStore('board', {
       }
     },
 
-    async fetchCategories(boardId: string) {
+    async fetchCategories(boardId: string, selectedWasDeleted: boolean) {
       try {
         const response = await $fetch<Category[]>(`/api/categories?board_id=${boardId}`)
         this.categories = await response.json()
       } catch (err) {
         console.error('Error fetching categories:', err)
       } finally {
-        if (this.categories.length !== 0 && this.selectedCategory == null) {
+        if (this.categories.length !== 0 && this.selectedCategory == null || selectedWasDeleted) {
           this.selectedCategory = this.categories[0].id
         }
       }
@@ -126,7 +126,7 @@ export const useBoardService = defineStore('board', {
           headers: { 'Content-Type': 'application/json' },
         }
         await $fetch<Result>(`/api/categories?category_id=${categoryId}`, requestOptions)
-        await this.fetchCategories(boardId)
+        await this.fetchCategories(boardId, categoryId === this.selectedCategory)
       } catch (err) {
         console.error('Error deleting category ', categoryId, ', err:', err)
         throw err
