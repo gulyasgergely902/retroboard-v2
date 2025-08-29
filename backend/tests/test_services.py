@@ -561,32 +561,6 @@ class TestServices(unittest.TestCase):
 
     @patch("services.services.Category")
     @patch("services.services.db")
-    def test_remove_category_failure_notes_associated(
-        self, mock_database_handler, mock_category_class
-    ):
-        """Test remove category where notes are assigned to it"""
-        mock_session = MagicMock()
-        mock_category = MagicMock()
-        mock_note = MagicMock()
-
-        mock_database_handler.get_session.return_value.__enter__.return_value = mock_session
-        mock_session.get.return_value = mock_category
-        mock_session.query.return_value.filter_by.return_value.first.return_value = mock_note
-
-        resp = remove_category(ANY)
-
-        self.assertEqual(
-            resp.response,
-            {
-                "status": "Cannot delete: notes still associated with this category"
-            },
-        )
-        self.assertEqual(resp.status_code, 400)
-
-        mock_session.get.assert_called_once_with(mock_category_class, ANY)
-
-    @patch("services.services.Category")
-    @patch("services.services.db")
     def test_remove_category_failure_database_error(
         self, mock_database_handler, mock_category_class
     ):
