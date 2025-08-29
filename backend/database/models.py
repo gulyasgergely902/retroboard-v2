@@ -33,9 +33,6 @@ class Board(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(30))
-    notes: Mapped[List["Note"]] = relationship(
-        back_populates="board", cascade="all, delete-orphan"
-    )
     categories: Mapped[List["Category"]] = relationship(
         back_populates="board", cascade="all, delete-orphan"
     )
@@ -58,7 +55,7 @@ class Note(Base):
     tags: Mapped[list] = mapped_column(JSON)
     board_id: Mapped[int] = mapped_column(ForeignKey("boards.id"))
 
-    board: Mapped["Board"] = relationship(back_populates="notes")
+    categories: Mapped["Category"] = relationship(back_populates="notes")
 
     def __repr__(self) -> str:
         return (
@@ -78,6 +75,9 @@ class Category(Base):
     board_id: Mapped[int] = mapped_column(ForeignKey("boards.id"))
 
     board: Mapped["Board"] = relationship(back_populates="categories")
+
+    notes: Mapped["Note"] = relationship(
+        back_populates="categories", cascade="all, delete-orphan")
 
     def __repr__(self) -> str:
         return f"Category(id={self.id!r}, name={self.name!r})"
