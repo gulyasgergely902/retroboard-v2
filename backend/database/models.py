@@ -77,7 +77,8 @@ class Category(Base):
     board: Mapped["Board"] = relationship(back_populates="categories")
 
     notes: Mapped["Note"] = relationship(
-        back_populates="categories", cascade="all, delete-orphan")
+        back_populates="categories", cascade="all, delete-orphan"
+    )
 
     def __repr__(self) -> str:
         return f"Category(id={self.id!r}, name={self.name!r})"

@@ -55,7 +55,7 @@ export const useBoardService = defineStore('board', {
       } catch (err) {
         console.error('Error fetching categories:', err)
       } finally {
-        if (this.categories.length !== 0 && this.selectedCategory == null || selectedWasDeleted) {
+        if ((this.categories.length !== 0 && this.selectedCategory == null) || selectedWasDeleted) {
           this.selectedCategory = this.categories[0].id
         }
       }
