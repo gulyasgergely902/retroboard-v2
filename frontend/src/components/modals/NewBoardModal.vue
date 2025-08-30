@@ -97,7 +97,7 @@ limitations under the License.
                           description="Choose a template to initialize the board with."
                           :options="templates"
                           v-model:selection="selectedCategoryTemplateId"
-                          v-model:error="noSelectedTemplateError"
+                          v-model:error="selectedTemplateError"
                         />
                       </div>
                     </div>
@@ -152,7 +152,7 @@ limitations under the License.
   const newBoardNameError = ref('')
   const initializeWithCategories = ref(false)
   const selectedCategoryTemplateId = ref(0)
-  const noSelectedTemplateError = ref('')
+  const selectedTemplateError = ref('')
   const templates = ref<BoardCategoriesTemplate[]>([
     {
       id: 1,
@@ -190,10 +190,10 @@ limitations under the License.
 
   function validateSelectedTemplate() {
     if (initializeWithCategories.value && selectedCategoryTemplateId.value === 0) {
-      noSelectedTemplateError.value = 'You must select a template!'
+      selectedTemplateError.value = 'You must select a template!'
       return false
     }
-    noSelectedTemplateError.value = ''
+    selectedTemplateError.value = ''
     return true
   }
 
@@ -219,10 +219,12 @@ limitations under the License.
         const selectedTemplate = templates.value.find(
           (template) => template.id === selectedCategoryTemplateId.value,
         )
-        if (selectedTemplate) {
-          for (const categoryName of selectedTemplate.categories) {
-            boardService.addCategory(board_id, categoryName)
-          }
+        if (!selectedTemplate) {
+          selectedTemplateError.value = 'The selected template cannot be used!'
+        }
+
+        for (const categoryName of selectedTemplate.categories) {
+          boardService.addCategory(board_id, categoryName)
         }
       }
       closeModal()
@@ -235,6 +237,6 @@ limitations under the License.
     newBoardName.value = ''
     initializeWithCategories.value = false
     selectedCategoryTemplateId.value = 0
-    noSelectedTemplateError.value = ''
+    selectedTemplateError.value = ''
   }
 </script>
