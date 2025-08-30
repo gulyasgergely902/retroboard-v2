@@ -92,21 +92,31 @@ limitations under the License.
                         required
                       />
                       <SelectInputComponent
+                        class="block sm:hidden"
                         label="Note Category"
                         description="Pick a category for this note."
                         :options="boardService.categories"
                         v-model:selection="newNoteCategory"
                         v-model:error="newNoteCategoryError"
                       />
-                      <p class="text-sm text-gray-900 dark:text-white">
-                        Notes cannot be modified after creation!
-                      </p>
+                      <div class="hidden sm:block">
+                        <PopupListButtonComponent
+                          class="mt-2"
+                          label="Category"
+                          :options="boardService.categories"
+                          v-model:selection="newNoteCategory"
+                          v-model:error="newNoteCategoryError".input-error
+                        />
+                      </div>
                       <div
                         v-if="errorMessage"
                         class="background-color-danger text-color-over-primary rounded-sm px-2 py-1 mt-4"
                       >
                         {{ errorMessage }}
                       </div>
+                      <p class="text-xs font-medium text-color-muted mt-2">
+                        Notes cannot be modified after creation!
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -138,6 +148,7 @@ limitations under the License.
   import { useBoardService } from '@/services/board/board.service'
   import SelectInputComponent from '@/components/input/SelectInputComponent.vue'
   import ButtonInputComponent from '@/components/input/ButtonInputComponent.vue'
+  import PopupListButtonComponent from '@/components/input/PopupListButtonComponent.vue'
   import {
     Dialog,
     DialogPanel,
