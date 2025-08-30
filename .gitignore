@@ -35,3 +35,6 @@ cobertura.xml
 
 # Build files
 build/
+
+# OLD files
+*.old
