@@ -21,13 +21,6 @@
     >
       {{ props.description }}
     </label>
-    <label
-      v-if="error"
-      for="text-input"
-      class="block mt-2 mb-2 text-xs font-medium text-color-danger"
-    >
-      {{ error }}
-    </label>
   </div>
 </template>
 
@@ -35,7 +28,7 @@
   import { defineProps } from 'vue'
 
   const textContent = defineModel<string | boolean>('textContent')
-  const error = defineModel<string>('error')
+  const error = defineModel<boolean>('error')
 
   const props = defineProps<{
     label?: string
