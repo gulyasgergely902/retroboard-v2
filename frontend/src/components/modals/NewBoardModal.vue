@@ -226,6 +226,8 @@ limitations under the License.
         for (const categoryName of selectedTemplate.categories) {
           boardService.addCategory(board_id, categoryName)
         }
+      } else {
+        boardService.addCategory(board_id, 'Ideas')
       }
       closeModal()
     }
