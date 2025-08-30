@@ -235,6 +235,7 @@ limitations under the License.
         )
         if (!selectedTemplate) {
           selectedTemplateError.value = true
+          return
         }
 
         for (const categoryName of selectedTemplate.categories) {
