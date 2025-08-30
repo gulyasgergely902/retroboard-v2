@@ -194,12 +194,20 @@ limitations under the License.
     return allValid
   }
 
-  function createNote() {
-    if (validateAll()) {
-      boardService.createNewNote(props.currentBoardId, newNoteContent.value, newNoteCategory.value)
-      newNoteContent.value = ''
-      newNoteCategory.value = 0
-      isModalOpen.value = false
+  async function createNote() {
+    if (!validateAll()) return
+
+    try {
+      await boardService.createNewNote(
+        props.currentBoardId,
+        newNoteContent.value,
+        newNoteCategory.value,
+      )
+
+      closeModal()
+    } catch (err) {
+      console.error('Error while creating note:', err)
+      errorMessage.value = 'Error creating note'
     }
   }
 
