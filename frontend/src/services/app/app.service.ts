@@ -70,6 +70,7 @@ export const useAppService = defineStore('app', {
         return result
       } catch (err) {
         console.error('Error creating new board:', err)
+        throw new Error(`Error creating new board: ${(err as Error).message}`)
       }
     },
 
