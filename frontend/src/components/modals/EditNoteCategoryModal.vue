@@ -84,6 +84,12 @@ limitations under the License.
                         v-model:selection="newNoteCategory"
                         v-model:error="newNoteCategoryError"
                       />
+                      <div
+                        v-if="errorMessage"
+                        class="background-color-danger text-color-over-primary rounded-sm px-2 py-1 mt-4"
+                      >
+                        {{ errorMessage }}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -123,8 +129,9 @@ limitations under the License.
     TransitionRoot,
   } from '@headlessui/vue'
 
+  const errorMessage = ref('')
   const newNoteCategory = ref(0)
-  const newNoteCategoryError = ref('')
+  const newNoteCategoryError = ref(false)
 
   const isModalOpen = defineModel<boolean>('isModalOpen')
 
@@ -134,10 +141,10 @@ limitations under the License.
 
   function validateNewNoteCategory() {
     if (newNoteCategory.value === 0) {
-      newNoteCategoryError.value = 'You must select a category!'
+      newNoteCategoryError.value = true
       return false
     }
-    newNoteCategoryError.value = ''
+    newNoteCategoryError.value = false
     return true
   }
 
@@ -148,6 +155,7 @@ limitations under the License.
     for (const validator of validators) {
       if (!validator()) {
         allValid = false
+        errorMessage.value = 'Fill all required fields!'
       }
     }
 
@@ -165,6 +173,7 @@ limitations under the License.
   function closeModal() {
     isModalOpen.value = false
     newNoteCategory.value = 0
-    newNoteCategoryError.value = ''
+    newNoteCategoryError.value = false
+    errorMessage.value = ''
   }
 </script>

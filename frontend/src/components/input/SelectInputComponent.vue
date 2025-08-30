@@ -27,13 +27,6 @@
     >
       {{ props.description }}
     </label>
-    <label
-      v-if="error"
-      for="select-input"
-      class="block mt-2 mb-2 text-xs font-medium text-color-danger"
-    >
-      {{ error }}
-    </label>
   </div>
 </template>
 
@@ -41,7 +34,7 @@
   import { defineProps } from 'vue'
 
   const selection = defineModel<number>('selection')
-  const error = defineModel<string>('error')
+  const error = defineModel<boolean>('error')
 
   const props = defineProps(['label', 'description', 'options'])
 </script>

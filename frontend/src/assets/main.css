@@ -46,6 +46,10 @@ body {
   background-color: #fec195;
 }
 
+.background-color-danger {
+  background-color: #c9372c;
+}
+
 .button-color {
   background-color: #ffffff;
 }
@@ -155,6 +159,10 @@ body {
 
   .background-color-alert {
     background-color: #702e00;
+  }
+
+  .background-color-danger {
+    background-color: #f87168;
   }
 
   .button-color {
