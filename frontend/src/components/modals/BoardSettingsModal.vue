@@ -146,7 +146,6 @@ limitations under the License.
                           type="text"
                           id="category_name"
                           v-model="newCategoryName"
-                          @blur="validateNewCategoryName()"
                           class="background-color-bold text-color text-sm rounded-sm block w-full p-2.5"
                           :class="{ 'input-error': newCategoryNameError }"
                           placeholder="Category name"
@@ -159,13 +158,12 @@ limitations under the License.
                           primary
                         />
                       </div>
-                      <label
-                        v-if="newCategoryNameError"
-                        for="new_category_input"
-                        class="block mt-2 text-sm font-medium text-color-danger"
+                      <div
+                        v-if="errorMessage"
+                        class="background-color-danger text-color-over-primary rounded-sm px-2 py-1 mt-4"
                       >
-                        {{ newCategoryNameError }}
-                      </label>
+                        {{ errorMessage }}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -236,10 +234,11 @@ limitations under the License.
     TransitionRoot,
   } from '@headlessui/vue'
 
+  const errorMessage = ref('')
   const newBoardName = ref<string | undefined>('')
   const newCategoryName = ref('')
-  const newBoardNameError = ref('')
-  const newCategoryNameError = ref('')
+  const newBoardNameError = ref(false)
+  const newCategoryNameError = ref(false)
   const showCategoryDeleteError = ref(false)
   const isYesNoModalOpen = ref(false)
   const isExportModalOpen = ref(false)
@@ -262,20 +261,35 @@ limitations under the License.
 
   function validateNewCategoryName() {
     if (!newCategoryName.value.trim()) {
-      newCategoryNameError.value = 'This field cannot be empty!'
+      newCategoryNameError.value = true
       return false
     }
     if (typeof newCategoryName.value !== 'string') {
       return false
     }
-    newCategoryNameError.value = ''
+    newCategoryNameError.value = false
     return true
   }
 
+  function validateAll() {
+    const validators = [validateNewCategoryName]
+    let allValid = true
+
+    for (const validator of validators) {
+      if (!validator()) {
+        allValid = false
+        errorMessage.value = 'Fill all required fields!'
+      }
+    }
+
+    return allValid
+  }
+
   function addCategory() {
-    if (validateNewCategoryName() && typeof newCategoryName.value === 'string') {
+    if (validateAll()) {
       boardService.addCategory(props.currentBoardId, newCategoryName.value)
       newCategoryName.value = ''
+      errorMessage.value = ''
     }
   }
 
@@ -293,9 +307,10 @@ limitations under the License.
 
   function closeModal() {
     newCategoryName.value = ''
-    newBoardNameError.value = ''
-    newCategoryNameError.value = ''
+    newBoardNameError.value = false
+    newCategoryNameError.value = false
     showCategoryDeleteError.value = false
     isModalOpen.value = false
+    errorMessage.value = ''
   }
 </script>

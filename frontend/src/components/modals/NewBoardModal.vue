@@ -100,6 +100,12 @@ limitations under the License.
                           v-model:error="selectedTemplateError"
                         />
                       </div>
+                      <div
+                        v-if="errorMessage"
+                        class="background-color-danger text-color-over-primary rounded-sm px-2 py-1 mt-4"
+                      >
+                        {{ errorMessage }}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -148,11 +154,12 @@ limitations under the License.
     categories: string[]
   }
 
+  const errorMessage = ref('')
   const newBoardName = ref('')
-  const newBoardNameError = ref('')
+  const newBoardNameError = ref(false)
   const initializeWithCategories = ref(false)
   const selectedCategoryTemplateId = ref(0)
-  const selectedTemplateError = ref('')
+  const selectedTemplateError = ref(false)
   const templates = ref<BoardCategoriesTemplate[]>([
     {
       id: 1,
@@ -178,22 +185,23 @@ limitations under the License.
 
   function validateNewBoardName() {
     if (!newBoardName.value.trim()) {
-      newBoardNameError.value = 'This field cannot be empty!'
+      newBoardNameError.value = true
       return false
     }
     if (typeof newBoardName.value !== 'string') {
+      newBoardNameError.value = true
       return false
     }
-    newBoardNameError.value = ''
+    newBoardNameError.value = false
     return true
   }
 
   function validateSelectedTemplate() {
     if (initializeWithCategories.value && selectedCategoryTemplateId.value === 0) {
-      selectedTemplateError.value = 'You must select a template!'
+      selectedTemplateError.value = true
       return false
     }
-    selectedTemplateError.value = ''
+    selectedTemplateError.value = false
     return true
   }
 
@@ -204,6 +212,7 @@ limitations under the License.
     for (const validator of validators) {
       if (!validator()) {
         allValid = false
+        errorMessage.value = 'Fill all required fields!'
       }
     }
 
@@ -220,7 +229,7 @@ limitations under the License.
           (template) => template.id === selectedCategoryTemplateId.value,
         )
         if (!selectedTemplate) {
-          selectedTemplateError.value = 'The selected template cannot be used!'
+          selectedTemplateError.value = true
         }
 
         for (const categoryName of selectedTemplate.categories) {
@@ -235,10 +244,11 @@ limitations under the License.
 
   function closeModal() {
     isModalOpen.value = false
-    newBoardNameError.value = ''
     newBoardName.value = ''
+    newBoardNameError.value = false
     initializeWithCategories.value = false
     selectedCategoryTemplateId.value = 0
-    selectedTemplateError.value = ''
+    selectedTemplateError.value = false
+    errorMessage.value = ''
   }
 </script>

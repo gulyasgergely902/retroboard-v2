@@ -91,13 +91,6 @@ limitations under the License.
                         placeholder="Note content goes here..."
                         required
                       />
-                      <label
-                        v-if="newNoteContentError"
-                        for="note_content"
-                        class="block mt-2 text-sm font-medium text-color-danger"
-                      >
-                        {{ newNoteContentError }}
-                      </label>
                       <SelectInputComponent
                         label="Note Category"
                         description="Pick a category for this note."
@@ -108,6 +101,12 @@ limitations under the License.
                       <p class="text-sm text-gray-900 dark:text-white">
                         Notes cannot be modified after creation!
                       </p>
+                      <div
+                        v-if="errorMessage"
+                        class="background-color-danger text-color-over-primary rounded-sm px-2 py-1 mt-4"
+                      >
+                        {{ errorMessage }}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -147,10 +146,11 @@ limitations under the License.
     TransitionRoot,
   } from '@headlessui/vue'
 
+  const errorMessage = ref('')
   const newNoteContent = ref('')
   const newNoteCategory = ref(0)
-  const newNoteContentError = ref('')
-  const newNoteCategoryError = ref('')
+  const newNoteContentError = ref(false)
+  const newNoteCategoryError = ref(false)
 
   const isModalOpen = defineModel<boolean>('isModalOpen')
 
@@ -160,23 +160,23 @@ limitations under the License.
 
   function validateNewNoteContent() {
     if (!newNoteContent.value.trim()) {
-      newNoteContentError.value = 'This field cannot be empty!'
+      newNoteContentError.value = true
       return false
     }
     if (typeof newNoteContent.value !== 'string') {
-      newNoteContentError.value = 'Note can only contain text!'
+      newNoteContentError.value = true
       return false
     }
-    newNoteContentError.value = ''
+    newNoteContentError.value = false
     return true
   }
 
   function validateNewNoteCategory() {
     if (newNoteCategory.value === 0) {
-      newNoteCategoryError.value = 'You must select a category!'
+      newNoteCategoryError.value = true
       return false
     }
-    newNoteCategoryError.value = ''
+    newNoteCategoryError.value = false
     return true
   }
 
@@ -187,6 +187,7 @@ limitations under the License.
     for (const validator of validators) {
       if (!validator()) {
         allValid = false
+        errorMessage.value = 'Fill all required fields!'
       }
     }
 
@@ -206,7 +207,8 @@ limitations under the License.
     isModalOpen.value = false
     newNoteContent.value = ''
     newNoteCategory.value = 0
-    newNoteContentError.value = ''
-    newNoteCategoryError.value = ''
+    newNoteContentError.value = false
+    newNoteCategoryError.value = false
+    errorMessage.value = ''
   }
 </script>
