@@ -41,7 +41,7 @@ limitations under the License.
         />
       </div>
       <div
-        class="max-w-full md:basis-1/3 md:shrink-0 md:min-w-[33.333%] flex items-center sm:justify-end"
+        class="max-w-full mt-4 md:mt-0 md:basis-1/3 md:shrink-0 md:min-w-[33.333%] flex items-center sm:justify-end"
       >
         <Toggle
           class="flex-none"
