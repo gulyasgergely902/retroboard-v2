@@ -21,7 +21,7 @@ limitations under the License.
         class="ml-auto"
         @click="isModalOpen = true"
         label="Create Board"
-        primary
+        variant="primary"
       />
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 p-2">

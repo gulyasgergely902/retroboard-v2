@@ -15,30 +15,30 @@
 
   const props = defineProps<{
     label?: string
-    primary?: boolean
-    outline?: boolean
-    danger?: boolean
-    icon?: boolean
-    icon_danger?: boolean
+    variant?: 'primary' | 'primary_soft' | 'outline' | 'danger' | 'icon' | 'icon_danger'
   }>()
 
   const colors = computed(() => {
-    if (props.primary) {
-      return 'button-color-primary text-color-over-primary'
-    } else if (props.outline) {
+  switch (props.variant) {
+    case 'primary':
+      return 'button-color-primary text-color-over-primary border border-transparent'
+    case 'primary_soft':
+      return 'button-color-primary-soft text-color border border-transparent'
+    case 'outline':
       return 'background-color-bold text-color border border-color border-color-hover'
-    } else if (props.danger) {
-      return 'button-color-danger text-color-over-primary'
-    } else if (props.icon) {
-      return 'text-color text-hover-color-primary'
-    } else if (props.icon_danger) {
-      return 'text-color-danger'
-    }
-    return 'button-color text-color'
-  })
+    case 'danger':
+      return 'button-color-danger text-color-over-primary border border-transparent'
+    case 'icon':
+      return 'text-color text-hover-color-primary border border-transparent'
+    case 'icon_danger':
+      return 'text-color-danger border border-transparent'
+    default:
+      return 'button-color text-color border border-transparent'
+  }
+})
 
   const spacing = computed(() => {
-    if (props.icon || props.icon_danger) {
+    if (props.variant === "icon" || props.variant === "icon_danger") {
       return 'px-2 py-1'
     } else {
       return 'px-3 py-2'

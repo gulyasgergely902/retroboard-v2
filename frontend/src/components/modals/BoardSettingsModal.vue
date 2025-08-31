@@ -106,7 +106,7 @@ limitations under the License.
                               <ButtonInputComponent
                                 class="inline-block p-1.5"
                                 @click="removeCategory(category.id)"
-                                icon_danger
+                                variant="icon_danger"
                               >
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
@@ -155,7 +155,7 @@ limitations under the License.
                           class="w-full justify-center mt-2 sm:mt-0 sm:ml-3 sm:w-auto"
                           @click="addCategory()"
                           label="Add"
-                          primary
+                          variant="primary"
                         />
                       </div>
                       <div
@@ -173,25 +173,25 @@ limitations under the License.
                   class="w-full justify-center mt-2 sm:mt-0 sm:ml-3 sm:w-auto"
                   @click="closeModal()"
                   label="Save"
-                  primary
+                  variant="primary"
                 />
                 <ButtonInputComponent
                   class="w-full justify-center mt-2 sm:mt-0 sm:ml-6 sm:w-auto mb-4 sm:mb-0"
                   @click="closeModal()"
                   label="Cancel"
-                  outline
+                  variant="outline"
                 />
                 <ButtonInputComponent
                   class="w-full justify-center mt-2 sm:mt-0 sm:ml-3 sm:w-auto"
                   @click="isExportModalOpen = true"
                   label="Export"
-                  outline
+                  variant="outline"
                 />
                 <ButtonInputComponent
                   class="w-full justify-center mt-2 sm:mt-0 sm:ml-3 sm:w-auto"
                   @click="isYesNoModalOpen = true"
                   label="Delete"
-                  danger
+                  variant="danger"
                 />
                 <YesNoModal
                   v-model:is-modal-open="isYesNoModalOpen"

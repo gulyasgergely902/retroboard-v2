@@ -52,7 +52,7 @@ limitations under the License.
         <ButtonInputComponent
           class="ml-2 mr-2"
           @click="isBoardSettingsModalOpen = true"
-          icon
+          variant="icon"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -71,7 +71,7 @@ limitations under the License.
           class="ml-2"
           @click="isNewNoteModalOpen = true"
           label="New Note"
-          primary
+          variant="primary"
         />
       </div>
     </div>
@@ -94,7 +94,7 @@ limitations under the License.
               <ButtonInputComponent
                 class="inline-block p-1.5"
                 @click="openEditNoteCategoryModal(item.id)"
-                icon
+                variant="icon"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -115,7 +115,7 @@ limitations under the License.
               <ButtonInputComponent
                 class="inline-block p-1.5"
                 @click="openConfirmModal(item.id)"
-                icon_danger
+                variant="icon_danger"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
