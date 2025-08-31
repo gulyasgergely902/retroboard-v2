@@ -24,7 +24,7 @@ limitations under the License.
         class="px-4 py-2 text-sm font-medium rounded-sm focus:z-10 mx-1 transition-colors cursor-pointer"
         :variant="categoryToHighlight === -1 ? 'primary' : 'primary_soft'"
       />
-      <div class="inline-block mx-2 self-stretch vertical-separator separator-width"></div>
+      <div class="inline-block mx-2"></div>
       <ButtonInputComponent
         v-for="category in categories"
         :key="category.id"
