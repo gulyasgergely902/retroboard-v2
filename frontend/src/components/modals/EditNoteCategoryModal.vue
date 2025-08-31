@@ -99,13 +99,13 @@ limitations under the License.
                   class="w-full justify-center mt-3 sm:mt-0 sm:ml-3 sm:w-auto"
                   @click="modifyNoteCategory()"
                   label="Move"
-                  primary
+                  variant="primary"
                 />
                 <ButtonInputComponent
                   class="w-full justify-center mt-3 sm:mt-0 sm:w-auto"
                   @click="closeModal()"
                   label="Cancel"
-                  outline
+                  variant="outline"
                 />
               </div>
             </DialogPanel>

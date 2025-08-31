@@ -94,7 +94,7 @@ limitations under the License.
                         class="w-full justify-center mt-2 sm:w-auto"
                         @click="exportJSON()"
                         label="Export as JSON"
-                        outline
+                        variant="outline"
                       />
                     </div>
                   </div>
@@ -105,7 +105,7 @@ limitations under the License.
                   class="w-full justify-center mt-3 sm:mt-0 sm:w-auto"
                   @click="closeExportModal()"
                   label="Close"
-                  primary
+                  variant="primary"
                 />
               </div>
             </DialogPanel>
