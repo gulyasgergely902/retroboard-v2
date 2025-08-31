@@ -18,39 +18,28 @@ limitations under the License.
     <div
       class="overflow-x-auto overflow-y-hidden whitespace-nowrap fade-right no-scrollbar flex items-center px-4"
     >
-      <button
-        type="button"
+      <ButtonInputComponent
+        label="All"
         @click="selectOption(-1)"
-        :class="[
-          categoryToHighlight === -1
-            ? 'button-color-primary text-color-over-primary'
-            : 'button-color-primary-soft text-color',
-        ]"
         class="px-4 py-2 text-sm font-medium rounded-sm focus:z-10 mx-1 transition-colors cursor-pointer"
-      >
-        All
-      </button>
+        :variant="categoryToHighlight === -1 ? 'primary' : 'primary_soft'"
+      />
       <div class="inline-block mx-2 self-stretch vertical-separator separator-width"></div>
-      <button
+      <ButtonInputComponent
         v-for="category in categories"
         :key="category.id"
-        type="button"
         @click="selectOption(category.id)"
-        :class="[
-          categoryToHighlight === category.id
-            ? 'button-color-primary text-color-over-primary'
-            : 'button-color-primary-soft text-color',
-        ]"
+        :label="category.name"
         class="px-4 py-2 text-sm font-medium rounded-sm focus:z-10 mx-1 transition-colors cursor-pointer"
-      >
-        {{ category.name }}
-      </button>
+        :variant="categoryToHighlight === category.id ? 'primary' : 'primary_soft'"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
   import { defineProps } from 'vue'
+  import ButtonInputComponent from '@/components/input/ButtonInputComponent.vue'
 
   defineProps(['categories', 'categoryToHighlight'])
 
