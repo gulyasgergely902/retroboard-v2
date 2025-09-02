@@ -19,26 +19,26 @@
   }>()
 
   const colors = computed(() => {
-  switch (props.variant) {
-    case 'primary':
-      return 'button-color-primary text-color-over-primary border border-transparent'
-    case 'primary_soft':
-      return 'button-color-primary-soft text-color border border-transparent'
-    case 'outline':
-      return 'background-color-bold text-color border border-color border-color-hover'
-    case 'danger':
-      return 'button-color-danger text-color-over-primary border border-transparent'
-    case 'icon':
-      return 'text-color text-hover-color-primary border border-transparent'
-    case 'icon_danger':
-      return 'text-color-danger border border-transparent'
-    default:
-      return 'button-color text-color border border-transparent'
-  }
-})
+    switch (props.variant) {
+      case 'primary':
+        return 'button-color-primary text-color-over-primary border border-transparent'
+      case 'primary_soft':
+        return 'button-color-primary-soft text-color border border-transparent'
+      case 'outline':
+        return 'background-color-bold text-color border border-color border-color-hover'
+      case 'danger':
+        return 'button-color-danger text-color-over-primary border border-transparent'
+      case 'icon':
+        return 'text-color text-hover-color-primary border border-transparent'
+      case 'icon_danger':
+        return 'text-color-danger border border-transparent'
+      default:
+        return 'button-color text-color border border-transparent'
+    }
+  })
 
   const spacing = computed(() => {
-    if (props.variant === "icon" || props.variant === "icon_danger") {
+    if (props.variant === 'icon' || props.variant === 'icon_danger') {
       return 'px-2 py-1'
     } else {
       return 'px-3 py-2'

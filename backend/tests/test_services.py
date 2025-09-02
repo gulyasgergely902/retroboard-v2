@@ -626,7 +626,7 @@ class TestServices(unittest.TestCase):
         mock_scalars.one.return_value = mock_setting
         mock_session.scalars.return_value = mock_scalars
 
-        resp = modify_setting(1, "Test value")
+        resp = modify_setting("test", "Test value")
 
         self.assertEqual(resp.response, {"status": "Success"})
         self.assertEqual(resp.status_code, 200)
@@ -643,7 +643,7 @@ class TestServices(unittest.TestCase):
             "statement", {}, Exception("Error")
         )
 
-        resp = modify_setting(1, "Test value")
+        resp = modify_setting("test", "Test value")
 
         self.assertIn("DB Error", resp.response["status"])  # type: ignore
         self.assertEqual(resp.status_code, 500)
