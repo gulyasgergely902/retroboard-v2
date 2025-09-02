@@ -327,7 +327,7 @@ class TestRoutes(unittest.TestCase):
         )
 
         response = self.client.put(
-            "/api/settings/1", json={"new_value": "Some value"}
+            "/api/settings/test", json={"new_value": "Some value"}
         )
         self.assertEqual(response.get_json(), mock_json)
         self.assertEqual(response.status_code, 200)
@@ -341,7 +341,7 @@ class TestRoutes(unittest.TestCase):
         )
 
         response = self.client.put(
-            "/api/settings/1", json={"new_value": "Some value"}
+            "/api/settings/test", json={"new_value": "Some value"}
         )
         self.assertEqual(response.get_json(), mock_json)
         self.assertEqual(response.status_code, 500)
