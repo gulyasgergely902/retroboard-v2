@@ -135,6 +135,7 @@ limitations under the License.
 
 <script setup lang="ts">
   import { ref } from 'vue'
+  import { useLocalStorage } from '@vueuse/core'
   import { useBoardService } from '@/services/board/board.service'
   import SelectInputComponent from '@/components/input/SelectInputComponent.vue'
   import ButtonInputComponent from '@/components/input/ButtonInputComponent.vue'
@@ -147,8 +148,8 @@ limitations under the License.
   } from '@headlessui/vue'
 
   const errorMessage = ref('')
-  const newNoteContent = ref('')
-  const newNoteCategory = ref(0)
+  const newNoteContent = useLocalStorage('newNoteContent', '')
+  const newNoteCategory = useLocalStorage('newNoteCategory', 0)
   const newNoteContentError = ref(false)
   const newNoteCategoryError = ref(false)
 
@@ -204,6 +205,8 @@ limitations under the License.
         newNoteCategory.value,
       )
 
+      newNoteContent.value = ''
+      newNoteCategory.value = 0
       closeModal()
     } catch (err) {
       console.error('Error while creating note:', err)
@@ -213,8 +216,6 @@ limitations under the License.
 
   function closeModal() {
     isModalOpen.value = false
-    newNoteContent.value = ''
-    newNoteCategory.value = 0
     newNoteContentError.value = false
     newNoteCategoryError.value = false
     errorMessage.value = ''

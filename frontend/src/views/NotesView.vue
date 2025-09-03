@@ -70,7 +70,7 @@ limitations under the License.
         <ButtonInputComponent
           class="ml-2"
           @click="isNewNoteModalOpen = true"
-          label="New Note"
+          :label="newNoteButtonLabel"
           variant="primary"
         />
       </div>
@@ -159,7 +159,7 @@ limitations under the License.
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue'
+  import { ref, watch } from 'vue'
   import { useRoute } from 'vue-router'
   import { useLocalStorage } from '@vueuse/core'
   import { useAppService } from '@/services/app/app.service'
@@ -186,10 +186,14 @@ limitations under the License.
   const boardService = useBoardService()
   const visibilityChecked = useLocalStorage('visibilityChecked', false)
 
+  const noteDraft = useLocalStorage<string>('newNoteContent', '')
+
   const isNewNoteModalOpen = ref(false)
   const isBoardSettingsModalOpen = ref(false)
   const isYesNoModalOpen = ref(false)
   const isEditNoteCategoryModalOpen = ref(false)
+
+  const newNoteButtonLabel = ref('')
 
   void appService.getBoardNameById(boardId.value as string)
   void boardService.fetchBoardData(boardId.value as string)
@@ -198,6 +202,7 @@ limitations under the License.
   function selectNoteId(noteId: number) {
     selectedNoteId.value = noteId
   }
+
   function openConfirmModal(noteId: number) {
     selectNoteId(noteId)
     isYesNoModalOpen.value = true
@@ -213,4 +218,16 @@ limitations under the License.
       boardService.removeNote(boardId.value, selectedNoteId.value)
     }
   }
+
+  watch(
+    noteDraft,
+    (draftContent) => {
+      if (draftContent.trim().length > 0) {
+        newNoteButtonLabel.value = 'Resume Draft'
+      } else {
+        newNoteButtonLabel.value = 'New Note'
+      }
+    },
+    { immediate: true },
+  )
 </script>
