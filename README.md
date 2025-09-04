@@ -15,11 +15,17 @@ A lightweight, full-stack application for running productive sprint retrospectiv
 Built with collaborative teams in mind for an efficient retrospective ceremony:
 
 * 🧠 **Write your thoughts in private**: Everyone can write down their feedback about the last sprint — but you won’t see what others wrote until everyone is ready to discuss. This keeps the input unbiased and personal.
-* 👀 **Reveal mode when it's time to discuss**: Once everyone’s done writing, switch to a reveal page to show all the ideas for group discussion.
-* 🚀 **Fast, clean, no clutter**: Just the essentials — no logins, no bloat, no distractions. Open the link, write your thoughts, done.
+* 🚀 **Fast, clean, no clutter**: Just the essentials — no logins, no bloat, no distractions. Open the board, write your thoughts, done.
 * 🔐 **Fully self-hosted**: You can run it on your own servers or environment, so you stay in control of your data — perfect if your company has privacy or security policies.
 
-## The tech behind
+## Data stored
+
+From the nature of the tool, some data needs to be stored in order for it to work as intended. There are two data storages:
+
+* **SQLite DB**: The boards, categories and notes are stored in an SQLite DB which is persisted on the host computer for resilience across updates.
+* **Local storage**: Some settings (e.g. visibility, draft note) are stored on the user's local storage in browser. This is needed for some functions to work properly like persisting the state of the note's visibility or the currently drafted note in case of a sudden crash.
+
+## Under the hood
 
 * **Backend**: Built with Python 3 using Flask & SQLAlchemy.
 * **Frontend**: Vue 3 to make the tool fast and simple.
@@ -27,11 +33,11 @@ Built with collaborative teams in mind for an efficient retrospective ceremony:
 
 ## Using the tool
 
-This is cool, but how should I use it? Here is a simple breakdown:
+At first, this tool was mainly built for agile retrospective ceremonies but since then it grew up and can be used whereever the team needs a centralized idea gathering board. Here is a generic breakdown of the usage of the tool:
 
-1. Before starting the retrospective meeting, create a new board for your thoughts. Everyone at the meeting will add their ideas to this.
-2. When the meeting starts, everyone opens the app and writes their feedback to different categories from the last sprint. Don't worry, no-one can see these at this stage, yet.
-3. After the team finished adding new ideas, the faciliator of the meeting reveals the notes and the team checks them together.
+1. Before starting the meeting, create a new board for your thoughts. Everyone at the meeting will add their ideas to this. This board can be a burner board for a single meeting or can accompany the team through their journey across meetings.
+2. When the meeting starts, everyone opens the board in the app and writes their feedback to the different categories. Using the hide feature, no-one can see what you wrote.
+3. After the team finished writing, the faciliator of the meeting reveals the notes and the team checks them together.
 
 ### How to run it
 
@@ -42,7 +48,9 @@ Here is an example:
 
 You can also specify a version using tags e.g.: `retroboard:1.1.0`. The complete list of docker versions can be seen under packages.
 
-### Build from source
+### How to build it from source
+
+Building from source can provide you with the latest features which are not yet available in the latest release. Please be aware that if you build a newer than released version, it might contain bugs. To open a bug ticket, see **Contribution** section.
 
 1. Build the frontend using `scripts/build_frontend.sh`.
 2. Create a virtual environment: `python3 -m venv rb_venv` then `source rb_venv/bin/activate`.
@@ -53,5 +61,5 @@ You can also specify a version using tags e.g.: `retroboard:1.1.0`. The complete
 
 You can contribute to RetroBoard in two ways:
 
-* Open an issue for a feature request or bug report. Based on current priorities, I’ll add it to the roadmap and address it in a future release.
-* Fork the repository and implement the change yourself. Once done, open a pull request. I’ll review your submission and either provide feedback for refinement or merge it. Be sure to check the guidelines in the `CONTRIBUTING.md` file before submitting a pull request.
+* **Contribute via an issue:** Open an issue for a feature request or bug report. Use the provided templates which will guide you giving the essential information. Based on current priorities, I’ll add it to one of the milestones and address it in a future release. You can check the milestones with the assigned release date - if any - at **Issues** / **Milestones**.
+* **Contribute via code:** Fork the repository and implement the change yourself. Once done, open a pull request. I’ll review your submission and either provide feedback for refinement or merge it. Be sure to check the guidelines in the `CONTRIBUTING.md` file before submitting a pull request. Also if you choose an existing issue from **Issues**, make sure to assign it to yourself.
