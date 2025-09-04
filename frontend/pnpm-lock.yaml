@@ -18,8 +18,8 @@ importers:
         specifier: ^13.5.0
         version: 13.5.0(vue@3.5.17(typescript@5.8.3))
       '@yeger/vue-masonry-wall':
-        specifier: ^5.0.21
-        version: 5.0.21(vue@3.5.17(typescript@5.8.3))
+        specifier: ^5.1.0
+        version: 5.1.0(vue@3.5.17(typescript@5.8.3))
       pinia:
         specifier: ^3.0.3
         version: 3.0.3(typescript@5.8.3)(vue@3.5.17(typescript@5.8.3))
@@ -953,17 +953,17 @@ packages:
     peerDependencies:
       vue: ^3.5.0
 
-  '@yeger/debounce@2.0.13':
-    resolution: {integrity: sha512-c8LWFCkG3Le+RetA+J9GNYiUji+aaujRvtZGNaDBPg091lB6sHe8c0fhMO+gA16x6ox/D3WExyjP3t8MChJUgA==}
+  '@yeger/debounce@2.0.14':
+    resolution: {integrity: sha512-3nwbTEG1xpo/v3RPo2FAKVUGEPPoc7PZ9SMZUNmeoGuX3Ml72FQDi2OcvDODURQLa2ELK+dJ2HjMKTogA7BWfA==}
 
   '@yeger/vue-lib-adapter@2.0.13':
     resolution: {integrity: sha512-2tWMPB1oRBoytcqtwFSz0sXLXKBfiW+qBUpesvxLLOz+G2NuppLTH1HTtbkRY4Wy+655JNMErM3627HPoEHtvg==}
 
-  '@yeger/vue-masonry-wall-core@5.0.16':
-    resolution: {integrity: sha512-/w6AliE1B5gTISIsN4RF47E0mbVvCj7fjEHyTHRF158Fxvv+xX3QGE/wMuVXl2RdAiwWA5qCOQ+Hc62al9X0RQ==}
+  '@yeger/vue-masonry-wall-core@5.0.17':
+    resolution: {integrity: sha512-ksfUpD1NYPgSBrIfekQYOUbesLywStcVZvy3eNTssH+owwD+2w/+rf9c1v8DmtPNQMdpwq19lWCo1qqewuT46g==}
 
-  '@yeger/vue-masonry-wall@5.0.21':
-    resolution: {integrity: sha512-UvOP2AOmpN6KUHYVHKlto7yGXYP7xOykZnWswztxDDhMcWZqHLtse3jkZczIB0AJ5OTvpRjnDgZ3zO6ZBzjqEA==}
+  '@yeger/vue-masonry-wall@5.1.0':
+    resolution: {integrity: sha512-oJR9BFet7Cln/XBAVcAbYWsKYRWKqtp+PiJVarZh3YYfTVGICiHMh9SDNBtPIgtMwyuuQi/w+v03O5PN/yfufw==}
     peerDependencies:
       vue: ^3.0.0
 
@@ -2828,18 +2828,18 @@ snapshots:
     dependencies:
       vue: 3.5.17(typescript@5.8.3)
 
-  '@yeger/debounce@2.0.13': {}
+  '@yeger/debounce@2.0.14': {}
 
   '@yeger/vue-lib-adapter@2.0.13': {}
 
-  '@yeger/vue-masonry-wall-core@5.0.16':
+  '@yeger/vue-masonry-wall-core@5.0.17':
     dependencies:
-      '@yeger/debounce': 2.0.13
+      '@yeger/debounce': 2.0.14
       '@yeger/vue-lib-adapter': 2.0.13
 
-  '@yeger/vue-masonry-wall@5.0.21(vue@3.5.17(typescript@5.8.3))':
+  '@yeger/vue-masonry-wall@5.1.0(vue@3.5.17(typescript@5.8.3))':
     dependencies:
-      '@yeger/vue-masonry-wall-core': 5.0.16
+      '@yeger/vue-masonry-wall-core': 5.0.17
       vue: 3.5.17(typescript@5.8.3)
 
   acorn-jsx@5.3.2(acorn@8.15.0):

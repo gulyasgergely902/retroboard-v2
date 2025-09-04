@@ -17,7 +17,7 @@
     "@headlessui/vue": "^1.7.23",
     "@tailwindcss/vite": "^4.1.11",
     "@vueuse/core": "^13.5.0",
-    "@yeger/vue-masonry-wall": "^5.0.21",
+    "@yeger/vue-masonry-wall": "^5.1.0",
     "pinia": "^3.0.3",
     "tailwindcss": "^4.1.11",
     "vue": "^3.5.17",
