@@ -149,7 +149,7 @@ def get_notes_for_export(
         "notes": [
             {
                 "description": note.description,
-                "category": note.category,
+                "category": get_category_name_from_id(note.category),
             }
             for note in notes
         ],
@@ -247,6 +247,19 @@ def get_categories(board_id: int) -> ApiResponse:
     ]
 
     return ApiResponse(response=categories_json, status_code=200)
+
+
+def get_category_name_from_id(category_id) -> str:
+    """Return the name of the category from its id"""
+    with db.get_session() as session:
+        category = session.query(Category).filter(
+            Category.id == category_id
+        ).first()
+
+    if category is None:
+        return ""
+
+    return category.name
 
 
 def add_category(category_name: str, category_board_id: int) -> ApiResponse:
