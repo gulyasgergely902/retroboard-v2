@@ -96,6 +96,12 @@ limitations under the License.
                         label="Export as JSON"
                         variant="outline"
                       />
+                      <ButtonInputComponent
+                        class="w-full justify-center mt-2 sm:w-auto sm:ml-3"
+                        @click="exportMarkdown()"
+                        label="Export as Markdown"
+                        variant="outline"
+                      />
                     </div>
                   </div>
                 </div>
@@ -137,7 +143,11 @@ limitations under the License.
   const boardService = useBoardService()
 
   async function exportJSON() {
-    exportContent.value = await boardService.exportDataString(props.currentBoardId)
+    exportContent.value = await boardService.exportJson(props.currentBoardId)
+  }
+
+  async function exportMarkdown() {
+    exportContent.value = await boardService.exportMarkdown(props.currentBoardId)
   }
 
   function closeExportModal() {

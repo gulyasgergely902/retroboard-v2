@@ -163,7 +163,7 @@ export const useBoardService = defineStore('board', {
       }
     },
 
-    async exportDataString(boardId: string) {
+    async exportJson(boardId: string) {
       try {
         const response = await fetch(`/api/boards/export?board_id=${boardId}`)
         const json = await response.json()
@@ -171,6 +171,31 @@ export const useBoardService = defineStore('board', {
         return JSON.stringify(json, null, 2)
       } catch (err) {
         console.error('Error exporting board to string: ', err)
+        return ''
+      }
+    },
+
+    async exportMarkdown(boardId: string) {
+      try {
+        const response = await fetch(`/api/boards/export?board_id=${boardId}`)
+        const rawResponseData = await response.json()
+        const boardName = rawResponseData['board_name']
+        const categories: string[] = rawResponseData.notes.map((note) => note.category)
+
+        let markdownString = '# ' + boardName + '\n\n'
+        for (const category of [...new Set(categories)]) {
+          markdownString += '## ' + category + '\n'
+          for (const note of rawResponseData.notes) {
+            if (note.category === category) {
+              markdownString += '- ' + note.description + '\n'
+            }
+          }
+          markdownString += '\n'
+        }
+
+        return markdownString
+      } catch (err) {
+        console.error('Error exporting board to markdown: ', err)
         return ''
       }
     },
