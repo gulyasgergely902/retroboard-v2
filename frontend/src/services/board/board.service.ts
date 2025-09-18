@@ -180,17 +180,17 @@ export const useBoardService = defineStore('board', {
         const response = await fetch(`/api/boards/export?board_id=${boardId}`)
         const rawResponseData = await response.json()
         const boardName = rawResponseData['board_name']
-        const categories: string[] = rawResponseData.notes.map(note => note.category);
+        const categories: string[] = rawResponseData.notes.map((note) => note.category)
 
-        let markdownString = "# " + boardName + "\n\n"
+        let markdownString = '# ' + boardName + '\n\n'
         for (const category of [...new Set(categories)]) {
-          markdownString += "## " + category + "\n"
+          markdownString += '## ' + category + '\n'
           for (const note of rawResponseData.notes) {
             if (note.category === category) {
-              markdownString += "- " + note.description + "\n"
+              markdownString += '- ' + note.description + '\n'
             }
           }
-          markdownString += "\n"
+          markdownString += '\n'
         }
 
         return markdownString

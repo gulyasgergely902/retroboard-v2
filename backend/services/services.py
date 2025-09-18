@@ -252,9 +252,9 @@ def get_categories(board_id: int) -> ApiResponse:
 def get_category_name_from_id(category_id) -> str:
     """Return the name of the category from its id"""
     with db.get_session() as session:
-        category = session.query(Category).filter(
-            Category.id == category_id
-        ).first()
+        category = (
+            session.query(Category).filter(Category.id == category_id).first()
+        )
 
     if category is None:
         return ""
