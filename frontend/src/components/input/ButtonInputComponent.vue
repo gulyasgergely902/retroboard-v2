@@ -15,7 +15,14 @@
 
   const props = defineProps<{
     label?: string
-    variant?: 'primary' | 'primary_soft' | 'outline' | 'danger' | 'icon' | 'icon_danger'
+    variant?:
+      | 'primary'
+      | 'primary_soft'
+      | 'outline'
+      | 'outline_success'
+      | 'danger'
+      | 'icon'
+      | 'icon_danger'
   }>()
 
   const colors = computed(() => {
@@ -26,6 +33,8 @@
         return 'button-color-primary-soft text-color border border-transparent'
       case 'outline':
         return 'background-color-bold text-color border border-color border-color-hover'
+      case 'outline_success':
+        return 'background-color-bold text-color-success border border-color border-color-hover'
       case 'danger':
         return 'button-color-danger text-color-over-primary border border-transparent'
       case 'icon':
