@@ -89,6 +89,7 @@ limitations under the License.
                         class="background-color-bold text-color text-sm rounded-sm block w-full p-2.5"
                         rows="10"
                         cols="50"
+                        disabled
                       />
                       <ButtonInputComponent
                         class="w-full justify-center mt-2 sm:w-auto"
@@ -113,6 +114,43 @@ limitations under the License.
                   label="Close"
                   variant="primary"
                 />
+                <ButtonInputComponent
+                  v-if="isSupported"
+                  class="w-full justify-center mt-3 sm:mt-0 sm:w-auto mr-2"
+                  @click="copy(exportContent)"
+                  :variant="copied ? 'outline_success' : 'outline'"
+                >
+                  <svg
+                    v-if="!copied"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-4"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M15 4h3a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h3m0 3h6m-6 5h6m-6 4h6M10 3v4h4V3h-4Z"
+                    />
+                  </svg>
+                  <svg
+                    v-else
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-4"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M15 4h3a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h3m0 3h6m-6 7 2 2 4-4m-5-9v4h4V3h-4Z"
+                    />
+                  </svg>
+                </ButtonInputComponent>
               </div>
             </DialogPanel>
           </TransitionChild>
@@ -125,6 +163,7 @@ limitations under the License.
 <script setup lang="ts">
   import { ref } from 'vue'
   import { useBoardService } from '@/services/board/board.service'
+  import { useClipboard } from '@vueuse/core'
   import ButtonInputComponent from '@/components/input/ButtonInputComponent.vue'
   import {
     Dialog,
@@ -141,6 +180,8 @@ limitations under the License.
   const props = defineProps(['currentBoardId'])
 
   const boardService = useBoardService()
+
+  const { text, copy, copied, isSupported } = useClipboard({ exportContent })
 
   async function exportJSON() {
     exportContent.value = await boardService.exportJson(props.currentBoardId)

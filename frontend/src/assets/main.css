@@ -114,6 +114,10 @@ body {
   color: #f1f2f4;
 }
 
+.text-color-success {
+  color: #5b7f24;
+}
+
 .border-color {
   border-color: #dcdfe4;
 }
@@ -227,6 +231,10 @@ body {
 
   .text-color-over-primary {
     color: #22272b;
+  }
+
+  .text-color-success {
+    color: #94c748;
   }
 
   .border-color {
