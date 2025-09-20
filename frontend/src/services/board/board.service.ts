@@ -33,7 +33,7 @@ export const useBoardService = defineStore('board', {
     async fetchBoardData(boardId: string) {
       this.selectedCategory = null
       try {
-        await Promise.all([this.fetchNotes(boardId), this.fetchCategories(boardId)])
+        await Promise.all([this.fetchNotes(boardId), this.fetchCategories(boardId, false)])
       } catch (err) {
         console.error('Error fetching board data:', err)
       }
@@ -113,7 +113,7 @@ export const useBoardService = defineStore('board', {
           body: JSON.stringify({ name: categoryName, board_id: boardId }),
         }
         await $fetch<Result>(`/api/categories`, requestOptions)
-        await this.fetchCategories(boardId)
+        await this.fetchCategories(boardId, false)
       } catch (err) {
         console.error('Error adding category ', categoryName, ', err:', err)
       }
@@ -176,9 +176,19 @@ export const useBoardService = defineStore('board', {
     },
 
     async exportMarkdown(boardId: string) {
+      interface ImportedNote {
+        description: string
+        category: string
+        category_id: number
+      }
+      interface ImportedBoardData {
+        board_name: string
+        notes: ImportedNote[]
+      }
+
       try {
         const response = await fetch(`/api/boards/export?board_id=${boardId}`)
-        const rawResponseData = await response.json()
+        const rawResponseData = (await response.json()) as ImportedBoardData
         const boardName = rawResponseData['board_name']
         const categories: string[] = rawResponseData.notes.map((note) => note.category)
 

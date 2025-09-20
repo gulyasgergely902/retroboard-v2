@@ -228,7 +228,7 @@ limitations under the License.
         throw new Error('Board creation failed: no board_id returned')
       }
 
-      const boardId = boardData.board_id
+      const boardId = boardData.board_id ?? ''
       if (initializeWithCategories.value) {
         const selectedTemplate = templates.value.find(
           (template) => template.id === selectedCategoryTemplateId.value,

@@ -181,7 +181,8 @@ limitations under the License.
 
   const boardService = useBoardService()
 
-  const { text, copy, copied, isSupported } = useClipboard({ exportContent })
+  // @ts-expect-error "This is a valid overload for this function given by vueuse."
+  const { copy, copied, isSupported } = useClipboard({ exportContent })
 
   async function exportJSON() {
     exportContent.value = await boardService.exportJson(props.currentBoardId)
