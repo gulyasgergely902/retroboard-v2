@@ -16,6 +16,7 @@ import { defineStore } from 'pinia'
 import type { Note, Category } from '@/services/board/types'
 import type { Result } from '@/services/global/types'
 import { $fetch } from '@/composables/fetch'
+import { useAppService } from '@/services/app/app.service'
 
 export const useBoardService = defineStore('board', {
   state: (): { notes: Note[]; categories: Category[]; selectedCategory: number | null } => ({
@@ -33,7 +34,7 @@ export const useBoardService = defineStore('board', {
     async fetchBoardData(boardId: string) {
       this.selectedCategory = null
       try {
-        await Promise.all([this.fetchNotes(boardId), this.fetchCategories(boardId)])
+        await Promise.all([this.fetchNotes(boardId), this.fetchCategories(boardId, false)])
       } catch (err) {
         console.error('Error fetching board data:', err)
       }
@@ -112,8 +113,12 @@ export const useBoardService = defineStore('board', {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ name: categoryName, board_id: boardId }),
         }
-        await $fetch<Result>(`/api/categories`, requestOptions)
-        await this.fetchCategories(boardId)
+        const response = await $fetch<Result>(`/api/categories`, requestOptions)
+        const result = await response.json()
+
+        await this.fetchCategories(boardId, false)
+
+        return result
       } catch (err) {
         console.error('Error adding category ', categoryName, ', err:', err)
       }
@@ -197,6 +202,35 @@ export const useBoardService = defineStore('board', {
       } catch (err) {
         console.error('Error exporting board to markdown: ', err)
         return ''
+      }
+    },
+
+    async importFromJson(rawContent: string) {
+      interface ImportedNote {
+        description: string
+        category: string
+        category_id: number
+      }
+      interface ImportedBoardData {
+        board_name: string
+        notes: ImportedNote[]
+      }
+
+      const jsonContent = JSON.parse(rawContent) as ImportedBoardData
+      const boardName = jsonContent.board_name
+      const boardNotes = jsonContent.notes
+      const categories = [...new Set(boardNotes.map(note => note.category))]
+
+      const appService = useAppService()
+      const boardData = await appService.createNewBoard(boardName)
+      const boardId_S = boardData.board_id?.toString() ?? "undefined"
+      for (const category of categories) {
+        const categoryData = await this.addCategory(boardId_S, category)
+        const categoryId = categoryData?.category_id ?? 0
+        console.log('Adding category', category, 'with id', categoryId)
+        boardNotes.filter((note) => note.category === category).forEach((note) => {
+          this.createNewNote(boardId_S, note.description, categoryId)
+        })
       }
     },
 

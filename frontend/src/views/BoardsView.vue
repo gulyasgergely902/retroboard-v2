@@ -14,15 +14,24 @@ limitations under the License.
 
 <template>
   <NewBoardModal v-model:is-modal-open="isModalOpen" />
+  <ImportModal v-model:is-modal-open="isImportModalOpen"/>
   <div class="background-color-bold pt-4 rounded-lg w-full">
-    <div class="flex content-center h-8 px-2 w-full">
+    <div class="flex content-center justify-between h-8 px-2 w-full">
       <span class="text-color ms-1 text-xl font-medium">Active Boards</span>
-      <ButtonInputComponent
-        class="ml-auto"
-        @click="isModalOpen = true"
-        label="Create Board"
-        variant="primary"
-      />
+      <div class="flex space-x-2">
+        <ButtonInputComponent
+          class="ml-auto"
+          @click="isImportModalOpen = true"
+          label="Import Board"
+          variant="outline"
+        />
+        <ButtonInputComponent
+          class="ml-auto"
+          @click="isModalOpen = true"
+          label="Create Board"
+          variant="primary"
+        />
+      </div>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 p-2">
       <!-- eslint-disable -->
@@ -53,9 +62,11 @@ limitations under the License.
   import { ref } from 'vue'
   import BoardCard from '@/components/BoardCard.vue'
   import NewBoardModal from '@/components/modals/NewBoardModal.vue'
+  import ImportModal from '@/components/modals/ImportModal.vue'
   import ButtonInputComponent from '@/components/input/ButtonInputComponent.vue'
 
   const isModalOpen = ref(false)
+  const isImportModalOpen = ref(false)
 
   const appService = useAppService()
 

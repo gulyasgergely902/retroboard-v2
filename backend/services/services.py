@@ -150,6 +150,7 @@ def get_notes_for_export(
             {
                 "description": note.description,
                 "category": get_category_name_from_id(note.category),
+                "category_id": note.category
             }
             for note in notes
         ],
@@ -264,18 +265,19 @@ def get_category_name_from_id(category_id) -> str:
 
 def add_category(category_name: str, category_board_id: int) -> ApiResponse:
     """Add a new category"""
+    category_id = 0
     with db.get_session() as session:
         try:
-            session.add(
-                Category(name=category_name, board_id=category_board_id)
-            )
+            category = Category(name=category_name, board_id=category_board_id)
+            session.add(category)
             session.commit()
+            category_id = category.id
         except DatabaseError as e:
             session.rollback()
             return ApiResponse(
                 response={"status": f"DB Error: {e}"}, status_code=500
             )
-    return ApiResponse(response={"status": "Success"}, status_code=200)
+    return ApiResponse(response={"status": "Success", "category_id": category_id}, status_code=200)
 
 
 def remove_category(
