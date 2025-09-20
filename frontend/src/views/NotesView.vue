@@ -47,7 +47,7 @@ limitations under the License.
           class="flex-none"
           label="Privacy mode"
           alignment="left"
-          v-model="visibilityChecked"
+          v-model="privacyMode"
         />
         <ButtonInputComponent
           class="ml-2 mr-2"
@@ -85,7 +85,7 @@ limitations under the License.
       <template #default="{ item }">
         <div
           class="background-color text-color transition-colors p-4 rounded-md border-color border-color-hover border-1"
-          :class="{ 'blur-sm': visibilityChecked }"
+          :class="{ 'blur-sm': privacyMode }"
         >
           <div class="flex justify-end">
             <div
@@ -184,7 +184,7 @@ limitations under the License.
   }
   const appService = useAppService()
   const boardService = useBoardService()
-  const visibilityChecked = useLocalStorage('visibilityChecked', false)
+  const privacyMode = useLocalStorage('privacyMode', true)
 
   const noteDraft = useLocalStorage<string>('newNoteContent', '')
 
