@@ -23,6 +23,15 @@ limitations under the License.
         <span class="text-color self-center text-2xl font-semibold whitespace-nowrap">
           RetroBoard
         </span>
+        <div
+          v-if="appService.getSettingValue('branding_logo_url')"
+          class="inline-block self-stretch vertical-separator separator-width"
+        ></div>
+        <img
+          v-if="appService.getSettingValue('branding_logo_url')"
+          :src="appService.getSettingValue('branding_logo_url')?.toString()"
+          style="max-height: 48px; height: auto; width: auto"
+        />
       </RouterLink>
       <Menu
         as="div"
