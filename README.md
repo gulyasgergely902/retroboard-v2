@@ -18,6 +18,13 @@ Built with collaborative teams in mind for an efficient retrospective ceremony:
 * 🚀 **Fast, clean, no clutter**: Just the essentials — no logins, no bloat, no distractions. Open the board, write your thoughts, done.
 * 🔐 **Fully self-hosted**: You can run it on your own servers or environment, so you stay in control of your data — perfect if your company has privacy or security policies.
 
+## Features
+
+* **Grouping / Filtering**: Group and filter your notes in categories which can be either custom or one of the pre-created ones.
+* **Exporting**: Export your boards in many formats.
+* **Autosave**: Automatically saves your note if your browser crashes.
+* **Brandable**: You can add your logo to the navbar to make it blend in with all your other tools in the organization.
+
 ## Data stored
 
 From the nature of the tool, some data needs to be stored in order for it to work as intended. There are two data storages:
