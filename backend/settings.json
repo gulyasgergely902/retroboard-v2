@@ -5,5 +5,12 @@
     "setting_type": "string",
     "setting_display_name": "Notification Banner",
     "setting_description": "Show a persistent text on every screen."
+  },
+  {
+    "setting_name": "branding_logo_url",
+    "default_value": "",
+    "setting_type": "string",
+    "setting_display_name": "Branding Logo URL",
+    "setting_description": "The URL for the branding logo next to the RetroBoard logo. The optimal size is 96x48px."
   }
 ]
