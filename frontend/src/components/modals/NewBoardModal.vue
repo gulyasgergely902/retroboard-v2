@@ -122,7 +122,13 @@ limitations under the License.
                   @click="closeModal()"
                   label="Cancel"
                   variant="outline"
-                />
+                >
+                  Cancel
+                  <KeyboardKey
+                    char="esc"
+                    variant="small"
+                  />
+                </ButtonInputComponent>
               </div>
             </DialogPanel>
           </TransitionChild>
@@ -140,6 +146,7 @@ limitations under the License.
   import TextInputComponent from '@/components/input/TextInputComponent.vue'
   import ButtonInputComponent from '@/components/input/ButtonInputComponent.vue'
   import SelectInputComponent from '@/components/input/SelectInputComponent.vue'
+  import KeyboardKey from '@/components/KeyboardKey.vue'
   import {
     Dialog,
     DialogPanel,

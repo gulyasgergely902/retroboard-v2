@@ -70,9 +70,14 @@ limitations under the License.
         <ButtonInputComponent
           class="ml-2"
           @click="isNewNoteModalOpen = true"
-          :label="newNoteButtonLabel"
           variant="primary"
-        />
+        >
+          {{ newNoteButtonLabel }}
+          <KeyboardKey
+            char="n"
+            variant="small"
+          />
+        </ButtonInputComponent>
       </div>
     </div>
     <MasonryWall
@@ -159,14 +164,16 @@ limitations under the License.
 </template>
 
 <script setup lang="ts">
-  import { ref, watch } from 'vue'
+  import { computed, ref, watch } from 'vue'
   import { useRoute } from 'vue-router'
+  import { useActiveElement, onKeyStroke } from '@vueuse/core'
   import { useLocalStorage } from '@vueuse/core'
   import { useAppService } from '@/services/app/app.service'
   import { useBoardService } from '@/services/board/board.service'
   import MasonryWall from '@yeger/vue-masonry-wall'
   import FilterToggle from '@/components/FilterToggle.vue'
   import Toggle from '@/components/Toggle.vue'
+  import KeyboardKey from '@/components/KeyboardKey.vue'
 
   import NewNoteModal from '@/components/modals/NewNoteModal.vue'
   import BoardSettingsModal from '@/components/modals/BoardSettingsModal.vue'
@@ -230,4 +237,17 @@ limitations under the License.
     },
     { immediate: true },
   )
+
+  const activeElement = useActiveElement()
+  const notUsingInput = computed(
+    () => activeElement.value?.tagName !== 'INPUT' && activeElement.value?.tagName !== 'TEXTAREA',
+  )
+
+  onKeyStroke('n', (e) => {
+    if (notUsingInput.value) {
+      console.log("opening modal")
+      e.preventDefault()
+      isNewNoteModalOpen.value = true
+    }
+  })
 </script>

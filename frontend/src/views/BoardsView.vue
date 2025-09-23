@@ -20,9 +20,14 @@ limitations under the License.
       <ButtonInputComponent
         class="ml-auto"
         @click="isModalOpen = true"
-        label="Create Board"
         variant="primary"
-      />
+      >
+        Create Board
+        <KeyboardKey
+          char="n"
+          variant="small"
+        />
+      </ButtonInputComponent>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 p-2">
       <!-- eslint-disable -->
@@ -50,14 +55,28 @@ limitations under the License.
 
 <script setup lang="ts">
   import { useAppService } from '@/services/app/app.service'
-  import { ref } from 'vue'
+  import { ref, computed } from 'vue'
+  import { useActiveElement, onKeyStroke } from '@vueuse/core'
   import BoardCard from '@/components/BoardCard.vue'
   import NewBoardModal from '@/components/modals/NewBoardModal.vue'
   import ButtonInputComponent from '@/components/input/ButtonInputComponent.vue'
+  import KeyboardKey from '@/components/KeyboardKey.vue'
 
   const isModalOpen = ref(false)
 
   const appService = useAppService()
 
   void appService.fetchBoards()
+
+  const activeElement = useActiveElement()
+  const notUsingInput = computed(
+    () => activeElement.value?.tagName !== 'INPUT' && activeElement.value?.tagName !== 'TEXTAREA',
+  )
+
+  onKeyStroke('n', (e) => {
+    if (notUsingInput.value) {
+      e.preventDefault()
+      isModalOpen.value = true
+    }
+  })
 </script>

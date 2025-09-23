@@ -121,9 +121,14 @@ limitations under the License.
                 <ButtonInputComponent
                   class="w-full justify-center mt-3 sm:mt-0 sm:w-auto"
                   @click="closeModal()"
-                  label="Cancel"
                   variant="outline"
-                />
+                >
+                  Cancel
+                  <KeyboardKey
+                    char="esc"
+                    variant="small"
+                  />
+                </ButtonInputComponent>
               </div>
             </DialogPanel>
           </TransitionChild>
@@ -136,9 +141,11 @@ limitations under the License.
 <script setup lang="ts">
   import { ref } from 'vue'
   import { useLocalStorage } from '@vueuse/core'
+  import { onKeyStroke } from '@vueuse/core'
   import { useBoardService } from '@/services/board/board.service'
   import SelectInputComponent from '@/components/input/SelectInputComponent.vue'
   import ButtonInputComponent from '@/components/input/ButtonInputComponent.vue'
+  import KeyboardKey from '@/components/KeyboardKey.vue'
   import {
     Dialog,
     DialogPanel,
@@ -220,4 +227,10 @@ limitations under the License.
     newNoteCategoryError.value = false
     errorMessage.value = ''
   }
+
+  onKeyStroke('Escape', (e) => {
+    console.log('closing modal')
+    e.preventDefault()
+    closeModal()
+  })
 </script>

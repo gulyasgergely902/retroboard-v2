@@ -96,6 +96,11 @@ limitations under the License.
                           v-model:checkedState="setting.setting_value"
                         />
                       </div>
+                      <div>
+                        <p class="block mb-2 text-sm font-medium text-color">Keyboard shortcuts</p>
+                        <KeyboardHelp char="n" description="Creates a new board / note"/>
+                        <KeyboardHelp char="esc" description="Close the current modal"/>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -127,6 +132,7 @@ limitations under the License.
   import TextInputComponent from '@/components/input/TextInputComponent.vue'
   import CheckboxInputComponent from '@/components/input/CheckboxInputComponent.vue'
   import ButtonInputComponent from '@/components/input/ButtonInputComponent.vue'
+  import KeyboardHelp from '@/components/KeyboardHelp.vue'
   import { onMounted } from 'vue'
   import {
     Dialog,
