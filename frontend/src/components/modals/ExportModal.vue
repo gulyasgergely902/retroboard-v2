@@ -115,10 +115,10 @@ limitations under the License.
                   variant="primary"
                 />
                 <ButtonInputComponent
-                  v-if="isSupported"
                   class="w-full justify-center mt-3 sm:mt-0 sm:w-auto mr-2"
                   @click="copy(exportContent)"
                   :variant="copied ? 'outline_success' : 'outline'"
+                  :disabled="!isSupported"
                 >
                   <svg
                     v-if="!copied"
