@@ -17,10 +17,7 @@ limitations under the License.
     as="template"
     :show="isSettingsModalOpen"
   >
-    <Dialog
-      class="relative z-10"
-      @close="closeModal()"
-    >
+    <Dialog class="relative z-10">
       <TransitionChild
         as="template"
         enter="ease-out duration-300"
