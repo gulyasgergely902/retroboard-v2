@@ -17,6 +17,7 @@ from datetime import datetime
 
 from flask import Response, request, send_from_directory
 from flask_restx import Namespace, Resource, fields, reqparse
+from werkzeug.exceptions import NotFound
 
 from services.services import (
     add_board,
@@ -259,12 +260,14 @@ class ModifyStringSetting(Resource):
 def register_static_routes(app):
     """Register static routes for serving static files"""
 
-    @app.route("/")
-    def serve_index():
-        """Serve the index page"""
-        return send_from_directory(app.static_folder, "index.html")
-
+    @app.route("/", defaults={"path": ""})
     @app.route("/<path:path>")
-    def serve_static_file(path):
+    def serve_vue(path):
         """Server static files"""
-        return send_from_directory(app.static_folder, path)
+        if path.startswith("api/"):
+            raise NotFound()
+
+        try:
+            return send_from_directory(app.static_folder, path)
+        except NotFound:
+            return send_from_directory(app.static_folder, "index.html")
