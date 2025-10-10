@@ -38,7 +38,7 @@ def create_app(testing=False):
     env = os.environ.get("FLASK_ENV", "production").lower()
     static_folder_path = os.path.join(os.path.dirname(__file__), "static")
     flask_app = Flask(
-        __name__, static_folder=static_folder_path, static_url_path=""
+        __name__, static_folder=static_folder_path, static_url_path=None
     )
 
     if testing:
