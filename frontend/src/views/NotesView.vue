@@ -135,7 +135,12 @@ limitations under the License.
             </div>
           </div>
           <div class="flex flex-col pb-7 ps-2">
-            <p class="text-color text-lg">{{ item.description }}</p>
+            <p
+              class="text-color text-lg"
+              :class="{ 'select-none': privacyMode }"
+            >
+              {{ item.description }}
+            </p>
             <p
               v-if="boardService.selectedCategory === -1"
               class="background-color-primary text-color-over-primary text-xs inline-block max-w-max rounded-full py-1 px-2 mt-2"
