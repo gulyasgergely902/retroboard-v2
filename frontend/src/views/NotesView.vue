@@ -164,7 +164,7 @@ limitations under the License.
   import { useLocalStorage } from '@vueuse/core'
   import { useAppService } from '@/services/app/app.service'
   import { useBoardService } from '@/services/board/board.service'
-  import MasonryWall from '@yeger/vue-masonry-wall'
+  import { MasonryWall } from '@yeger/vue-masonry-wall'
   import FilterToggle from '@/components/FilterToggle.vue'
   import Toggle from '@/components/Toggle.vue'
 
