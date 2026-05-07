@@ -18,8 +18,8 @@ importers:
         specifier: ^13.5.0
         version: 13.5.0(vue@3.5.22(typescript@5.8.3))
       '@yeger/vue-masonry-wall':
-        specifier: ^5.1.0
-        version: 5.1.0(vue@3.5.22(typescript@5.8.3))
+        specifier: ^6.1.1
+        version: 6.1.1(vue@3.5.22(typescript@5.8.3))
       pinia:
         specifier: ^3.0.3
         version: 3.0.3(typescript@5.8.3)(vue@3.5.22(typescript@5.8.3))
@@ -968,19 +968,13 @@ packages:
     peerDependencies:
       vue: ^3.5.0
 
-  '@yeger/debounce@2.0.14':
-    resolution: {integrity: sha512-3nwbTEG1xpo/v3RPo2FAKVUGEPPoc7PZ9SMZUNmeoGuX3Ml72FQDi2OcvDODURQLa2ELK+dJ2HjMKTogA7BWfA==}
+  '@yeger/debounce@2.0.17':
+    resolution: {integrity: sha512-wz9ARkGnY25yToyaZaCz887aRxsIg96uI/waBLkV/Qfh9/VHP+C6uAFpOg8FPba0KMS2QYo2dhCOqPvCoDigyA==}
 
-  '@yeger/vue-lib-adapter@2.0.13':
-    resolution: {integrity: sha512-2tWMPB1oRBoytcqtwFSz0sXLXKBfiW+qBUpesvxLLOz+G2NuppLTH1HTtbkRY4Wy+655JNMErM3627HPoEHtvg==}
-
-  '@yeger/vue-masonry-wall-core@5.0.17':
-    resolution: {integrity: sha512-ksfUpD1NYPgSBrIfekQYOUbesLywStcVZvy3eNTssH+owwD+2w/+rf9c1v8DmtPNQMdpwq19lWCo1qqewuT46g==}
-
-  '@yeger/vue-masonry-wall@5.1.0':
-    resolution: {integrity: sha512-oJR9BFet7Cln/XBAVcAbYWsKYRWKqtp+PiJVarZh3YYfTVGICiHMh9SDNBtPIgtMwyuuQi/w+v03O5PN/yfufw==}
+  '@yeger/vue-masonry-wall@6.1.1':
+    resolution: {integrity: sha512-NjVk1zg+RKpOIa7cw8pm3R2yOm/pNmSH3aM1L2lSlvDuP7w7Wnou2ooEztgPUR6u5afvQmyx+WM6hTgqY+sRoQ==}
     peerDependencies:
-      vue: ^3.0.0
+      vue: ^3.5.19
 
   acorn-jsx@5.3.2:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
@@ -1788,6 +1782,7 @@ packages:
   tar@7.5.1:
     resolution: {integrity: sha512-nlGpxf+hv0v7GkWBK2V9spgactGOp0qvfWRxUMjqHyzrt3SgwE48DIv/FhqPHJYLHpgW1opq3nERbz5Anq7n1g==}
     engines: {node: '>=18'}
+    deprecated: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   tinyglobby@0.2.15:
     resolution: {integrity: sha512-j2Zq4NyQYG5XMST4cbs02Ak8iJUdxRM0XI5QyxXuZOzKOINmWurp3smXu3y5wDcJrptwpSjgXHzIQxR0omXljQ==}
@@ -2861,18 +2856,11 @@ snapshots:
     dependencies:
       vue: 3.5.22(typescript@5.8.3)
 
-  '@yeger/debounce@2.0.14': {}
+  '@yeger/debounce@2.0.17': {}
 
-  '@yeger/vue-lib-adapter@2.0.13': {}
-
-  '@yeger/vue-masonry-wall-core@5.0.17':
+  '@yeger/vue-masonry-wall@6.1.1(vue@3.5.22(typescript@5.8.3))':
     dependencies:
-      '@yeger/debounce': 2.0.14
-      '@yeger/vue-lib-adapter': 2.0.13
-
-  '@yeger/vue-masonry-wall@5.1.0(vue@3.5.22(typescript@5.8.3))':
-    dependencies:
-      '@yeger/vue-masonry-wall-core': 5.0.17
+      '@yeger/debounce': 2.0.17
       vue: 3.5.22(typescript@5.8.3)
 
   acorn-jsx@5.3.2(acorn@8.15.0):
