@@ -10,22 +10,19 @@
 
 A lightweight, full-stack application for running productive sprint retrospective ceremonies. Built with Python 3, Flask, SQLAlchemy, and a Vue 3 frontend, this app enables team members to anonymously write and later share feedback and ideas about the last sprint.
 
-## What it Does
+## What RetroBoard is?
 
-Built with collaborative teams in mind for an efficient retrospective ceremony:
-
-* 🧠 **Write your thoughts in private**: Everyone can write down their feedback about the last sprint — but you won’t see what others wrote until everyone is ready to discuss. This keeps the input unbiased and personal.
-* 🚀 **Fast, clean, no clutter**: Just the essentials — no logins, no bloat, no distractions. Open the board, write your thoughts, done.
-* 🔐 **Fully self-hosted**: You can run it on your own servers or environment, so you stay in control of your data — perfect if your company has privacy or security policies.
+RetroBoard is a collaborative tool for retrospective ceremonies or for other team events where brainstorming is key for success. It helps the team form ideas and share them with others. It is anonymous so everyone can share their thoughts leaving the stepping up part completely optional. With multiple **boards**, every team in an organization can have their separate space and by using **categories** every piece of idea can be sorted to its right place.
 
 ## Features
 
-* **Grouping / Filtering**: Group and filter your notes in categories which can be either custom or one of the pre-created ones.
-* **Exporting**: Export your boards in many formats.
+* **Note Management**: Create boards where all the teams can have their own space to add notes to.
+* **Categorization**: Sort your notes in different categories which can be either custom or one of the pre-created ones.
+* **Privacy Mode**: Show or hide existing notes on the board so it won't influence others.
 * **Autosave**: Automatically saves your note if your browser crashes.
 * **Brandable**: You can add your logo to the navbar to make it blend in with all your other tools in the organization.
 
-## Data stored
+## Data Storage
 
 From the nature of the tool, some data needs to be stored in order for it to work as intended. There are two data storages:
 
@@ -40,11 +37,11 @@ From the nature of the tool, some data needs to be stored in order for it to wor
 
 ## Using the tool
 
-At first, this tool was mainly built for agile retrospective ceremonies but since then it grew up and can be used whereever the team needs a centralized idea gathering board. Here is a generic breakdown of the usage of the tool:
+From the start, RetroBoard was made to be user friendly. Here is an example workflow which can be used on the next retrospective ceremony. In the example, the `Retrospective` board template was used.
 
-1. Before starting the meeting, create a new board for your thoughts. Everyone at the meeting will add their ideas to this. This board can be a burner board for a single meeting or can accompany the team through their journey across meetings.
-2. When the meeting starts, everyone opens the board in the app and writes their feedback to the different categories. Using the hide feature, no-one can see what you wrote.
-3. After the team finished writing, the faciliator of the meeting reveals the notes and the team checks them together.
+1. **Create a new board for your team beforehand:** Ask every member invited to the meeting to add their ideas to this before the meeting. This leaves time for everyone to collect their thoughts. Use the Privacy Mode and hide the notes to avoid influencing eachother.
+2. **Check the board and discuss:** When the meeting starts, open the board on a central screen where everyone can see the notes and discuss each one in an orderly fashion. You can use *Action items* to create actions from the ideas.
+3. **Export to Save**: After all ideas were tackled, export the board and save it for future reference. Choose either JSON or MD format.
 
 ### How to run it
 
