@@ -1,5 +1,10 @@
 # RetroBoard
 
+![release](https://img.shields.io/github/v/release/gulyasgergely902/retroboard-v2)
+![license](https://img.shields.io/github/license/gulyasgergely902/retroboard-v2)
+![Backend Unit Tests](https://github.com/gulyasgergely902/retroboard-v2/actions/workflows/test_backend.yml/badge.svg?branch=master)
+
+
 <!-- markdownlint-disable MD033 -->
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/banner-dark.svg">
