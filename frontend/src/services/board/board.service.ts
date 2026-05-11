@@ -191,16 +191,39 @@ export const useBoardService = defineStore('board', {
         const rawResponseData = (await response.json()) as ImportedBoardData
         const boardName = rawResponseData['board_name']
         const categories: string[] = rawResponseData.notes.map((note) => note.category)
+        const uniqueCategories = [...new Set(categories)]
 
+        // Header
         let markdownString = '# ' + boardName + '\n\n'
-        for (const category of [...new Set(categories)]) {
-          markdownString += '## ' + category + '\n'
-          for (const note of rawResponseData.notes) {
-            if (note.category === category) {
-              markdownString += '- ' + note.description + '\n'
-            }
-          }
-          markdownString += '\n'
+
+        // Table header with categories
+        for (const category of uniqueCategories) {
+          markdownString += '| ' + category
+        }
+        markdownString += ' |\n'
+
+        //Mandatory separator under table header
+        const categoryCount = uniqueCategories.length
+        markdownString += '|-'.repeat(categoryCount)
+        markdownString += '|\n'
+
+        const notesByCategory: Record<string, ImportedNote[]> = {}
+        uniqueCategories.forEach((category: string) => {
+          notesByCategory[category] = rawResponseData.notes.filter(
+            (note: ImportedNote) => note.category === category,
+          )
+        })
+
+        const maxRows = Math.max(...uniqueCategories.map((cat) => notesByCategory[cat].length))
+
+        for (let i = 0; i < maxRows; i++) {
+          const rowCells = uniqueCategories.map((cat) => {
+            const note = notesByCategory[cat][i]
+            const noteDescription = note ? note.description : ''
+            return noteDescription.replace(/\n/g, '<br>')
+          })
+
+          markdownString += `| ${rowCells.join(' | ')} |\n`
         }
 
         return markdownString
