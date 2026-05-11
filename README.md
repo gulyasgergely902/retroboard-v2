@@ -10,17 +10,19 @@
 
 A lightweight, full-stack application for running productive sprint retrospective ceremonies. Built with Python 3, Flask, SQLAlchemy, and a Vue 3 frontend, this app enables team members to anonymously write and later share feedback and ideas about the last sprint.
 
-## What RetroBoard is?
+## What is RetroBoard?
 
 RetroBoard is a collaborative tool for retrospective ceremonies or for other team events where brainstorming is key for success. It helps the team form ideas and share them with others. It is anonymous so everyone can share their thoughts leaving the stepping up part completely optional. With multiple **boards**, every team in an organization can have their separate space and by using **categories** every piece of idea can be sorted to its right place.
 
 ## Features
 
 * **Note Management**: Create boards where all the teams can have their own space to add notes to.
+* **Board Templates**: Choose from a range of pre-crafted board templates for various use cases like a retrospective ceremony or a team performance evaluation.
 * **Categorization**: Sort your notes in different categories which can be either custom or one of the pre-created ones.
 * **Privacy Mode**: Show or hide existing notes on the board so it won't influence others.
 * **Autosave**: Automatically saves your note if your browser crashes.
 * **Brandable**: You can add your logo to the navbar to make it blend in with all your other tools in the organization.
+* **Export**: Export the whole board with the notes in JSON or MD format which can later be uploaded to any team platform (e.g. Confluence, Notion, etc.).
 
 ## Data Storage
 
