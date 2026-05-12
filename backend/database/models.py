@@ -55,7 +55,9 @@ class Note(Base):
         ForeignKey("categories.id", ondelete="CASCADE")
     )
     tags: Mapped[list] = mapped_column(JSON)
-    board_id: Mapped[int] = mapped_column(ForeignKey("boards.id"))
+    board_id: Mapped[int] = mapped_column(
+        ForeignKey("boards.id", ondelete="CASCADE")
+    )
 
     categories: Mapped["Category"] = relationship(back_populates="notes")
 
