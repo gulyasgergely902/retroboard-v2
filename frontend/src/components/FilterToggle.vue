@@ -38,7 +38,6 @@ limitations under the License.
 </template>
 
 <script setup lang="ts">
-  import { defineProps } from 'vue'
   import ButtonInputComponent from '@/components/input/ButtonInputComponent.vue'
 
   defineProps(['categories', 'categoryToHighlight'])

@@ -33,7 +33,6 @@ limitations under the License.
 </template>
 
 <script setup lang="ts">
-  import { defineProps } from 'vue'
   withDefaults(
     defineProps<{
       title?: string

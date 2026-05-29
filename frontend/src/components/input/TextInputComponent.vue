@@ -25,8 +25,6 @@
 </template>
 
 <script setup lang="ts">
-  import { defineProps } from 'vue'
-
   const textContent = defineModel<string | boolean>('textContent')
   const error = defineModel<boolean>('error')
 
