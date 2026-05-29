@@ -29,8 +29,6 @@
 </template>
 
 <script setup lang="ts">
-  import { defineProps } from 'vue'
-
   const checkedState = defineModel<string | boolean>('checkedState')
 
   const props = defineProps(['label', 'description'])

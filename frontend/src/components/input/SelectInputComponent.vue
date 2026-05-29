@@ -31,8 +31,6 @@
 </template>
 
 <script setup lang="ts">
-  import { defineProps } from 'vue'
-
   const selection = defineModel<number>('selection')
   const error = defineModel<boolean>('error')
 
